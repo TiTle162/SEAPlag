@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./details.component.css']
 })
 export class DetailsComponent {
-
+  current_year: any = new Date().getFullYear();
 }
