@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, VERSION } from '@angular/core';
+import { Router } from '@angular/router';
 import * as $ from 'jquery';
 import ForceGraph from 'force-graph';
 import Data from '../../assets/datasets/overview.json';
@@ -10,17 +11,22 @@ import Data from '../../assets/datasets/overview.json';
 })
 export class GraphComponent implements OnInit {
   ForceGraph = require('force-graph');
-
   GraphData = Data;
+
+  constructor(private router: Router){}
 
   ngOnInit() {
     $(document).ready(function(){
       $("body").css('background-image' , 'none');
     });
   
+    this.creat_graph();
+  }
+
+  creat_graph(){
     /* Nodes */
     var nodes = this.GraphData.submission_id_to_display_name;
-    
+        
     // Nodes Formatter.
     var final_nodes = [];
     var temp_nodes = [];
@@ -30,9 +36,7 @@ export class GraphComponent implements OnInit {
       temp_nodes.push(i);
 
     for(let i=0;i<final_nodes.length;i++){
-      // Random nodes color.
-      var random_color = Math.floor(Math.random() * 100) + 1;
-      final_nodes[i] = {id : final_nodes[i], group: random_color};
+      final_nodes[i] = {id : final_nodes[i], group: Math.ceil(Math.random() * 12)};
     }
 
     /* Links */
@@ -83,18 +87,54 @@ export class GraphComponent implements OnInit {
     this.GraphData["links"] = links;
 
     // Creat graph.
-    var graph = document.getElementById("graph") as HTMLCanvasElement;
-      const Graph = ForceGraph()
-      (graph)
-        .graphData(this.GraphData)
-        // Setting graph.
-        .nodeId('id')
-        .nodeVal('val')
-        .nodeLabel('id')
-        .nodeAutoColorBy('group')
-        .linkSource('source')
-        .linkTarget('target')
-        .linkLabel('value')
+    const graph = document.getElementById("graph") as HTMLCanvasElement;
+    const Graph = ForceGraph()
+    (graph)
+    .graphData(this.GraphData)
+    /* Setting graph. */
+    // Node //
+    .nodeId('id')
+    .nodeVal('val')
+    .nodeLabel('id')
+    .nodeAutoColorBy('group')
+    .nodeCanvasObjectMode(() => 'after')
+    .nodeCanvasObject((node, ctx) => {
+      // Show labels
+    })
+    .onNodeDragEnd(node => {
+      node.fx = node.x;
+      node.fy = node.y;
+    })
+    .onNodeClick(node => {
+      // console.log(node.id);
+      // console.log(node.x);
+      // console.log(node.y);
+
+      Graph.centerAt(node.x, node.y, 1000);
+      Graph.zoom(8, 2000);
+    })
+
+    // Link //
+    .linkSource('source')
+    .linkTarget('target')
+    .linkLabel('value')  
+    .linkCanvasObjectMode(() => 'after')
+    .linkCanvasObject((link, ctx) => {
+      // Show labels
+    })
+    .onLinkClick(link => {
+      const temp_source = JSON.stringify(link.source); 
+      const temp_target = JSON.stringify(link.target); 
+      const start = temp_source.substring(7, temp_source.indexOf(",")-1); 
+      const end = temp_target.substring(7, temp_target.indexOf(",")-1); 
+      
+      // Redirect to Compare page.
+      this.show_comparison(start, end);
+    })
+  }
+
+  show_comparison(start: String, end: String){
+    window.open('/Details/['+start+']/['+end+']', '_blank');
   }
 
   export_graph(){

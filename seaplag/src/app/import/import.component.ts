@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-import',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class ImportComponent {
   current_year: any = new Date().getFullYear();
+
+  constructor(private router: Router){}
+  
 }
