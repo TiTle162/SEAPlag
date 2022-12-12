@@ -8,8 +8,4 @@ import { Router } from '@angular/router';
 })
 export class PagefaultComponent {
   constructor(private router: Router) { }
-
-  redirect_to_homepage(){
-    this.router.navigate(['/Home']);
-  }
 }
