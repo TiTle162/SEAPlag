@@ -82,15 +82,30 @@ export class GraphComponent implements OnInit {
     this.GraphData["nodes"] = final_nodes;
     this.GraphData["links"] = links;
 
+    // Creat graph.
     var graph = document.getElementById("graph") as HTMLCanvasElement;
       const Graph = ForceGraph()
       (graph)
         .graphData(this.GraphData)
+        // Setting graph.
         .nodeId('id')
+        .nodeVal('val')
         .nodeLabel('id')
         .nodeAutoColorBy('group')
         .linkSource('source')
         .linkTarget('target')
         .linkLabel('value')
+  }
+
+  export_graph(){
+    alert("export graph");
+  }
+
+  set_display_output(){
+    alert("set display output");
+  }
+
+  reset_display_output(){
+    alert("reset display output");
   }
 }

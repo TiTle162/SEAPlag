@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { GraphComponent } from './graph/graph.component';
 import { DetailsComponent } from './details/details.component';
 import { ImportComponent } from './import/import.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { ImportComponent } from './import/import.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
