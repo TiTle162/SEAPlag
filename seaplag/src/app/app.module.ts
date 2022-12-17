@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { GraphComponent } from './graph/graph.component';
 import { DetailsComponent } from './details/details.component';
 import { ImportComponent } from './import/import.component';
@@ -33,7 +34,8 @@ const appRoute: Routes = [
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSliderModule,
-    FormsModule
+    FormsModule,
+    NgxSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

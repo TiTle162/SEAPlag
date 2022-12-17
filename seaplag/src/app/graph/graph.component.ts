@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import * as $ from 'jquery';
 import ForceGraph from 'force-graph';
 import Data from '../../assets/datasets/overview.json';
+import html2canvas from 'html2canvas';
+import { Options } from '@angular-slider/ngx-slider';
 
 @Component({
   selector: 'app-graph',
@@ -10,17 +12,55 @@ import Data from '../../assets/datasets/overview.json';
   styleUrls: ['./graph.component.css']
 })
 export class GraphComponent implements OnInit {
+  // Slider options.
+  minValue: number = 1;
+  maxValue: number = 100;
+  options: Options = {
+    floor: 1,
+    ceil: 100,
+  };
+
+  // Read JSON data.
   ForceGraph = require('force-graph');
   GraphData = Data;
-
-  start_scope = 1;
-  end_scope = 100;
 
   constructor(private router: Router){}
 
   ngOnInit() {
-    $(document).ready(function(){
-      $("body").css('background-image' , 'none');
+    
+    $(document).ready(function () {
+      $("body").css('background-image', 'none');
+      
+      //start create export 17-12-65
+      $("#export").click(function(){
+        var element = jQuery("#graph")[0];
+        html2canvas(element).then((canvas) => {
+          let img = canvas.toDataURL('image/jpeg');
+          const fakeLink = window.document.createElement('a');
+          fakeLink.download = 'Graph_SEAPlag.jpeg';
+          fakeLink.href = img;
+          document.body.appendChild(fakeLink);
+          fakeLink.click();
+          document.body.removeChild(fakeLink);
+          fakeLink.remove();
+        });
+      });
+      //end create export 17-12-65
+
+      $("#hint-btn").click(function(){
+        $(".modal").css('display', 'block');
+      });
+
+      $(".close").click(function(){
+        $(".modal").css('display', 'none');
+      });
+
+      $(window).click(function(e) {
+        if($(e.target).is("div#myModal.modal")){
+          $(".modal").css('display', 'none');
+        }
+      });
+
     });
   
     this.set_graph();
@@ -50,13 +90,13 @@ export class GraphComponent implements OnInit {
       links[i].similarity = parseInt(links[i].similarity);
 
       // If similarity equal 0.
-      if((links[i].similarity) < 1 || links[i].similarity > 100){
+      if ((links[i].similarity) < 1 || links[i].similarity > 100) {
         links.splice(i);
       }
     }
 
     // Links Formatter.
-    for(let i=0;i<links.length;i++){
+    for (let i = 0; i < links.length; i++) {
       links[i].source = links[i].first_submission;
       links[i].target = links[i].second_submission;
       links[i].value = links[i].similarity + "%";
@@ -74,15 +114,15 @@ export class GraphComponent implements OnInit {
         let temp_scoure = links[j].source;
         let temp_target = links[j].target;
 
-        if(temp_nodes[i] == temp_scoure || temp_nodes[i] == temp_target){
+        if (temp_nodes[i] == temp_scoure || temp_nodes[i] == temp_target) {
           switch_check = 1;
           break;
         }
       }
 
-      if(switch_check == 0){
+      if (switch_check == 0) {
         final_nodes.splice(i);
-      }else
+      } else
         continue;
     }
 
@@ -174,49 +214,16 @@ export class GraphComponent implements OnInit {
       })
   }
 
-  show_comparison(start: String, end: String){
-    window.open('/Details/['+start+']/['+end+']', '_blank');
+  show_comparison(start: String, end: String) {
+    window.open('/Details/[' + start + ']/[' + end + ']', '_blank');
   }
 
-  export_graph(){
-    alert("ex");
+  set_display_output() {
+    alert(this.minValue+" "+this.maxValue);
   }
 
-  set_display_output(){
-    alert("set");
-    // destroy graph.
-    // let TempGraphObject = this.GraphData;
-
-    // for(let i=0;i<TempGraphObject["links"].length;i++){
-    //   let link_value: number =  +TempGraphObject["links"][i]["value"].slice(0, -1);
-    //   if(link_value < this.start_scope || link_value > this.end_scope){
-    //     TempGraphObject["links"].splice(i);
-    //   }
-    // }
-
-    // // Remove nodes which no edge.
-    // for(let i=0;i<TempGraphObject["nodes"].length;i++){
-    //   let switch_check = 0;
-    //   for(let j=0;j<TempGraphObject["links"].length;j++){
-    //     let temp_source = TempGraphObject["links"][j].source;
-    //     let temp_target = TempGraphObject["links"][j].target;
-    //     if(TempGraphObject["nodes"][i]["id"] == temp_source["id"] || TempGraphObject["nodes"][i]["id"] == temp_target["id"]){
-    //       switch_check = 1;
-    //       break;
-    //     }
-    //   }
-
-    //   if(switch_check == 0){
-    //     TempGraphObject["nodes"].splice(i);
-    //   }else
-    //     continue;
-    // }
-  }
-
-  reset_display_output(){
-    alert("reset");
-    // destroy graph.
-    // let GraphObject = this.GraphData;
-    // this.create_graph(GraphObject);
+  reset_display_output() {
+    this.minValue = 1;
+    this.maxValue = 100;
   }
 }
