@@ -1,40 +1,49 @@
 <nav class="navbar navbar-expand-xl fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#top"><img claass="w-100" src="../../assets/img/SEAPlag.png" style="width: 220px; height: 63px;" alt=""></a>
+        <a class="navbar-brand" id="top-btn" href="#top"><img claass="w-100" src="../../assets/img/SEAPlag.png" style="width: 220px; height: 63px;" alt=""></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav" style="margin-left: 45px;">
             <ul class="navbar-nav" >
                 <li class="nav-card-item">
-                    <a class="nav-link" href="#objective">Objectives</a>
+                    <a class="nav-link" id="obj-btn" href="#objective">{{navbar_menu_1}}</a>
                 </li>
                 <li class="nav-card-item">
-                    <a class="nav-link" href="#howto">How to use</a>
+                    <a class="nav-link" id="howto-btn" href="#howto">{{navbar_menu_2}}</a>
                 </li>
                 <li class="nav-card-item">
-                    <a class="nav-link" href="#credit">Credits</a>
+                    <a class="nav-link" id="credit-btn" href="#credit">{{navbar_menu_3}}</a>
                 </li>
             </ul>
             <ul class="right navbar-nav ms-auto">
-                <!-- <li class="nav-card-item-right">
-                    <a class="nav-link" href="#">Sign in</a>
-                </li> -->
+                <li class="nav-card-item-right">
+                    <a id="th" style="cursor: pointer;" class="nav-link active" (click)="switch_to_th()">
+                        <span><img src="../../assets/img/language/thailand.png" style="width: 20px;" alt=""></span>
+                        &nbsp;&nbsp;{{navbar_language_1}}
+                    </a>
+                </li>
+                <li class="nav-card-item-right">
+                    <a id="en" style="cursor: pointer;" class="nav-link" (click)="switch_to_eng()">
+                        <span><img src="../../assets/img/language/united-kingdom.png" style="width: 20px;" alt=""></span>
+                        &nbsp;&nbsp;{{navbar_language_2}}
+                    </a>
+                </li>
                 <li class="nav-card-item-right create-account">
-                    <a class="nav-link" target="_blank" href="https://github.com/jplag/JPlag">Implemented by <span class="text-info">JPlag</span></a>
+                    <a class="nav-link" target="_blank" href="https://github.com/jplag/JPlag">{{link_to_jplag}}<span class="text-info">JPlag</span></a>
                 </li>       
             </ul>
         </div>
     </div>
 </nav>
 
-<div class="content-box container bg-white" style="width: 1110px; border-radius: 10px; margin-top: -40px;">
+<div class="content-box container bg-white" style="width: 1165px; border-radius: 10px; margin-top: -40px;">
     <main>
         <div class="container" >
             <!-- Intro -->
             <br><br>
             <div class="intro text-center">
-                <h1>Detect plagiarism of source code with <br><span class="blue-frame">SEA</span><span class="text-danger"> Plag.</span></h1>
+                <h1>{{welcome_word}}<br><span class="text-info" style="padding-top: 30px; font-size: 100px;">SEA</span><span class="text-danger" style="padding-top: 30px; font-size: 100px;"> Plag.</span></h1>
             <p class="front-page">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been <br>
                 the industry's standard dummy text ever since the 1500s.</p>
                 <a routerLink="/Graph" routerLinkActive="active" ariaCurrentWhenActive="page" class="blue-btn">Portfolio</a>
@@ -43,51 +52,44 @@
 
             <!-- Clients -->
             <div class="clients text-center">
-            <p class="text-muted pb-4">Supported Languages.</p>
+            <p class="text-muted pb-4"><span class="blue-frame" style="font-size: 20px;">{{support_language}}</span></p>
             <div class="client-logo">
                 <div><img src="../../assets/img/icon/java.png"  style = "padding-top: 0px; width: auto; height: auto;" alt=""></div>
                 <div><img src="../../assets/img/icon/Kotlin.png" style = "padding-top: 20px; width: auto; height: auto;" alt=""></div>
                 <div><img src="../../assets/img/icon/scala.png" style = "padding-top: 10px; width: auto; height: auto;" alt=""></div>
                 <div><img src="../../assets/img/icon/python.png" style = "padding-top: 10px; width: auto; height: auto;"alt=""></div>
                 <div><img src="../../assets/img/icon/go.png"  style = "padding-top: 5px; width: auto; height: auto;" alt=""></div>
+                <div><img src="../../assets/img/icon/c++.png"  style = "padding-top: 5px; width: 120px; height: auto;" alt=""></div>
+                <div><img src="../../assets/img/icon/pngwing.png"  style = "padding-top: 5px; width: 110px; height: auto;" alt=""></div>
+                <div><img src="../../assets/img/icon/cs.png"  style = "padding-top: 5px; width: 120px; height: auto;" alt=""></div>
             </div>
             </div>
 
             <!-- Category -->
             <div class="category-wrapper">
-            <div class="left">
+            <div class="left" style="padding-top: 80px;">
                 <img src="../../assets/img/hand.png" alt="">
             </div>
 
             <div class="right" id="objective" style="padding-top: 115px;">
-                <h1>Our <span class="blue-frame">objectives.</span></h1>
-                <!-- <a href="">All category <img style="width: 20px; margin-left: 20px;" src="img/icon/arrow-right-icon.svg" alt=""></a> -->
+                <h1>{{objectives_word_1}}<span class="blue-frame">{{objectives_word_2}}</span></h1>
                 <div class="category">
-                <div class="category-item">
-                    <img class="category-icon" src="../../assets/img/icon/analytics.svg" alt="">
-                    <h3 class="category-title" style="text-align: center;">Easy Access</h3>
-                    <!-- <p>Lorem Ipsum is simply dummy text of the printing </p> -->
-                    <!-- <a href=""><img style="width: 20px;" src="img/icon/arrow-right-icon.svg" alt=""></a> -->
-                </div>
-                <div class="category-item" >
-                    <img class="category-icon"  src="../../assets/img/icon/marketing.svg" alt="">
-                    <h3 class="category-title" style="padding-top: 5px; text-align: center; ">Easy to understand</h3>
-                    <!-- <p>Lorem Ipsum is simply dummy text of the printing </p> -->
-                    <!-- <a href=""><img style="width: 20px;" src="img/icon/arrow-right-icon.svg" alt=""></a> -->
-                </div>
-                <div class="category-item">
-                    <img class="category-icon" src="../../assets/img/icon/email.svg" alt="">
-                    <h3 class="category-title" style="text-align: center; padding-top: 11px;">Fast and Accurate</h3>
-                    <!-- <p>Lorem Ipsum is simply dummy text of the printing </p> -->
-                    <!-- <a href=""><img style="width: 20px;" src="img/icon/arrow-right-icon.svg" alt=""></a> -->
-                </div>
-                <div class="category-item">
-                    <img class="category-icon" src="../../assets/img/icon/analytics.svg" alt="">
-                    <h3 class="category-title" style="text-align: center;  ;
-                    ">100 % safety</h3>
-                    <!-- <p>Lorem Ipsum is simply dummy text of the printing </p> -->
-                    <!-- <a href=""><img style="width: 20px;" src="img/icon/arrow-right-icon.svg" alt=""></a> -->
-                </div>
+                    <div class="category-item obj-box bg-white">
+                        <img class="category-icon" src="../../assets/img/checked.png" alt="" style="padding-top: 15px;">
+                        <h3 class="category-title" style="text-align: center;">{{objective_1}}</h3>
+                    </div>
+                    <div class="category-item obj-box bg-white">
+                        <img class="category-icon" src="../../assets/img/checked.png" alt="" style="padding-top: 15px;">
+                        <h3 class="category-title" style="text-align: center;">{{objective_2}}</h3>
+                    </div>
+                    <div class="category-item obj-box bg-white">
+                        <img class="category-icon" src="../../assets/img/checked.png" alt="" style="padding-top: 15px;">
+                        <h3 class="category-title" style="text-align: center;">{{objective_3}}</h3>
+                    </div>
+                    <div class="category-item obj-box bg-white">
+                        <img class="category-icon" src="../../assets/img/checked.png" alt="" style="padding-top: 15px;">
+                        <h3 class="category-title" style="text-align: center;">{{objective_4}}</h3>
+                    </div>
                 </div>
             </div>
             </div>
@@ -95,22 +97,22 @@
             <!-- Problems -->
             <div class="problems" id="howto" style="padding-top: 120px;">
             <!-- <h1>Feature Of <span class="blue-frame">SEA</span> <span class="text-danger">Plag.</span></h1> -->
-            <h1>How to use <span class="blue-frame">SEA</span> <span class="text-danger">Plag.</span></h1>
+            <h1>{{how_to_1}}<span class="blue-frame">{{how_to_2}}</span> <span class="text-danger">{{how_to_3}}</span></h1>
             <div id="variations" class="variations">
                 <div class="first-variation">
                 <div class="img">
                     <img src="../../assets/img/importp1.png" alt="">
                 </div>
                 <div class="text">
-                    <h1>1. Import file</h1>
-                    <p class="front-page"> Support for Zip files to verify source code replication.</p>
+                    <h1 class="text-info">1. {{how_to_step1}}</h1>
+                    <p class="front-page">{{how_to_step1_detail}}</p>
                     <!-- <a href="" class="main-btn">Read More</a> -->
                 </div>
                 </div>
                 <div class="second-variation">
                 <div class="text" style="padding-left: 50px;">
-                    <h1>2. Show result</h1>
-                    <p class="front-page"> Displays a graph showing a summary of the association of the desired data.</p>
+                    <h1 class="text-info">2. {{how_to_step2}}</h1>
+                    <p class="front-page">{{how_to_step2_detail}}</p>
                     <!-- <a href="" class="main-btn">Read More</a> -->
                 </div>
                 <div class="img">
@@ -123,8 +125,8 @@
                     <img src="../../assets/img/Detailp3.png" alt="">
                 </div>
                 <div class="text">
-                    <h1>3. View details</h1>
-                    <p class="front-page">Display the details of the source code file according to the similarity percentage required by the user.</p>
+                    <h1 class="text-info">3. {{how_to_step3}}</h1>
+                    <p class="front-page">{{how_to_step3_detail}}</p>
                     <!-- <a href="" class="main-btn">Read More</a> -->
                 </div>
                 </div>
@@ -133,37 +135,37 @@
 
             <!-- Latest Articles -->
             <div class="latest-articles text-center" id="credit" style="padding-top: 115px;">
-                <h1><span class="blue-frame">Credits</span></h1>
+                <h1><span class="blue-frame">{{credit_word}}</span></h1>
                 <!-- <a href="">All category <img style="width: 20px; margin-left: 20px;" src="img/icon/arrow-right-icon.svg" alt=""></a> -->
                 <div class="latest-articles-wrapper">
                     <div class="article">
                         <img src="../../assets/img/post-1.png" alt="">
-                        <p class="article-meta"><span class="data text-muted">Ms. Pornnapas Khiaw-im</span></p>
-                        <h4 class="title">Front-End Developer</h4>
+                        <p class="article-meta"><span class="data text-muted"><b>{{front_end_dev_name}}</b> <br>{{mail}}: {{front_end_mail}}</span></p>
+                        <h4 class="title">{{front_name}}</h4>
                         <ul>
-                            <li>Faculty of Informatics</li>
-                            <li>Software Engineering #9</li>
-                            <li>Burapha University</li>
+                            <li>{{major}}</li>
+                            <li>{{fac}}</li>
+                            <li>{{university}}</li>
                         </ul>
                     </div>
                     <div class="article">
                         <img src="../../assets/img/post-2.png" alt="">
-                        <p class="article-meta"><span class="data text-muted">Mr. Sirawit Thitisoontornlak</span></p>
-                        <h4 class="title">Back-End Developer</h4>
+                        <p class="article-meta"><span class="data text-muted"><b>{{back_end_dev_name}}</b> <br>{{mail}}: {{back_end_mail}}</span></p>
+                        <h4 class="title">{{back_name}}</h4>
                         <ul>
-                            <li>Faculty of Informatics</li>
-                            <li>Software Engineering #9</li>
-                            <li>Burapha University</li>
+                            <li>{{major}}</li>
+                            <li>{{fac}}</li>
+                            <li>{{university}}</li>
                         </ul>
                     </div>
                     <div class="article">
                         <img src="../../assets/img/post-3.png" alt="">
-                        <p class="article-meta"><span class="data text-muted">Mr. Peerasak Pianprasit </span></p>
-                        <h4 class="title">Advisor</h4>
+                        <p class="article-meta"><span class="data text-muted"><b>{{advisor_name}}</b> <br>{{mail}}: {{advisor_mail}}</span></p>
+                        <h4 class="title">{{advisor}}</h4>
                         <ul>
-                            <li>Faculty of Informatics</li>
-                            <li>Software Engineering</li>
-                            <li>Burapha University</li>
+                            <li>{{adv_major}}</li>
+                            <li>{{fac}}</li>
+                            <li>{{university}}</li>
                         </ul>
                     </div>
                 </div>
@@ -178,7 +180,7 @@
                 <div class="about">
                 <img src="../../assets/img/SEAPlag.png" alt="">
                 <p class="text-muted py-4">
-                    Start working with <span class="text-info">JPlag</span> which can detect plagiarism of multiple sets of source code files and show JPlag result via Force Directed Graph using <span class="text-info">Chart.js</span> that an easy way to process the copy of source code .
+                    {{ref1}} <span class="text-info"> JPlag </span>{{ref2}}<span class="text-info"> Chart.js </span>{{ref3}}
                 </p>
                 <!-- <div class="social-media">
                     <a href="" class="me-2 text-reset"><img src="img/icon/instagram-icon.svg" alt=""></a>
@@ -189,7 +191,7 @@
                 </div>
 
                 <div class="company">
-                <p class="fw-bold">Languages</p>
+                <p class="fw-bold">{{language}}</p>
                 <ul>
                     <li><p>HTML</p></li>
                     <li><p>CSS</p></li>
@@ -200,7 +202,7 @@
                 </div>
                 
                 <div class="useful-links">
-                <p class="fw-bold">Tools</p>
+                <p class="fw-bold">{{tool}}</p>
                 <ul>
                     <li><p>Visual Studio Code</p></li>
                     <li><p>Google Chrome</p></li>
@@ -209,7 +211,7 @@
                 </div>
 
                 <div class="useful-links">
-                <p class="fw-bold">Research articles</p>
+                <p class="fw-bold">{{article}}</p>
                 <ul>
                     <li><a target="_blank" href="https://www.researchgate.net/publication/349532079_An_intelligent_decision_support_system_for_software_plagiarism_detection_in_academia">An intelligent decision support system for <br> software plagiarism detection in academia</a></li>
 
@@ -218,7 +220,7 @@
         </div>
         
             <div class="copyright">
-                <p class="text-center">Copyright &copy; SEAPlag {{current_year}}</p>
+                <p class="text-center">{{copyright}} &copy; SEAPlag {{current_year}}</p>
                 <!--
                 This template is licenced under Attribution 3.0 (CC BY 3.0 PL),
                 You are free to: Share and Adapt. You must give appropriate credit, you may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
