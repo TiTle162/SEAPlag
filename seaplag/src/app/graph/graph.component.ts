@@ -12,6 +12,12 @@ import { Options } from '@angular-slider/ngx-slider';
   styleUrls: ['./graph.component.css']
 })
 export class GraphComponent implements OnInit {
+  navbar_language_1: string = "";
+  navbar_language_2: string = "";
+
+  navbar_scope_confirm: string = "";
+  navbar_scope_reset: string = "";
+
   // Slider options.
   minValue: number = 1;
   maxValue: number = 100;
@@ -27,10 +33,21 @@ export class GraphComponent implements OnInit {
   constructor(private router: Router){}
 
   ngOnInit() {
-    
+    this.switch_to_th();
+
     $(document).ready(function () {
       $("body").css('background-image', 'none');
-      
+
+      // right-nav-bar
+      $("#th").click(function(){
+        $("#en").removeClass("active");
+        $("#th").addClass("active");
+      });
+      $("#en").click(function(){
+        $("#th").removeClass("active");
+        $("#en").addClass("active");
+      });
+
       //start create export 17-12-65
       $("#export").click(function(){
         var element = jQuery("#graph")[0];
@@ -219,11 +236,29 @@ export class GraphComponent implements OnInit {
   }
 
   set_display_output() {
+    // set
     alert(this.minValue+" "+this.maxValue);
   }
 
   reset_display_output() {
+    // reset
     this.minValue = 1;
     this.maxValue = 100;
+  }
+
+  switch_to_th(){
+    this.navbar_language_1 = "ไทย";
+    this.navbar_language_2 = "อังกฤษ";
+
+    this.navbar_scope_confirm = "ยืนยัน";
+    this.navbar_scope_reset = "รีเซ็ต";
+  }
+
+  switch_to_eng(){
+    this.navbar_language_1 = "TH";
+    this.navbar_language_2 = "EN";
+
+    this.navbar_scope_confirm = "Confirm";
+    this.navbar_scope_reset = "Reset";
   }
 }

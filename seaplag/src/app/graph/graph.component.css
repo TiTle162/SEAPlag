@@ -1,3 +1,7 @@
+.container-fluid{
+  overflow: hidden;
+}
+
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */

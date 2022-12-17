@@ -17,19 +17,31 @@
               </li> -->
           </ul>
           <ul class="right navbar-nav ms-auto">
+              <li class="nav-card-item-right">
+                  <a id="th" style="cursor: pointer;" class="nav-link active" (click)="switch_to_th()">
+                  <span><img src="../../assets/img/language/thailand.png" style="width: 20px;" alt=""></span>
+                  &nbsp;&nbsp;{{navbar_language_1}}
+                  </a>
+              </li>
+              <li class="nav-card-item-right">
+                  <a id="en" style="cursor: pointer;" class="nav-link" (click)="switch_to_eng()">
+                      <span><img src="../../assets/img/language/united-kingdom.png" style="width: 20px;" alt=""></span>
+                      &nbsp;&nbsp;{{navbar_language_2}}
+                  </a>
+              </li>
               <li class="nav-card-item-right create-account">
-                  <a class="nav-link" target="_blank" href="https://github.com/jplag/JPlag">Implemented by <span class="text-info">JPlag</span></a>
+                  <a class="nav-link" target="_blank" href="https://github.com/jplag/JPlag">{{link_to_jplag}} <span class="text-info">JPlag</span></a>
               </li>       
           </ul>
       </div>
   </div>
 </nav>
 
-<div class="content-box container bg-white" style="width: 1110px; border-radius: 10px; margin-top: -40px;">
+<div class="content-box container bg-white" style="width: 1920px; border-radius: 10px; margin-top: -10px;">
 <div class="container main">
   <div class="row">
     <div class="aboutus col-lg-8">
-      <h2 class="text-center" style="padding-top: 50px; font-size: 45px;">Source Code Similarity: <span class="blue-frame">90.83 &#65285;</span></h2>
+      <h2 class="text-center" style="padding-top: 50px; font-size: 35px;">{{code_sim}}: <span class="blue-frame">100.00 &#65285;</span></h2>
 
         <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla illo corrupti debitis recusandae hic, ipsa sit quas? Autem fuga nihil voluptate dolorum similique dignissimos quaerat quidem consectetur nobis aliquid quae voluptatibus ex assumenda, amet adipisci eveniet porro soluta accusamus voluptatem doloremque, nulla impedit, culpa hic. Ad nihil vero, debitis fuga at nostrum modi! Expedita ab ex, dolores, fugit quis optio laborum sint, officiis molestiae temporibus ratione totam odio explicabo beatae voluptatem neque deleniti iusto eaque?  Ad nihil vero, debitis fuga at nostrum modi </p>
         <br>
@@ -55,14 +67,79 @@
         <div class="team text-center mt-1">
           <!-- <h3>See <span class="green">team </span>More details.</h3> -->
         <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum ab est repudiandae quasi hic sapiente earum velit fuga odio neque numquam eligendi qui tenetur ipsam, animi atque expedita eaque nesciunt in.Atque ut blanditiis quos excepturi perferendis a, quidem modi.</p> -->
-          <div class="team-person py-3">
+        <button class="btn btn-info text-white" id="switch_mode">{{switch_mode}}</button> 
+        <div class="team-person">
             <div class="person">
-              <span class="name">Main.java</span>
-              <div class="photo"><img src="../../assets/img/team-1.jpg" alt=""></div>
+              <span class="name text-info">Main.java</span>
+              <textarea wrap="off" disabled name="" id="" cols="30" rows="10">
+
+                public class main{
+                  public static void main(String args[]){
+                    int name;
+                    int age;
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+                  }
+                }
+              </textarea>
             </div>
             <div class="person">
-              <span class="name">Main.java</span>
-              <div class="photo"><img src="../../assets/img/team-2.jpg" alt=""></div>
+              <span class="name text-danger">Main.java</span>
+              <textarea wrap="off" disabled name="" id="" cols="30" rows="10">
+
+                public class main{
+                  public static void main(String args[]){
+                    int name;
+                    int age;
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+
+                    System.out.print("Hello, my name is"+name+", I'm "+age+" years old.")
+                  }
+                }
+              </textarea>
             </div>
           </div>
         </div>
@@ -79,7 +156,7 @@
 
       <div>
       <div class="sidebar-category" >
-        <h4 class="text-center" style="padding-top: 91px;"><span class="blue-frame">Source Code Selection</span></h4>
+        <h4 class="text-center" style="padding-top: 91px;"><span class="blue-frame">{{code_select}}</span></h4>
         <!-- <a href="">All category <img style="width: 20px; margin-left: 20px;" src="../../assets/img/icon/arrow-right-icon.svg" alt=""></a> -->
         <div class="category">
           <div class="category-item" style="background-color: #24bbe6;">
@@ -154,7 +231,7 @@
           <div class="about">
           <img src="../../assets/../../assets/img/SEAPlag.png" alt="">
           <p class="text-muted py-4">
-              Start working with <span class="text-info">JPlag</span> which can detect plagiarism of multiple sets of source code files and show JPlag result via Force Directed Graph using <span class="text-info">Chart.js</span> that an easy way to process the copy of source code .
+            {{ref1}} <span class="text-info"> JPlag </span>{{ref2}}<span class="text-info"> Chart.js </span>{{ref3}}
           </p>
           <!-- <div class="social-media">
               <a href="" class="me-2 text-reset"><img src="../../assets/img/icon/instagram-icon.svg" alt=""></a>
@@ -165,7 +242,7 @@
           </div>
 
           <div class="company">
-          <p class="fw-bold">Languages</p>
+          <p class="fw-bold">{{language}}</p>
           <ul>
               <li><p>HTML</p></li>
               <li><p>CSS</p></li>
@@ -176,7 +253,7 @@
           </div>
           
           <div class="useful-links">
-          <p class="fw-bold">Tools</p>
+          <p class="fw-bold">{{tool}}</p>
           <ul>
               <li><p>Visual Studio Code</p></li>
               <li><p>Google Chrome</p></li>
@@ -185,7 +262,7 @@
           </div>
 
           <div class="useful-links">
-          <p class="fw-bold">Research articles</p>
+          <p class="fw-bold">{{article}}</p>
           <ul>
               <li><a target="_blank" href="https://www.researchgate.net/publication/349532079_An_intelligent_decision_support_system_for_software_plagiarism_detection_in_academia">An intelligent decision support system for <br> software plagiarism detection in academia</a></li>
 
@@ -194,7 +271,7 @@
   </div>
   
       <div class="copyright">
-          <p class="text-center">Copyright &copy; SEAPlag {{current_year}}</p>
+          <p class="text-center">{{copyright}} &copy; SEAPlag {{current_year}}</p>
           <!--
           This template is licenced under Attribution 3.0 (CC BY 3.0 PL),
           You are free to: Share and Adapt. You must give appropriate credit, you may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.

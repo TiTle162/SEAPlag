@@ -12,6 +12,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import { PagefaultComponent } from './pagefault/pagefault.component';
 
+import { NgxFileDropModule } from 'ngx-file-drop';
+import { HttpClientModule } from '@angular/common/http';
+
 const appRoute: Routes = [
   {path: '', component: ImportComponent},
   {path: 'Home', component: ImportComponent},
@@ -35,7 +38,9 @@ const appRoute: Routes = [
     BrowserAnimationsModule,
     MatSliderModule,
     FormsModule,
-    NgxSliderModule
+    NgxSliderModule,
+    HttpClientModule,
+    NgxFileDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

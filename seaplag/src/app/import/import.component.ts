@@ -1,6 +1,8 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as $ from 'jquery';
+
+import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 
 @Component({
   selector: 'app-import',
@@ -10,7 +12,58 @@ import * as $ from 'jquery';
 export class ImportComponent implements OnInit {
   constructor(private router: Router){}
 
+  /* File upload */
+  public files: NgxFileDropEntry[] = [];
+
+  public dropped(files: NgxFileDropEntry[]) {
+    this.files = files;
+    for (const droppedFile of files) {
+
+      // Is it a file?
+      if (droppedFile.fileEntry.isFile) {
+        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+        fileEntry.file((file: File) => {
+
+          // Here you can access the real file
+          console.log(droppedFile.relativePath, file);
+
+          alert("File uploaded");
+          /**
+          // You could upload it like this:
+          const formData = new FormData()
+          formData.append('logo', file, relativePath)
+
+          // Headers
+          const headers = new HttpHeaders({
+            'security-token': 'mytoken'
+          })
+
+          this.http.post('https://mybackend.com/api/upload/sanitize-and-save-logo', formData, { headers: headers, responseType: 'blob' })
+          .subscribe(data => {
+            // Sanitized logo returned from backend
+          })
+          **/
+
+        });
+      } else {
+        // It was a directory (empty directories are added, otherwise only files)
+        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
+        console.log(droppedFile.relativePath, fileEntry);
+      }
+    }
+  }
+
+  public fileOver(event: any){
+    console.log(event);
+  }
+
+  public fileLeave(event: any){
+    console.log(event);
+  }
+  /* File upload */
+
   current_year: any = new Date().getFullYear();
+  file_upload: string = "";
   navbar_menu_1: string = "";
   navbar_menu_2: string = "";
   navbar_menu_3: string = "";
@@ -58,8 +111,10 @@ export class ImportComponent implements OnInit {
   ref3: string = "";
 
   ngOnInit() {
+    this.switch_to_th();
+
     $(document).ready(function(){
-      // right-nav-bar
+      // left-nav-bar
       $("#th").click(function(){
         $("#en").removeClass("active");
         $("#th").addClass("active");
@@ -68,8 +123,6 @@ export class ImportComponent implements OnInit {
         $("#th").removeClass("active");
         $("#en").addClass("active");
       });
-
-      // left-nav-bar
       $("#top-btn").click(function(){
         $("#obj-btn").removeClass("active");
         $("#howto-btn").removeClass("active");
@@ -91,11 +144,11 @@ export class ImportComponent implements OnInit {
         $("#credit-btn").addClass("active");
       });
     });
-
-    this.switch_to_th();
   }
 
   switch_to_th(){
+    this.file_upload = "จุดวางไฟล์ซอร์สโค้ด (.zip)";
+
     this.navbar_menu_1 = "เป้าหมาย";
     this.navbar_menu_2 = "วิธีใช้งาน";
     this.navbar_menu_3 = "เครดิต";
@@ -152,6 +205,8 @@ export class ImportComponent implements OnInit {
   }
 
   switch_to_eng(){
+    this.file_upload = "Drag and drop file source code here. (.zip)";
+
     this.navbar_menu_1 = "Objectives";
     this.navbar_menu_2 = "How to use";
     this.navbar_menu_3 = "Credits";

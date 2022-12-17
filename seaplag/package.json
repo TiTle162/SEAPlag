@@ -25,6 +25,7 @@
     "force-graph": "^1.42.16",
     "html2canvas": "^1.4.1",
     "jquery": "^3.6.1",
+    "ngx-file-drop": "^14.0.2",
     "rxjs": "~7.5.0",
     "save": "^2.9.0",
     "tslib": "^2.3.0",
