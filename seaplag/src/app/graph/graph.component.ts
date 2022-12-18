@@ -1,7 +1,7 @@
-import { Component, OnInit, ElementRef, ViewChild, VERSION } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
-import ForceGraph from 'force-graph';
+import ForceGraph from 'force-graph/';
 import Data from '../../assets/datasets/overview.json';
 import html2canvas from 'html2canvas';
 import { Options } from '@angular-slider/ngx-slider';
@@ -11,12 +11,19 @@ import { Options } from '@angular-slider/ngx-slider';
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.css']
 })
-export class GraphComponent implements OnInit {
+export class GraphComponent implements OnInit, OnDestroy {
+  ForceGraph: any = "";
+  GraphData: any = "";  
+  Graph: any = "";
+  current_language: string = "";
+  file_id: string = "";
   navbar_language_1: string = "";
   navbar_language_2: string = "";
-
   navbar_scope_confirm: string = "";
   navbar_scope_reset: string = "";
+
+  isTH: boolean = false;
+  isEN: boolean = false;
 
   // Slider options.
   minValue: number = 1;
@@ -26,14 +33,31 @@ export class GraphComponent implements OnInit {
     ceil: 100,
   };
 
-  // Read JSON data.
-  ForceGraph = require('force-graph');
-  GraphData = Data;
+  constructor(private router: Router, private route: ActivatedRoute, private renderer: Renderer2){}
 
-  constructor(private router: Router){}
+  ngOnInit(){
+    var params = this.route.snapshot.queryParams;
+    var language = params['language'];
+    var file_id = params['file_id'];
 
-  ngOnInit() {
-    this.switch_to_th();
+    this.file_id = file_id;
+    if(language == "TH"){
+      this.isTH = true;
+      this.isEN = false;
+      this.switch_to_th();
+    }else if(language == "EN"){
+      this.isTH = false;
+      this.isEN = true;
+      this.switch_to_eng();
+    }else{
+      this.isTH = true;
+      this.isEN = false;
+      this.switch_to_th();
+    }
+
+    // Read JSON data.
+    this.ForceGraph = require('force-graph');
+    this.GraphData = Data;
 
     $(document).ready(function () {
       $("body").css('background-image', 'none');
@@ -83,40 +107,44 @@ export class GraphComponent implements OnInit {
     this.set_graph();
   }
 
+  ngOnDestroy(){
+    this.clear_graph();
+  }
+
   set_graph(){
+    // Read graph data
+    var GraphObject: any = ""; 
+    GraphObject = Object.assign({}, this.GraphData);
+
     /* Nodes */
-    let nodes = this.GraphData.submission_id_to_display_name;
-        
+    var nodes = GraphObject.submission_id_to_display_name;
     // Nodes Formatter.
-    let final_nodes = [];
-    let temp_nodes = [];
+    var final_nodes = [];
+    var temp_nodes = [];
     for(let i in nodes)
       final_nodes.push(i);
     for(let i in nodes)
       temp_nodes.push(i);
-
     const GROUPS = 12;
     for(let i=0;i<final_nodes.length;i++){
       final_nodes[i] = {id : final_nodes[i], group: Math.ceil(Math.random() * GROUPS)};
     }
 
     /* Links */
-    let links = this.GraphData.metrics[0]["topComparisons"];
+    var links = GraphObject.metrics[0]["topComparisons"];
     for(let i=0;i<links.length;i++){
       links[i].similarity = links[i].similarity*100;
       links[i].similarity = parseInt(links[i].similarity);
-
       // If similarity equal 0.
-      if ((links[i].similarity) < 1 || links[i].similarity > 100) {
+      if ((links[i].similarity) <= 0) {
         links.splice(i);
       }
     }
-
     // Links Formatter.
     for (let i = 0; i < links.length; i++) {
       links[i].source = links[i].first_submission;
       links[i].target = links[i].second_submission;
-      links[i].value = links[i].similarity + "%";
+      links[i].value = links[i].similarity;
 
       delete links[i].first_submission;
       delete links[i].second_submission;
@@ -128,10 +156,9 @@ export class GraphComponent implements OnInit {
       let switch_check = 0;
       
       for(let j=0;j<links.length;j++){
-        let temp_scoure = links[j].source;
+        let temp_source = links[j].source;
         let temp_target = links[j].target;
-
-        if (temp_nodes[i] == temp_scoure || temp_nodes[i] == temp_target) {
+        if (temp_nodes[i] == temp_source || temp_nodes[i] == temp_target) {
           switch_check = 1;
           break;
         }
@@ -139,26 +166,33 @@ export class GraphComponent implements OnInit {
 
       if (switch_check == 0) {
         final_nodes.splice(i);
-      } else
+      } else{
         continue;
+      }
     }
 
     // Set nodes and links.
-    this.GraphData["nodes"] = final_nodes;
-    this.GraphData["links"] = links;
+    GraphObject["nodes"] = final_nodes;
+    GraphObject["links"] = links;
 
-    this.create_graph(this.GraphData);
+    // Copy clean graph.
+    this.GraphData = Object.assign({}, GraphObject);
+    for (let i = 0; i < GraphObject.links.length; i++) {
+      GraphObject.links[i].value = GraphObject.links[i].value+ "%"; // add '%'
+    } 
+
+    // Create graph
+    this.create_graph(GraphObject);
   }
+  
 
   create_graph(GraphObject: any){
     // Creat graph.
     const NODE_R = 8;
     const highlightNodes = new Set();
     const highlightLinks = new Set();
-    let hoverNode: string[] = [];
-    const graph = document.getElementById("graph") as HTMLCanvasElement;
-    const Graph = ForceGraph()
-    (graph)
+    var hoverNode: string[] = [];
+    this.Graph = ForceGraph()(document.getElementById("graph") as HTMLCanvasElement)
       .graphData(GraphObject)
       /* Setting graph. */
       // Node //
@@ -194,8 +228,8 @@ export class GraphComponent implements OnInit {
         node.fy = node.y;
       })
       .onNodeClick(node => {
-        Graph.centerAt(node.x, node.y, 1000);
-        Graph.zoom(8, 2000);
+        this.Graph.centerAt(node.x, node.y, 1000);
+        this.Graph.zoom(8, 2000);
       })
 
       // Link //
@@ -216,7 +250,7 @@ export class GraphComponent implements OnInit {
           highlightNodes.add(link.target);
         }
       })
-      .autoPauseRedraw(false) // keep redrawing after engine has stopped
+      .autoPauseRedraw(false)
       .linkWidth(link => highlightLinks.has(link) ? 5 : 1)
       .linkDirectionalParticles(4)
       .linkDirectionalParticleWidth(link => highlightLinks.has(link) ? 4 : 0)
@@ -229,24 +263,83 @@ export class GraphComponent implements OnInit {
         // Redirect to Compare page.
         this.show_comparison(start, end);
       })
+
   }
 
   show_comparison(start: String, end: String) {
-    window.open('/Details/[' + start + ']/[' + end + ']', '_blank');
+    var urlTree = this.router.createUrlTree(['/Details'], {
+      queryParams: {
+        language: this.current_language,
+        file_id: this.file_id,
+        sourec: start,
+        target: end 
+      }
+    });
+
+    var url = this.router.serializeUrl(urlTree);
+    window.open(url, '_blank');
+  }
+
+  clear_graph(){
+    // Remove present element with graph data.
+    var graph_output = document.getElementById("graph") as HTMLCanvasElement;
+    graph_output.remove();
+
+    // Create the same element but no graph data.
+    const recaptchaContainer = this.renderer.createElement('div');
+    this.renderer.setProperty(recaptchaContainer, 'id', 'graph');
+    this.renderer.appendChild(document.getElementById("graph-box") as HTMLCanvasElement, recaptchaContainer);
   }
 
   set_display_output() {
-    // set
-    alert(this.minValue+" "+this.maxValue);
-  }
+    // Clear graph.
+    this.clear_graph();
 
-  reset_display_output() {
-    // reset
-    this.minValue = 1;
-    this.maxValue = 100;
+    // Set scope.
+    var SetObject: any = ""; 
+    SetObject = Object.assign({}, this.GraphData);
+    for(let i=0;i<SetObject.links.length;i++){
+      let temp_value = parseInt(SetObject.links[i].value);
+      if(temp_value < this.minValue || temp_value > this.maxValue){
+        SetObject.links.splice(i);
+      }
+    }
+
+    // Remove nodes which no edge.
+    for(let i=0;i<SetObject.nodes.length;i++){
+      let switch_check = 0;
+      
+      for(let j=0;j<SetObject.links.length;j++){
+        let temp_source = SetObject.links[j].source;
+        let temp_target = SetObject.links[j].target;
+        if (SetObject.nodes[i] == temp_source || SetObject.nodes[i] == temp_target) {
+          switch_check = 1;
+          break;
+        }
+      }
+
+      if (switch_check == 0) {
+        SetObject.nodes.splice(i);
+      } else{
+        continue;
+      }
+    }
+
+    /* 
+      Bug: 
+        original object change value after clone object change value. (both nodes and links)
+        - value in original haven't change when clone object changed value.
+    */
+    console.log(this.GraphData);
+    console.log(SetObject);
+
+    // Create graph.
+    this.create_graph(SetObject);
   }
 
   switch_to_th(){
+    this.current_language = "TH";
+
     this.navbar_language_1 = "ไทย";
     this.navbar_language_2 = "อังกฤษ";
 
@@ -255,6 +348,8 @@ export class GraphComponent implements OnInit {
   }
 
   switch_to_eng(){
+    this.current_language = "EN";
+
     this.navbar_language_1 = "TH";
     this.navbar_language_2 = "EN";
 

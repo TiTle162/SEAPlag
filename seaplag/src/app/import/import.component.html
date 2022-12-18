@@ -46,15 +46,23 @@
                 <h1>{{welcome_word}}<br><span class="text-info" style="padding-top: 30px; font-size: 100px;">SEA</span><span class="text-danger" style="padding-top: 30px; font-size: 100px;"> Plag.</span></h1>
                 <div class="front-page">
                     <div class="container center" style="width: 720px;">
-                        <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
-                        (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
-                            <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                                <div style="font-size: 25px;">
-                                    {{file_upload}}
-                                </div>
-                              <button hidden class="btn btn-info text-white" type="button" (click)="openFileSelector()">Browse Files</button>
-                            </ng-template>
-                        </ngx-file-drop>
+                        <div class="container">
+                            <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
+                            (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+                                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                                    <div style="font-size: 25px;">
+                                        {{file_upload}}
+                                    </div>
+                                <button hidden class="btn btn-info text-white" type="button" (click)="openFileSelector()">Browse Files</button>
+                                </ng-template>
+                            </ngx-file-drop>
+                        </div>
+                        <br>
+                        <div class="container">
+                            <span class="text-warning">{{suggestion_1}}</span>
+                            &nbsp; 
+                            <span class="text-secondary">{{suggestion_2}}</span> 
+                        </div>
                         <!-- <div class="upload-table">
                             <table class="table">
                                 <thead>
@@ -71,7 +79,6 @@
                         </div> -->
                     </div>
                 </div>
-                <!-- <a routerLink="/Graph" routerLinkActive="active" ariaCurrentWhenActive="page" class="blue-btn">Portfolio</a> -->
             <img src="../../assets/img/intro.png" alt="">
             </div>
 

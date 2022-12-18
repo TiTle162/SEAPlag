@@ -26,12 +26,12 @@ export class ImportComponent implements OnInit {
 
           // Here you can access the real file
           console.log(droppedFile.relativePath, file);
+          var new_file_name = this.random_file_name(); 
 
-          alert("File uploaded");
           /**
           // You could upload it like this:
           const formData = new FormData()
-          formData.append('logo', file, relativePath)
+          formData.append('logo', file, new_file_name)
 
           // Headers
           const headers = new HttpHeaders({
@@ -44,6 +44,13 @@ export class ImportComponent implements OnInit {
           })
           **/
 
+          // Redirect to Graph page.
+          this.router.navigate(['/Graph'], {
+            queryParams: {
+              language: this.current_language,
+              file_id: new_file_name
+            },
+          });
         });
       } else {
         // It was a directory (empty directories are added, otherwise only files)
@@ -54,16 +61,19 @@ export class ImportComponent implements OnInit {
   }
 
   public fileOver(event: any){
-    console.log(event);
+    // console.log(event);
   }
 
   public fileLeave(event: any){
-    console.log(event);
+    // console.log(event);
   }
   /* File upload */
 
-  current_year: any = new Date().getFullYear();
+  current_language: string = "";
+  current_year: any = "";
   file_upload: string = "";
+  suggestion_1: string = "";
+  suggestion_2: string = "";
   navbar_menu_1: string = "";
   navbar_menu_2: string = "";
   navbar_menu_3: string = "";
@@ -147,7 +157,11 @@ export class ImportComponent implements OnInit {
   }
 
   switch_to_th(){
+    this.current_language = "TH";
+
     this.file_upload = "จุดวางไฟล์ซอร์สโค้ด (.zip)";
+    this.suggestion_1 = "คําแนะนํา: ";
+    this.suggestion_2 = "กรุณารีเฟรชหน้าจอนี้ หากระบบไม่แสดงกราฟผลลัพธ์ หลังจากนําเข้า .zip";
 
     this.navbar_menu_1 = "เป้าหมาย";
     this.navbar_menu_2 = "วิธีใช้งาน";
@@ -205,7 +219,12 @@ export class ImportComponent implements OnInit {
   }
 
   switch_to_eng(){
+    this.current_language = "EN";
+
     this.file_upload = "Drag and drop file source code here. (.zip)";
+
+    this.suggestion_1 = "HINTS: ";
+    this.suggestion_2 = "Please refresh this page if graph result don't show up after import .zip file.";
 
     this.navbar_menu_1 = "Objectives";
     this.navbar_menu_2 = "How to use";
@@ -262,4 +281,13 @@ export class ImportComponent implements OnInit {
     this.current_year = new Date().getFullYear();
   }
   
+  random_file_name(){
+    var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var result = '';
+    for ( var i = 0; i < 12; i++ ) {
+      result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
+    }
+    
+    return result;
+  }
 }

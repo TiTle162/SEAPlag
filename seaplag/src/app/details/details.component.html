@@ -18,13 +18,13 @@
           </ul>
           <ul class="right navbar-nav ms-auto">
               <li class="nav-card-item-right">
-                  <a id="th" style="cursor: pointer;" class="nav-link active" (click)="switch_to_th()">
+                  <a id="th" style="cursor: pointer;" class="nav-link active" [ngClass]="{'active': isTH}" (click)="switch_to_th()">
                   <span><img src="../../assets/img/language/thailand.png" style="width: 20px;" alt=""></span>
                   &nbsp;&nbsp;{{navbar_language_1}}
                   </a>
               </li>
               <li class="nav-card-item-right">
-                  <a id="en" style="cursor: pointer;" class="nav-link" (click)="switch_to_eng()">
+                  <a id="en" style="cursor: pointer;" class="nav-link" [ngClass]="{'active': isEN}" (click)="switch_to_eng()">
                       <span><img src="../../assets/img/language/united-kingdom.png" style="width: 20px;" alt=""></span>
                       &nbsp;&nbsp;{{navbar_language_2}}
                   </a>
@@ -67,7 +67,7 @@
         <div class="team text-center mt-1">
           <!-- <h3>See <span class="green">team </span>More details.</h3> -->
         <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum ab est repudiandae quasi hic sapiente earum velit fuga odio neque numquam eligendi qui tenetur ipsam, animi atque expedita eaque nesciunt in.Atque ut blanditiis quos excepturi perferendis a, quidem modi.</p> -->
-        <button class="btn btn-info text-white" id="switch_mode">{{switch_mode}}</button> 
+        <button class="btn btn-primary text-white" id="switch_mode">{{switch_mode}}</button> 
         <div class="team-person">
             <div class="person">
               <span class="name text-info">Main.java</span>

@@ -19,7 +19,7 @@ const appRoute: Routes = [
   {path: '', component: ImportComponent},
   {path: 'Home', component: ImportComponent},
   {path: 'Graph', component: GraphComponent},
-  {path: 'Details/:source/:target', component: DetailsComponent},
+  {path: 'Details', component: DetailsComponent},
   {path: '**', component: PagefaultComponent},
 ]
 
@@ -29,7 +29,7 @@ const appRoute: Routes = [
     GraphComponent,
     DetailsComponent,
     ImportComponent,
-    PagefaultComponent
+    PagefaultComponent,
   ],
   imports: [
     BrowserModule,
