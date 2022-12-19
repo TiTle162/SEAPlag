@@ -6,18 +6,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav" style="margin-left: 45px;">
             <ul class="navbar-nav" >
-                <li class="nav-card-item bg-white">
-                    <a id="th" style="cursor: pointer;" class="nav-link" [ngClass]="{'active': isTH}" (click)="switch_to_th()">
-                        <span><img src="../../assets/img/language/thailand.png" style="width: 20px;" alt=""></span>
-                        &nbsp;&nbsp;{{navbar_language_1}}
-                    </a>
-                </li>
-                <li class="nav-card-item bg-white">
-                    <a id="en" style="cursor: pointer;" class="nav-link" [ngClass]="{'active': isEN}" (click)="switch_to_eng()">
-                        <span><img src="../../assets/img/language/united-kingdom.png" style="width: 20px;" alt=""></span>
-                        &nbsp;&nbsp;{{navbar_language_2}}
-                    </a>
-                </li>
+                
             </ul>
             <ul class="right navbar-nav ms-auto">
                 <li style="margin-top: 3px; margin-right: 10px;">
@@ -25,10 +14,12 @@
                         <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"></ngx-slider>
                     </div>
                 </li>
-                <li class="nav-card-item-right" style="margin-top: 8px; margin-left: 10px;">
-                    <button style="width: 100px;" (click)="set_display_output()" type="button" class="btn btn-info px-3 text-white"><i class="fas fa-check" aria-hidden="true"></i><br><b>{{navbar_scope_confirm}}</b></button>
+                <li class="nav-card-item-right" style="margin-top: 14px; margin-left: 10px;">
+                    <button style="width: 60px; height: 50px;" (click)="set_display_output()" type="button" class="btn btn-info px-3 text-white"><i class="fas fa-check" aria-hidden="true"></i><br></button>
                 </li>
-                
+                <li class="nav-card-item-right" style="margin-top: 14px; margin-left: 10px;">
+                    <button style="width: 60px; height: 50px;" (click)="reset_display_output()" type="button" class="btn btn-warning px-3 text-white"><i class="fa fa-refresh" aria-hidden="true"></i><br></button>
+                </li>
             </ul>
         </div>
     </div>
@@ -43,18 +34,32 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav" >
                 <li class="nav-card-item-right" style="margin-top: 8px;">
-                    <button id="export" style="width: 65px; height: 50px;" type="button" class="btn btn-danger px-3 text-white"><i class="fas fa-download" style="font-size: 25px;" aria-hidden="true"></i><br></button>
+                    <button id="export" style="width: 60px; height: 50px;" type="button" class="btn btn-danger px-3 text-white"><i class="fas fa-download" style="font-size: 25px;" aria-hidden="true"></i><br></button>
                 </li>
             </ul>
             <div id="myModal" class="modal">
                 <div class="modal-content">
+                    <ul class="navbar-nav" style="list-style-type: none;">
+                        <li class="nav-card-item bg-white">
+                            <a id="th" style="cursor: pointer;" class="nav-link" [ngClass]="{'active': isTH}" (click)="switch_to_th()">
+                                <span><img src="../../assets/img/language/thailand.png" style="width: 20px;" alt=""></span>
+                                &nbsp;&nbsp;{{navbar_language_1}}
+                            </a>
+                        </li>
+                        <li class="nav-card-item bg-white">
+                            <a id="en" style="cursor: pointer;" class="nav-link" [ngClass]="{'active': isEN}" (click)="switch_to_eng()">
+                                <span><img src="../../assets/img/language/united-kingdom.png" style="width: 20px;" alt=""></span>
+                                &nbsp;&nbsp;{{navbar_language_2}}
+                            </a>
+                        </li>
+                    </ul>
                   <span class="close">&times;</span>
                   <p>Some text in the Modal..</p>
                 </div>
             </div>      
             <ul class="right navbar-nav ms-auto">
                 <li class="nav-card-item-right" style="margin-top: 8px;">
-                    <button style="width: 65px; height: 50px;" id="hint-btn" type="button" class="btn btn-secondary px-3 text-white"><i class="fas fa-question-circle" style="font-size: 25px; padding-top: 3px;" aria-hidden="true"></i><br></button>
+                    <button style="width: 60px; height: 50px;" id="hint-btn" type="button" class="btn btn-secondary px-3 text-white"><i class="fas fa-question-circle text" style="font-size: 25px; padding-top: 3px;" aria-hidden="true"></i><br></button>
                 </li>
             </ul>
         </div>

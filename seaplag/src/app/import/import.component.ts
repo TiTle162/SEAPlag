@@ -48,7 +48,9 @@ export class ImportComponent implements OnInit {
           this.router.navigate(['/Graph'], {
             queryParams: {
               language: this.current_language,
-              file_id: new_file_name
+              file_id: new_file_name,
+              min: 1,
+              max: 100
             },
           });
         });

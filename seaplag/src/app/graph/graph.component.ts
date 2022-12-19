@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
 import ForceGraph from 'force-graph/';
@@ -11,7 +11,7 @@ import { Options } from '@angular-slider/ngx-slider';
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.css']
 })
-export class GraphComponent implements OnInit, OnDestroy {
+export class GraphComponent implements OnInit {
   ForceGraph: any = "";
   GraphData: any = "";  
   Graph: any = "";
@@ -19,8 +19,6 @@ export class GraphComponent implements OnInit, OnDestroy {
   file_id: string = "";
   navbar_language_1: string = "";
   navbar_language_2: string = "";
-  navbar_scope_confirm: string = "";
-  navbar_scope_reset: string = "";
 
   isTH: boolean = false;
   isEN: boolean = false;
@@ -33,12 +31,14 @@ export class GraphComponent implements OnInit, OnDestroy {
     ceil: 100,
   };
 
-  constructor(private router: Router, private route: ActivatedRoute, private renderer: Renderer2){}
+  constructor(private router: Router, private route: ActivatedRoute){}
 
   ngOnInit(){
     var params = this.route.snapshot.queryParams;
     var language = params['language'];
     var file_id = params['file_id'];
+    this.minValue = params['min'];
+    this.maxValue = params['max'];
 
     this.file_id = file_id;
     if(language == "TH"){
@@ -107,10 +107,6 @@ export class GraphComponent implements OnInit, OnDestroy {
     this.set_graph();
   }
 
-  ngOnDestroy(){
-    this.clear_graph();
-  }
-
   set_graph(){
     // Read graph data
     var GraphObject: any = ""; 
@@ -137,6 +133,12 @@ export class GraphComponent implements OnInit, OnDestroy {
       links[i].similarity = parseInt(links[i].similarity);
       // If similarity equal 0.
       if ((links[i].similarity) <= 0) {
+        links.splice(i);
+      }
+    }
+    // Scope calculation.
+    for(let i=0;i<links.length;i++){
+      if(links[i].similarity < this.minValue || links[i].similarity > this.maxValue){
         links.splice(i);
       }
     }
@@ -280,61 +282,33 @@ export class GraphComponent implements OnInit, OnDestroy {
     window.open(url, '_blank');
   }
 
-  clear_graph(){
-    // Remove present element with graph data.
-    var graph_output = document.getElementById("graph") as HTMLCanvasElement;
-    graph_output.remove();
+  set_display_output() {
+    var urlTree = this.router.createUrlTree(['/Graph'], {
+      queryParams: {
+        language: this.current_language,
+        file_id: this.file_id,
+        min: this.minValue,
+        max: this.maxValue
+      }
+    });
 
-    // Create the same element but no graph data.
-    const recaptchaContainer = this.renderer.createElement('div');
-    this.renderer.setProperty(recaptchaContainer, 'id', 'graph');
-    this.renderer.appendChild(document.getElementById("graph-box") as HTMLCanvasElement, recaptchaContainer);
+    var url = this.router.serializeUrl(urlTree);
+    window.open(url, '_self');
+
+    // Something not right (bug detected).
   }
 
-  set_display_output() {
-    // Clear graph.
-    this.clear_graph();
-
-    // Set scope.
-    var SetObject: any = ""; 
-    SetObject = Object.assign({}, this.GraphData);
-    for(let i=0;i<SetObject.links.length;i++){
-      let temp_value = parseInt(SetObject.links[i].value);
-      if(temp_value < this.minValue || temp_value > this.maxValue){
-        SetObject.links.splice(i);
+  reset_display_output(){
+    var urlTree = this.router.createUrlTree(['/Graph'], {
+      queryParams: {
+        language: this.current_language,
+        file_id: this.file_id,
+        min: 1,
+        max: 100
       }
-    }
-
-    // Remove nodes which no edge.
-    for(let i=0;i<SetObject.nodes.length;i++){
-      let switch_check = 0;
-      
-      for(let j=0;j<SetObject.links.length;j++){
-        let temp_source = SetObject.links[j].source;
-        let temp_target = SetObject.links[j].target;
-        if (SetObject.nodes[i] == temp_source || SetObject.nodes[i] == temp_target) {
-          switch_check = 1;
-          break;
-        }
-      }
-
-      if (switch_check == 0) {
-        SetObject.nodes.splice(i);
-      } else{
-        continue;
-      }
-    }
-
-    /* 
-      Bug: 
-        original object change value after clone object change value. (both nodes and links)
-        - value in original haven't change when clone object changed value.
-    */
-    console.log(this.GraphData);
-    console.log(SetObject);
-
-    // Create graph.
-    this.create_graph(SetObject);
+    });
+    var url = this.router.serializeUrl(urlTree);
+    window.open(url, '_self');
   }
 
   switch_to_th(){
@@ -342,9 +316,6 @@ export class GraphComponent implements OnInit, OnDestroy {
 
     this.navbar_language_1 = "ไทย";
     this.navbar_language_2 = "อังกฤษ";
-
-    this.navbar_scope_confirm = "ยืนยัน";
-    this.navbar_scope_reset = "รีเซ็ต";
   }
 
   switch_to_eng(){
@@ -352,8 +323,5 @@ export class GraphComponent implements OnInit, OnDestroy {
 
     this.navbar_language_1 = "TH";
     this.navbar_language_2 = "EN";
-
-    this.navbar_scope_confirm = "Confirm";
-    this.navbar_scope_reset = "Reset";
   }
 }
