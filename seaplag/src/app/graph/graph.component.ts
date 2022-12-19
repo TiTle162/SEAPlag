@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
+
 import ForceGraph from 'force-graph/';
 import Data from '../../assets/datasets/overview.json';
 import html2canvas from 'html2canvas';
+import ForceGraph3D from '3d-force-graph';
+import SpriteText from 'three-spritetext';
+
 import { Options } from '@angular-slider/ngx-slider';
 
 @Component({
@@ -13,15 +17,22 @@ import { Options } from '@angular-slider/ngx-slider';
 })
 export class GraphComponent implements OnInit {
   ForceGraph: any = "";
+  ForceGraph3D: any = "";
+  SpriteText: any = ""
+
   GraphData: any = "";  
   Graph: any = "";
   current_language: string = "";
   file_id: string = "";
+  mode: string = "";
   navbar_language_1: string = "";
   navbar_language_2: string = "";
 
   isTH: boolean = false;
   isEN: boolean = false;
+
+  is2D: boolean = false;
+  is3D: boolean = false;
 
   // Slider options.
   minValue: number = 1;
@@ -37,6 +48,7 @@ export class GraphComponent implements OnInit {
     var params = this.route.snapshot.queryParams;
     var language = params['language'];
     var file_id = params['file_id'];
+    this.mode = params['mode'];
     this.minValue = params['min'];
     this.maxValue = params['max'];
 
@@ -56,9 +68,28 @@ export class GraphComponent implements OnInit {
     }
 
     // Read JSON data.
-    this.ForceGraph = require('force-graph');
-    this.GraphData = Data;
+    if(this.mode == "2D"){
+      this.is2D = true;
+      this.is3D = false;
 
+      this.ForceGraph = require('force-graph');
+      this.GraphData = Data;
+    }else if(this.mode == "3D"){
+      this.is2D = false;
+      this.is3D = true;
+
+      this.ForceGraph3D = require('3d-force-graph');
+      this.SpriteText = require('three-spritetext');
+      this.GraphData = Data;
+    }else{
+      this.is2D = true;
+      this.is3D = false;
+
+      this.ForceGraph = require('force-graph');
+      this.GraphData = Data;
+    }
+    
+    var mode = this.mode;
     $(document).ready(function () {
       $("body").css('background-image', 'none');
 
@@ -73,6 +104,7 @@ export class GraphComponent implements OnInit {
       });
 
       //start create export 17-12-65
+      // if 2D => .jpeg, else 3D => .html
       $("#export").click(function(){
         var element = jQuery("#graph")[0];
         html2canvas(element).then((canvas) => {
@@ -194,78 +226,158 @@ export class GraphComponent implements OnInit {
     const highlightNodes = new Set();
     const highlightLinks = new Set();
     var hoverNode: string[] = [];
-    this.Graph = ForceGraph()(document.getElementById("graph") as HTMLCanvasElement)
-      .graphData(GraphObject)
-      /* Setting graph. */
-      // Node //
-      .nodeId('id')
-      .nodeVal('val')
-      .nodeLabel('id')
-      .nodeAutoColorBy('group')
-      .nodeCanvasObjectMode(() => 'after')
-      .nodeCanvasObject((node, ctx) => {
-        let temp_id: string;
-        let temp_x: number;
-        let temp_y: number;
-        if(node.id === undefined){
-          temp_id = "";
-        }else{
-          temp_id = node.id.toString();
-        }
-        if(node.x === undefined || node.y === undefined){
-          temp_x = 1;
-          temp_y = 1;
-        }else{
-          temp_x = node.x;
-          temp_y = node.y;
-        }
-        ctx.beginPath();
-        ctx.arc(temp_x, temp_y, NODE_R * 0, 0, 2 * Math.PI, false);
-        ctx.fillStyle = node === hoverNode ? '' : '#000000';
-        ctx.fill();
-        ctx.fillText(temp_id, temp_x+5, temp_y-6);
-      })
-      .onNodeDragEnd(node => {
-        node.fx = node.x;
-        node.fy = node.y;
-      })
-      .onNodeClick(node => {
-        this.Graph.centerAt(node.x, node.y, 1000);
-        this.Graph.zoom(8, 2000);
-      })
+    
+    if(this.mode == "2D"){
+      this.Graph = ForceGraph()(document.getElementById("graph") as HTMLCanvasElement)
+            .graphData(GraphObject)
+            /* Setting graph. */
+            // Node //
+            .nodeId('id')
+            .nodeVal('val')
+            .nodeLabel('id')
+            .nodeAutoColorBy('group')
+            .nodeCanvasObjectMode(() => 'after')
+            .nodeCanvasObject((node, ctx) => {
+              let temp_id: string;
+              let temp_x: number;
+              let temp_y: number;
+              if(node.id === undefined){
+                temp_id = "";
+              }else{
+                temp_id = node.id.toString();
+              }
+              if(node.x === undefined || node.y === undefined){
+                temp_x = 1;
+                temp_y = 1;
+              }else{
+                temp_x = node.x;
+                temp_y = node.y;
+              }
+              ctx.beginPath();
+              ctx.arc(temp_x, temp_y, NODE_R * 0, 0, 2 * Math.PI, false);
+              ctx.fillStyle = node === hoverNode ? '' : '#000000';
+              ctx.fill();
+              ctx.fillText(temp_id, temp_x+5, temp_y-6);
+            })
+            .onNodeDragEnd(node => {
+              node.fx = node.x;
+              node.fy = node.y;
+            })
+            .onNodeClick(node => {
+              this.Graph.centerAt(node.x, node.y, 1000);
+              this.Graph.zoom(8, 2000);
+            })
 
-      // Link //
-      .linkSource('source')
-      .linkTarget('target')
-      .linkLabel('value')  
-      .linkCanvasObjectMode(() => 'after')
-      .linkCanvasObject((link, ctx) => {
+            // Link //
+            .linkSource('source')
+            .linkTarget('target')
+            .linkLabel('value')  
+            .linkCanvasObjectMode(() => 'after')
+            .linkCanvasObject((link, ctx) => {
 
-      })
-      .onLinkHover(link => {
-        highlightNodes.clear();
-        highlightLinks.clear();
+            })
+            .onLinkHover(link => {
+              highlightNodes.clear();
+              highlightLinks.clear();
 
-        if (link) {
-          highlightLinks.add(link);
-          highlightNodes.add(link.source);
-          highlightNodes.add(link.target);
-        }
-      })
-      .autoPauseRedraw(false)
-      .linkWidth(link => highlightLinks.has(link) ? 5 : 1)
-      .linkDirectionalParticles(4)
-      .linkDirectionalParticleWidth(link => highlightLinks.has(link) ? 4 : 0)
-      .onLinkClick(link => {
-        const temp_source = JSON.stringify(link.source); 
-        const temp_target = JSON.stringify(link.target); 
-        const start = temp_source.substring(7, temp_source.indexOf(",")-1); 
-        const end = temp_target.substring(7, temp_target.indexOf(",")-1); 
-        
-        // Redirect to Compare page.
-        this.show_comparison(start, end);
-      })
+              if (link) {
+                highlightLinks.add(link);
+                highlightNodes.add(link.source);
+                highlightNodes.add(link.target);
+              }
+            })
+            .autoPauseRedraw(false)
+            .linkWidth(link => highlightLinks.has(link) ? 5 : 1)
+            .linkDirectionalParticles(4)
+            .linkDirectionalParticleWidth(link => highlightLinks.has(link) ? 4 : 0)
+            .onLinkClick(link => {
+              const temp_source = JSON.stringify(link.source); 
+              const temp_target = JSON.stringify(link.target); 
+              const start = temp_source.substring(7, temp_source.indexOf(",")-1); 
+              const end = temp_target.substring(7, temp_target.indexOf(",")-1); 
+              
+              // Redirect to Compare page.
+              this.show_comparison(start, end);
+            })
+    }else if(this.mode == "3D"){
+      this.Graph = ForceGraph3D()(document.getElementById("graph") as HTMLCanvasElement)
+        .graphData(GraphObject)
+        .backgroundColor('#181836')
+        // Node //
+        .nodeId('id')
+        .nodeVal('val')
+        .nodeLabel('id')
+        .nodeAutoColorBy('group')
+        .nodeOpacity(1)
+        // // To show id as a node.
+        // .nodeThreeObject(node => {
+        //   let temp_id: string;
+        //   let temp_color: string;
+        //   if(node.id === undefined){
+        //     temp_id = "";
+        //   }else{
+        //     temp_id = node.id.toString();
+        //   }
+        //   if(node.color === undefined){
+        //     temp_color = "#000000";
+        //   }else{
+        //     temp_color = node.color;
+        //   }
 
+        //   const sprite = new SpriteText(temp_id);
+        //   sprite.material.depthWrite = false; // make sprite background transparent
+        //   sprite.color = temp_color;
+        //   sprite.textHeight = 8;
+        //   return sprite;
+        // })
+        .onNodeDragEnd(node => {
+          node.fx = node.x;
+          node.fy = node.y;
+          node.fz = node.z;
+        })
+        .onNodeClick(node => {
+          let temp_x: number;
+          let temp_y: number;
+          let temp_z: number;
+          if(node.x === undefined || node.y === undefined || node.z === undefined){
+            temp_x = 1;
+            temp_y = 1;
+            temp_z = 1;
+          }else{
+            temp_x = node.x;
+            temp_y = node.y;
+            temp_z = node.z;
+          }
+          const distance = 40;
+          const distRatio = 1 + distance/Math.hypot(temp_x, temp_y, temp_z);
+          const newPos = node.x || node.y || node.z
+            ? { x: temp_x * distRatio, y: temp_y * distRatio, z: temp_z * distRatio }
+            : { x: 0, y: 0, z: distance }; // special case if node is in (0,0,0)
+
+          this.Graph.cameraPosition(
+            newPos, // new position
+            node, // lookAt ({ x, y, z })
+            3000  // ms transition duration
+          );
+        })
+        // Link //
+        .linkSource('source')
+        .linkTarget('target')
+        .linkLabel('value')  
+        .linkAutoColorBy('group')
+        .linkOpacity(0.4)
+        .linkWidth(0.6)
+        .linkThreeObjectExtend(true)
+        .onLinkClick(link => {
+          const temp_source = JSON.stringify(link.source); 
+          const temp_target = JSON.stringify(link.target); 
+          const start = temp_source.substring(7, temp_source.indexOf(",")-1); 
+          const end = temp_target.substring(7, temp_target.indexOf(",")-1); 
+          
+          // Redirect to Compare page.
+          this.show_comparison(start, end);
+        })
+    }
   }
 
   show_comparison(start: String, end: String) {
@@ -287,6 +399,7 @@ export class GraphComponent implements OnInit {
       queryParams: {
         language: this.current_language,
         file_id: this.file_id,
+        mode: this.mode,
         min: this.minValue,
         max: this.maxValue
       }
@@ -303,10 +416,12 @@ export class GraphComponent implements OnInit {
       queryParams: {
         language: this.current_language,
         file_id: this.file_id,
+        mode: this.mode,
         min: 1,
         max: 100
       }
     });
+
     var url = this.router.serializeUrl(urlTree);
     window.open(url, '_self');
   }
@@ -323,5 +438,35 @@ export class GraphComponent implements OnInit {
 
     this.navbar_language_1 = "TH";
     this.navbar_language_2 = "EN";
+  }
+
+  change_to_2d(){
+    var urlTree = this.router.createUrlTree(['/Graph'], {
+      queryParams: {
+        language: this.current_language,
+        file_id: this.file_id,
+        mode: "2D",
+        min: this.minValue,
+        max: this.maxValue
+      }
+    });
+
+    var url = this.router.serializeUrl(urlTree);
+    window.open(url, '_self');
+  }
+
+  change_to_3d(){
+    var urlTree = this.router.createUrlTree(['/Graph'], {
+      queryParams: {
+        language: this.current_language,
+        file_id: this.file_id,
+        mode: "3D",
+        min: this.minValue,
+        max: this.maxValue
+      }
+    });
+
+    var url = this.router.serializeUrl(urlTree);
+    window.open(url, '_self');
   }
 }

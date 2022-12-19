@@ -10,7 +10,7 @@
             </ul>
             <ul class="right navbar-nav ms-auto">
                 <li style="margin-top: 3px; margin-right: 10px;">
-                    <div style="width: 175px; background-color: white; border-radius: 5px; padding: 2px;">
+                    <div style="width: 175px; background-color: rgba(255, 255, 255, 0); border-radius: 5px; padding: 2px;">
                         <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"></ngx-slider>
                     </div>
                 </li>
@@ -34,7 +34,11 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav" >
                 <li class="nav-card-item-right" style="margin-top: 8px;">
-                    <button id="export" style="width: 60px; height: 50px;" type="button" class="btn btn-danger px-3 text-white"><i class="fas fa-download" style="font-size: 25px;" aria-hidden="true"></i><br></button>
+                    <button (click)="change_to_2d()" id="2d" style="width: 60px; height: 50px;" type="button" class="btn px-3 text-white" [ngClass]="{'active': is2D, 'btn-primary': is2D, 'btn-secondary': is3D}">2D</button>
+                </li>
+                <div style="width: 12px;"></div>
+                <li class="nav-card-item-right" style="margin-top: 8px;">
+                    <button (click)="change_to_3d()" id="3d" style="width: 60px; height: 50px;" type="button" class="btn px-3 text-white" [ngClass]="{'active': is3D, 'btn-primary': is3D, 'btn-secondary': is2D}">3D</button>
                 </li>
             </ul>
             <div id="myModal" class="modal">
@@ -58,7 +62,10 @@
                 </div>
             </div>      
             <ul class="right navbar-nav ms-auto">
-                <li class="nav-card-item-right" style="margin-top: 8px;">
+                <li class="nav-card-item-right" style="margin-top: 8px; margin-left: 10px;">
+                    <button id="export" style="width: 60px; height: 50px;" type="button" class="btn btn-danger px-3 text-white"><i class="fas fa-download" style="font-size: 25px;" aria-hidden="true"></i><br></button>
+                </li>
+                <li class="nav-card-item-right" style="margin-top: 8px; margin-left: 10px;">
                     <button style="width: 60px; height: 50px;" id="hint-btn" type="button" class="btn btn-secondary px-3 text-white"><i class="fas fa-question-circle text" style="font-size: 25px; padding-top: 3px;" aria-hidden="true"></i><br></button>
                 </li>
             </ul>

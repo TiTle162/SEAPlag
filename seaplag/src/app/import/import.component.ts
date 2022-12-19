@@ -49,6 +49,7 @@ export class ImportComponent implements OnInit {
             queryParams: {
               language: this.current_language,
               file_id: new_file_name,
+              mode: "2D",
               min: 1,
               max: 100
             },
