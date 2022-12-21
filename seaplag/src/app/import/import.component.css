@@ -1,11 +1,211 @@
-html{
+html {
     scroll-behavior: smooth;
 }
 
-.content-box{
+.content-box {
     /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px; */
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
-.obj-box{
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;}
+.obj-box {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+
+.fs-12 {
+    font-size: 12px;
+}
+
+
+/* //extra for button */
+/*! CSS Used from: http://localhost:4200/styles.css */
+
+::after,
+::before {
+    box-sizing: border-box;
+}
+
+button {
+    border-radius: 0;
+}
+
+button:focus:not(:focus-visible) {
+    outline: 0;
+}
+
+button {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+button {
+    overflow: visible;
+}
+
+button {
+    text-transform: none;
+}
+
+[type='button'],
+button {
+    -webkit-appearance: button;
+}
+
+[type='button']::-moz-focus-inner,
+button::-moz-focus-inner {
+    padding: 0;
+    border-style: none;
+}
+
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn {
+        transition: none;
+    }
+}
+
+.btn:hover {
+    color: #212529;
+    text-decoration: none;
+}
+
+.btn:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn:disabled {
+    opacity: 0.65;
+}
+
+.mt-2 {
+    margin-top: 0.5rem !important;
+}
+
+.mb-5 {
+    margin-bottom: 3rem !important;
+}
+
+.px-5 {
+    padding-right: 3rem !important;
+}
+
+.px-5 {
+    padding-left: 3rem !important;
+}
+
+.mx-auto {
+    margin-right: auto !important;
+}
+
+.mx-auto {
+    margin-left: auto !important;
+}
+
+@media print {
+
+    *,
+    ::after,
+    ::before {
+        text-shadow: none !important;
+        box-shadow: none !important;
+    }
+}
+
+.btn.btnIcon1 {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.btn.btnIcon1 {
+    font-size: 14px;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    scroll-behavior: smooth;
+    height: 5px !important;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+* {
+    outline: none !important;
+}
+
+.btn.btnIcon1 {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.btn.btnIcon1 {
+    font-size: 14px;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    scroll-behavior: smooth;
+    height: 5px !important;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+* {
+    outline: none !important;
+}
+
+.btn.btnIcon1 {
+    padding: 10px 12px;
+    border-radius: 5px;
+   
+    background-color: rgb(215, 62, 42);
+    color: #fff;
+}
+
+.btn.btnIcon1:hover {
+    color: rgb(215, 62, 42);
+    background-color: #fff;
+    border-color: rgb(215, 62, 42);
+}

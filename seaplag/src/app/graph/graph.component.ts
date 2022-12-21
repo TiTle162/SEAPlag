@@ -14,9 +14,9 @@ import { Options } from '@angular-slider/ngx-slider';
 export class GraphComponent implements OnInit {
   navbar_language_1: string = "";
   navbar_language_2: string = "";
-
   navbar_scope_confirm: string = "";
   navbar_scope_reset: string = "";
+  title: string = "";
 
   // Slider options.
   minValue: number = 1;
@@ -252,6 +252,8 @@ export class GraphComponent implements OnInit {
 
     this.navbar_scope_confirm = "ยืนยัน";
     this.navbar_scope_reset = "รีเซ็ต";
+
+    this.title = "คู่มือการใช้งานระบบ";
   }
 
   switch_to_eng(){
@@ -260,5 +262,8 @@ export class GraphComponent implements OnInit {
 
     this.navbar_scope_confirm = "Confirm";
     this.navbar_scope_reset = "Reset";
+
+    this.title = "USER MANUAL";
+
   }
 }

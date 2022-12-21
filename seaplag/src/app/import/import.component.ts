@@ -109,6 +109,7 @@ export class ImportComponent implements OnInit {
   ref1: string = "";
   ref2: string = "";
   ref3: string = "";
+  Or: string = "";
 
   ngOnInit() {
     this.switch_to_th();
@@ -147,7 +148,8 @@ export class ImportComponent implements OnInit {
   }
 
   switch_to_th(){
-    this.file_upload = "จุดวางไฟล์ซอร์สโค้ด (.zip)";
+    this.file_upload = "จุดวางไฟล์ซอร์สโค้ด (.zip) ";
+    this.Or ="หรือ";
 
     this.navbar_menu_1 = "เป้าหมาย";
     this.navbar_menu_2 = "วิธีใช้งาน";
@@ -176,9 +178,9 @@ export class ImportComponent implements OnInit {
     this.how_to_step1 = "นําเข้าข้อมูล";
     this.how_to_step2 = "แสดงผลลัพธ์";
     this.how_to_step3 = "ดูรายละเอียด";
-    this.how_to_step1_detail = "...";
-    this.how_to_step2_detail = "...";
-    this.how_to_step3_detail = "...";
+    this.how_to_step1_detail = "เมนูสำหรับนำเข้าไฟล์ข้อมูลซอร์สโค้ดที่ผู้ใช้ต้องการตรวจสอบนำเข้าสู่ระบบ ซึ่งผู้ใช้นั้นจำเป็นต้องนำเข้าข้อมูลที่อยู่ในรูปแบบของไฟล์ .zip เพื่อตรวจสอบความคล้ายคลึงของซอร์สโค้ด ";
+    this.how_to_step2_detail = "เมนูสำหรับแสดงกราฟข้อมูลความคล้ายคลึงกันของซอร์สโค้ด โดยผู้ใช้สามารถกำหนดขอบเขตของเปอร์เซ็นควมคล้ายคลึงของซอร์สโค้ดได้ และเลือกข้อมูลเพื่อใช้ในการตรวจสอบข้อมูลในหน้าถัดไป";
+    this.how_to_step3_detail = "เมนูสำหรับแสดงการเปรียบเทียบซอร์สโค้ดตามเปอร์เซ็นความคล้ายคลึงกันของซอร์สโค้ดที่ผู้ใช้ทำการเลือก โดยหน้าจอจะแสดงข้อมูลไฟล์ที่มีความคล้ายคลึงกัน และทำการภาพรวมของแสดงเปอร์เซ็นความคล้ายคลึงกันของซอร์สโค้ด";
 
     this.credit_word = "เครดิต";
     this.front_end_dev_name = "นางสาวพรนภัส เขียวอิ่ม";
@@ -205,7 +207,8 @@ export class ImportComponent implements OnInit {
   }
 
   switch_to_eng(){
-    this.file_upload = "Drag and drop file source code here. (.zip)";
+    this.file_upload = "Drag and Drop your file source code here. (.zip) ";
+    this.Or = "OR";
 
     this.navbar_menu_1 = "Objectives";
     this.navbar_menu_2 = "How to use";
@@ -234,9 +237,9 @@ export class ImportComponent implements OnInit {
     this.how_to_step1 = "Import file";
     this.how_to_step2 = "Show result";
     this.how_to_step3 = "View details";
-    this.how_to_step1_detail = "Support for Zip files to verify source code replication.";
-    this.how_to_step2_detail = "Displays a graph showing a summary of the association of the desired data.";
-    this.how_to_step3_detail = "Display the details of the source code file according to the similarity percentage required by the user.";
+    this.how_to_step1_detail = "The menu for importing source code data files that users want to check into the system. The user needs to import the data in the form of a zip file to verify the similarity of the source code.";
+    this.how_to_step2_detail = "The menu for displaying similarity graphs of source code, The user can set the extent of the similarity percentage of the source code. and select the information to be used to verify the information on the next page.";
+    this.how_to_step3_detail = "The menu to display source code comparison based on the source code similarity percentage selected by the user. The screen will display similar file information. And make an overview of showing the similarity percentage of the source code.";
 
     this.credit_word = "Credits";
     this.front_end_dev_name = "Ms. Pornnapas Khiaw-im";
