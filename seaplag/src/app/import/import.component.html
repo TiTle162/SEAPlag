@@ -51,6 +51,7 @@
                         style="padding-top: 30px; font-size: 100px;">SEA</span><span class="text-danger"
                         style="padding-top: 30px; font-size: 100px;"> Plag.</span></h1>
                 <div class="front-page">
+<<<<<<< HEAD
                     <div class="container center">
                         <!-- test -->
                         <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
@@ -73,6 +74,43 @@
                 </div>
                 <a routerLink="/Graph" routerLinkActive="active" ariaCurrentWhenActive="page" class="blue-btn">Portfolio</a>
                 <img src="../../assets/img/intro.png" alt="">
+=======
+                    <div class="container center" style="width: 720px;">
+                        <div class="container">
+                            <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
+                            (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+                                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                                    <div style="font-size: 25px;">
+                                        {{file_upload}}
+                                    </div>
+                                <button hidden class="btn btn-info text-white" type="button" (click)="openFileSelector()">Browse Files</button>
+                                </ng-template>
+                            </ngx-file-drop>
+                        </div>
+                        <br>
+                        <div class="container">
+                            <span class="text-warning">{{suggestion_1}}</span>
+                            &nbsp; 
+                            <span class="text-secondary">{{suggestion_2}}</span> 
+                        </div>
+                        <!-- <div class="upload-table">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="upload-name-style">
+                                    <tr *ngFor="let item of files; let i=index">
+                                        <td><strong>{{ item.relativePath }}</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> -->
+                    </div>
+                </div>
+            <img src="../../assets/img/intro.png" alt="">
+>>>>>>> 5f5d83070a8cc8fa7f67271d8b86a7d3c73830a8
             </div>
 
             <!-- Clients -->

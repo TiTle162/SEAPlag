@@ -1,4 +1,5 @@
 import { Component, OnInit  } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
 
 @Component({
@@ -8,6 +9,7 @@ import * as $ from 'jquery';
 })
 export class DetailsComponent implements OnInit {
   current_year: any = "";
+  file_id: string = "";
   navbar_language_1: string = "";
   navbar_language_2: string = "";
   link_to_jplag: string = "";
@@ -22,8 +24,30 @@ export class DetailsComponent implements OnInit {
   ref2: string = "";
   ref3: string = "";
 
+  isTH: boolean = false;
+  isEN: boolean = false;
+
+  constructor(private route: ActivatedRoute){}
+
   ngOnInit() {
-    this.switch_to_th();
+    var params = this.route.snapshot.queryParams;
+    var language = params['language'];
+    var file_id = params['file_id'];
+
+    this.file_id = file_id;
+    if(language == "TH"){
+      this.isTH = true;
+      this.isEN = false;
+      this.switch_to_th();
+    }else if(language == "EN"){
+      this.isTH = false;
+      this.isEN = true;
+      this.switch_to_eng();
+    }else{
+      this.isTH = true;
+      this.isEN = false;
+      this.switch_to_th();
+    }
 
     $(document).ready(function(){
       // left-nav-bar
