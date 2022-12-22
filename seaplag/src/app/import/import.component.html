@@ -47,51 +47,35 @@
             <!-- Intro -->
             <br><br>
             <div class="intro text-center">
-                <h1>{{welcome_word}}<br><span class="text-info"
-                        style="padding-top: 30px; font-size: 100px;">SEA</span><span class="text-danger"
-                        style="padding-top: 30px; font-size: 100px;"> Plag.</span></h1>
+                <h1>{{welcome_word}}<br>
+                    <span class="text-info" style="padding-top: 30px; font-size: 100px;">SEA</span>
+                    <span class="text-danger" style="padding-top: 30px; font-size: 100px;"> Plag.</span>
+                </h1>
                 <div class="front-page">
-<<<<<<< HEAD
-                    <div class="container center">
-                        <!-- test -->
-                        <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
-                            (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
-                            <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                                <div>
-                                    <!-- <img src="../../assets/img/icon/upload.png" /><br> -->
-                                    <strong>{{file_upload}}</strong><br>
-                                    <strong style="color: rgb(215, 62, 42);">{{Or}}</strong>
-                                    <button type="button" class="btn btnIcon1 mx-auto "
-                                        (click)="openFileSelector()">Browse Files</button>
-                                    <!-- <p class="fs-12">
+                    <div class="container center" style="width: 95%;">
+                        <div class="container" >
+                            <ngx-file-drop (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)"
+                                (onFileLeave)="fileLeave($event)">
+                                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                                    <div >
+                                        <!-- <img src="../../assets/img/icon/upload.png" /><br> -->
+                                        <strong>{{file_upload}}</strong><br>
+                                        <strong style="color: rgb(215, 62, 42);">{{Or}}</strong>
+                                        <button type="button" class="btn btnIcon1 mx-auto "
+                                            (click)="openFileSelector()">Browse Files</button>
+                                        <!-- <p class="fs-12">
                               <strong class="text-orange mr-1">Note:</strong>
                               <span>Maximum 5 documents, having 20 MB each can be uploaded.</span>
                             </p> -->
-                                </div>
-                            </ng-template>
-                        </ngx-file-drop>
-                    </div>
-                </div>
-                <a routerLink="/Graph" routerLinkActive="active" ariaCurrentWhenActive="page" class="blue-btn">Portfolio</a>
-                <img src="../../assets/img/intro.png" alt="">
-=======
-                    <div class="container center" style="width: 720px;">
-                        <div class="container">
-                            <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
-                            (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
-                                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                                    <div style="font-size: 25px;">
-                                        {{file_upload}}
                                     </div>
-                                <button hidden class="btn btn-info text-white" type="button" (click)="openFileSelector()">Browse Files</button>
                                 </ng-template>
                             </ngx-file-drop>
                         </div>
                         <br>
                         <div class="container">
                             <span class="text-warning">{{suggestion_1}}</span>
-                            &nbsp; 
-                            <span class="text-secondary">{{suggestion_2}}</span> 
+                            &nbsp;
+                            <span class="text-secondary">{{suggestion_2}}</span>
                         </div>
                         <!-- <div class="upload-table">
                             <table class="table">
@@ -109,8 +93,7 @@
                         </div> -->
                     </div>
                 </div>
-            <img src="../../assets/img/intro.png" alt="">
->>>>>>> 5f5d83070a8cc8fa7f67271d8b86a7d3c73830a8
+                <img src="../../assets/img/intro.png" alt="">
             </div>
 
             <!-- Clients -->
@@ -119,16 +102,21 @@
                 </p>
                 <div class="client-logo">
                     <div><img src="../../assets/img/icon/Color_java.png"
-                            style="margin-right: 40px; margin-left: 40px; padding-top: 0px; width: 110px; height: auto;" alt=""></div>
+                            style="margin-right: 40px; margin-left: 40px; padding-top: 0px; width: 110px; height: auto;"
+                            alt=""></div>
                     <div><img src="../../assets/img/icon/Color_c++.png"
-                            style="margin-right: 40px; margin-left: 40px; padding-top: 0px; width: 70px; height: auto;" alt=""></div>
+                            style="margin-right: 40px; margin-left: 40px; padding-top: 0px; width: 70px; height: auto;"
+                            alt=""></div>
                     <div><img src="../../assets/img/icon/Color_cshap.png"
-                            style="margin-right: 40px; margin-left: 40px; padding-top: 0px; width: 65px; height: auto;" alt=""></div>
+                            style="margin-right: 40px; margin-left: 40px; padding-top: 0px; width: 65px; height: auto;"
+                            alt=""></div>
                     <div><img src="../../assets/img/icon/Color_python.png"
-                            style="margin-right: 40px; margin-left: 40px; padding-top: 5px; width: auto; height: auto;" alt=""></div>
+                            style="margin-right: 40px; margin-left: 40px; padding-top: 5px; width: auto; height: auto;"
+                            alt=""></div>
                     <div><img src="../../assets/img/icon/Color_go.png"
-                            style="margin-right: 40px; margin-left: 40px; padding-top: 10px; width: 120px; height: auto;" alt=""></div>
-                        
+                            style="margin-right: 40px; margin-left: 40px; padding-top: 10px; width: 120px; height: auto;"
+                            alt=""></div>
+
                     <div><img src="../../assets/img/icon/Color_kotlin.png"
                             style="padding-top: 10px; width: 150px; height: 50px;" alt=""></div>
                     <div><img src="../../assets/img/icon/Color_swift.png"
@@ -138,7 +126,6 @@
                     <div><img src="../../assets/img/icon/Color_r.png"
                             style="padding-top: 0px; width: 80px; height: auto;" alt=""></div>
                 </div>
-
             </div>
 
             <!-- Category -->
@@ -186,14 +173,14 @@
                         </div>
                         <div class="text">
                             <h1 class="text-info">1. {{how_to_step1}}</h1>
-                            <p class="front-page" style="padding-right: 45px;">{{how_to_step1_detail}}</p>
+                            <p class="front-page">{{how_to_step1_detail}}</p>
                             <!-- <a href="" class="main-btn">Read More</a> -->
                         </div>
                     </div>
                     <div class="second-variation">
                         <div class="text" style="padding-left: 50px;">
                             <h1 class="text-info">2. {{how_to_step2}}</h1>
-                            <p class="front-page" style="padding-right: 32px;">{{how_to_step2_detail}}</p>
+                            <p class="front-page">{{how_to_step2_detail}}</p>
                             <!-- <a href="" class="main-btn">Read More</a> -->
                         </div>
                         <div class="img">
@@ -207,7 +194,7 @@
                         </div>
                         <div class="text">
                             <h1 class="text-info">3. {{how_to_step3}}</h1>
-                            <p class="front-page" style="padding-right: 45px;">{{how_to_step3_detail}}</p>
+                            <p class="front-page">{{how_to_step3_detail}}</p>
                             <!-- <a href="" class="main-btn">Read More</a> -->
                         </div>
                     </div>

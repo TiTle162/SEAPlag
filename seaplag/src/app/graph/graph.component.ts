@@ -27,18 +27,29 @@ export class GraphComponent implements OnInit {
   mode: string = "";
   navbar_language_1: string = "";
   navbar_language_2: string = "";
-<<<<<<< HEAD
-  navbar_scope_confirm: string = "";
-  navbar_scope_reset: string = "";
+
   title: string = "";
-=======
+  UM01: string ="";
+  UM02: string ="";
+  UM03: string ="";
+  UM04: string ="";
+  UM05: string ="";
+  UM06: string ="";
+
+  btn01: string ="";
+  btn02: string ="";
+  btn03: string ="";
+  btn04: string ="";
+  btn05: string ="";
+  btn06: string ="";
+
+
 
   isTH: boolean = false;
   isEN: boolean = false;
 
   is2D: boolean = false;
   is3D: boolean = false;
->>>>>>> 5f5d83070a8cc8fa7f67271d8b86a7d3c73830a8
 
   // Slider options.
   minValue: number = 1;
@@ -437,14 +448,21 @@ export class GraphComponent implements OnInit {
 
     this.navbar_language_1 = "ไทย";
     this.navbar_language_2 = "อังกฤษ";
-<<<<<<< HEAD
+    this.title = "คู่มือการใช้งาน";
+    this.UM01 = "ผู้ใช้สามารถกำหนดขอบเขตเปอร์เซนต์ความคล้ายคลึงกันของข้อมูลซอร์สโค้ดบนกราฟที่ผู้ใช้ต้องการแสดง";
+    this.UM02 = "ปุ่มสำหรับยืนยันขอบเขตเปอร์เซนต์ความคล้ายคลึงกันของข้อมูลซอร์สโค้ดบนกราฟที่ผู้ใช้ต้องการ";
+    this.UM03 = "ปุ่มสำหรับปรับแก้ขอบเขตเปอร์เซนต์ความคล้ายคลึงกันของข้อมูลซอร์สโค้ดบนกราฟให้เป็นค่าเริ่มต้น";
+    this.UM04 = "ปุ่มสำหรับ";
+    this.UM05 = "ปุ่มสำหรับ";
+    this.UM06 = "ปุ่มสำหรับ";
 
-    this.navbar_scope_confirm = "ยืนยัน";
-    this.navbar_scope_reset = "รีเซ็ต";
 
-    this.title = "คู่มือการใช้งานระบบ";
-=======
->>>>>>> 5f5d83070a8cc8fa7f67271d8b86a7d3c73830a8
+    this.btn01 = "ขอบเขตข้อมูล";
+    this.btn02 = "ปุ่มยืนยัน";
+    this.btn03 = "ปุ่มรีเซ็ต";
+    this.btn04 = "ปุ่มบันทึกภาพ";
+    this.btn05 = "ปุ่มปรับ 2D";
+    this.btn06 = "ปุ่มปรับ 3D";
   }
 
   switch_to_eng(){
@@ -452,15 +470,23 @@ export class GraphComponent implements OnInit {
 
     this.navbar_language_1 = "TH";
     this.navbar_language_2 = "EN";
-  }
-
-<<<<<<< HEAD
-    this.navbar_scope_confirm = "Confirm";
-    this.navbar_scope_reset = "Reset";
-
     this.title = "USER MANUAL";
 
-=======
+    this.UM01 = "The user can define the similarity percentage range of the source code data on the graph that the user wants to display.";
+    this.UM02 = "Button for confirming the similarity percentage boundaries of the source code data on the graph that the user wants.";
+    this.UM03 = "Button for adjusting the similarity percentage region of the source data on the graph to the default value.";
+    this.UM04 = "Button for";
+    this.UM05 = "Button for";
+    this.UM06 = "Button for";
+
+    this.btn01 = "Scoop Data";
+    this.btn02 = "Confirm";
+    this.btn03 = "Reset";
+    this.btn04 = "Export";
+    this.btn05 = "2D Display";
+    this.btn06 = "3D Display";
+  }
+
   change_to_2d(){
     var urlTree = this.router.createUrlTree(['/Graph'], {
       queryParams: {
@@ -489,6 +515,5 @@ export class GraphComponent implements OnInit {
 
     var url = this.router.serializeUrl(urlTree);
     window.open(url, '_self');
->>>>>>> 5f5d83070a8cc8fa7f67271d8b86a7d3c73830a8
   }
 }

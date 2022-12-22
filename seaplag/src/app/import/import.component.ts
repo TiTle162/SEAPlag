@@ -161,16 +161,15 @@ export class ImportComponent implements OnInit {
   }
 
   switch_to_th(){
-<<<<<<< HEAD
+
     this.file_upload = "จุดวางไฟล์ซอร์สโค้ด (.zip) ";
     this.Or ="หรือ";
-=======
+
     this.current_language = "TH";
 
-    this.file_upload = "จุดวางไฟล์ซอร์สโค้ด (.zip)";
-    this.suggestion_1 = "คําแนะนํา: ";
-    this.suggestion_2 = "กรุณารีเฟรชหน้าจอนี้ หากระบบไม่แสดงกราฟผลลัพธ์ หลังจากนําเข้า .zip";
->>>>>>> 5f5d83070a8cc8fa7f67271d8b86a7d3c73830a8
+    // this.file_upload = "จุดวางไฟล์ซอร์สโค้ด (.zip)";
+    // this.suggestion_1 = "คําแนะนํา: ";
+    // this.suggestion_2 = "กรุณารีเฟรชหน้าจอนี้ หากระบบไม่แสดงกราฟผลลัพธ์ หลังจากนําเข้า .zip";
 
     this.navbar_menu_1 = "เป้าหมาย";
     this.navbar_menu_2 = "วิธีใช้งาน";
@@ -228,14 +227,10 @@ export class ImportComponent implements OnInit {
   }
 
   switch_to_eng(){
-<<<<<<< HEAD
     this.file_upload = "Drag and Drop your file source code here. (.zip) ";
     this.Or = "OR";
-=======
-    this.current_language = "EN";
 
-    this.file_upload = "Drag and drop file source code here. (.zip)";
->>>>>>> 5f5d83070a8cc8fa7f67271d8b86a7d3c73830a8
+    this.current_language = "EN";
 
     this.suggestion_1 = "HINTS: ";
     this.suggestion_2 = "Please refresh this page if graph result don't show up after import .zip file.";

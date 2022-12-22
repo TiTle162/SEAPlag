@@ -8,42 +8,31 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav" style="margin-left: 45px;">
             <ul class="navbar-nav">
-                <li class="nav-card-item bg-white">
-                    <a id="th" style="cursor: pointer;" class="nav-link active" (click)="switch_to_th()">
-                        <span><img src="../../assets/img/language/thailand.png" style="width: 20px;" alt=""></span>
-                        &nbsp;&nbsp;{{navbar_language_1}}
-                    </a>
-                </li>
-                <li class="nav-card-item bg-white">
-                    <a id="en" style="cursor: pointer;" class="nav-link" (click)="switch_to_eng()">
-                        <span><img src="../../assets/img/language/united-kingdom.png" style="width: 20px;"
-                                alt=""></span>
-                        &nbsp;&nbsp;{{navbar_language_2}}
-                    </a>
-                </li>
+
             </ul>
             <ul class="right navbar-nav ms-auto">
                 <li style="margin-top: 3px; margin-right: 10px;">
-                    <div style="width: 175px; background-color: white; border-radius: 5px; padding: 2px;">
+                    <div
+                        style="width: 175px; background-color: rgba(255, 255, 255, 0); border-radius: 5px; padding: 2px;">
                         <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"></ngx-slider>
                     </div>
                 </li>
-                <li class="nav-card-item-right" style="margin-top: 8px; margin-left: 10px;">
-                    <button style="width: 100px;" (click)="set_display_output()" type="button"
+                <li class="nav-card-item-right" style="margin-top: 14px; margin-left: 10px;">
+                    <button style="width: 60px; height: 50px;" (click)="set_display_output()" type="button"
                         class="btn btn-info px-3 text-white"><i class="fas fa-check"
-                            aria-hidden="true"></i><br><b>{{navbar_scope_confirm}}</b></button>
+                            aria-hidden="true"></i><br></button>
                 </li>
-                <li class="nav-card-item-right" style="margin-top: 8px; margin-left: 8px;">
-                    <button style="width: 100px;" (click)="reset_display_output()" type="button"
-                        class="btn btn-warning px-3 text-white"><i class="fas fa-undo"
-                            aria-hidden="true"></i><br><b>{{navbar_scope_reset}}</b></button>
+                <li class="nav-card-item-right" style="margin-top: 14px; margin-left: 10px;">
+                    <button style="width: 60px; height: 50px;" (click)="reset_display_output()" type="button"
+                        class="btn btn-warning px-3 text-white"><i class="fa fa-refresh"
+                            aria-hidden="true"></i><br></button>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
-<div class="container-fluid" style="padding-left: 0px;">
+<div id="graph-box" class="container-fluid" style="padding-left: 0px;">
     <div id="graph"></div>
 </div>
 
@@ -52,19 +41,27 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-card-item-right" style="margin-top: 8px;">
-                    <button id="export" style="width: 65px; height: 50px;" type="button"
-                        class="btn btn-danger px-3 text-white"><i class="fas fa-download" style="font-size: 25px;"
-                            aria-hidden="true"></i><br></button>
+                    <button (click)="change_to_2d()" id="2d" style="width: 60px; height: 50px;" type="button"
+                        class="btn px-3 text-white"
+                        [ngClass]="{'active': is2D, 'btn-primary': is2D, 'btn-secondary': is3D}">2D</button>
+                </li>
+                <div style="width: 12px;"></div>
+                <li class="nav-card-item-right" style="margin-top: 8px;">
+                    <button (click)="change_to_3d()" id="3d" style="width: 60px; height: 50px;" type="button"
+                        class="btn px-3 text-white"
+                        [ngClass]="{'active': is3D, 'btn-primary': is3D, 'btn-secondary': is2D}">3D</button>
                 </li>
             </ul>
             <div id="myModal" class="modal">
                 <div class="modal-content">
+
                     <!-- Modal Header -->
                     <div class="modal-header" id="modal-header">
                         <h4 class="modal-title" id="modal-title">
                             <img claass="w-100" src="../../assets/img/SEAPlag.png"
                                 style="width: 140px; height: 43px; border-radius: 5px;" alt="">
                         </h4>
+
                         <span type="button" class="close" data-dismiss="modal">
                             &times;
                         </span>
@@ -72,23 +69,164 @@
 
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <h3>{{title}}</h3>
+                        <div class="topnav  ">
+                            <!-- <h3 style="width: 50%;">{{title}}</h3> -->
+                            <!-- <div style="float: right;"> -->
+                            <ul class="navbar-nav"
+                                style="float: right; list-style-type: none;margin-top: 0px; padding: 0px;">
+                                <li class="nav-card-item bg-white " style="padding: 0px;">
+                                    <a id="th"
+                                        style="cursor: pointer; text-align: right;margin-right: 0px; padding: 15px;"
+                                        class="nav-link" [ngClass]="{'active': isTH}" (click)="switch_to_th()">
+                                        <span><img src="../../assets/img/language/thailand.png" style="width: 21px;"
+                                                alt=""></span>
+                                        &nbsp;&nbsp;{{navbar_language_1}}
+                                    </a>
+                                </li>
+                                <li class="nav-card-item bg-white" style="padding: 0px;">
+                                    <a id="en"
+                                        style="cursor: pointer;  text-align: right; margin-right: 0px; padding: 15px;"
+                                        class="nav-link" [ngClass]="{'active': isEN}" (click)="switch_to_eng()">
+                                        <span><img src="../../assets/img/language/united-kingdom.png"
+                                                style="width: 21px;" alt=""></span>
+                                        &nbsp;&nbsp;{{navbar_language_2}}
+                                    </a>
+                                </li>
+                            </ul>
+                            <h3 style="width: 40%; padding-top: 10px;">{{title}}</h3>
+                            <div class="row" style="margin-bottom: 40px; margin-top: 20px;">
+                                <div class="col-2" style="text-align: center;">
+                                    <img style="width: 100px; padding-top: 10px; padding-right: 0px;"
+                                        src="../../assets/img/icon/scorp.png" alt="">
+                                        <br> <b style="text-align: center;"> {{btn01}} </b>
+                                </div>
+                                <div class="col-10" style="margin: auto;">
+                                    {{UM01}}
+                                </div>
+                                <!-- {{UM01}} -->
+                            </div>
+                            <div class="row" style="margin-bottom: 40px; margin-top: 20px;">
+                                <div class="col-2" style="text-align: center;">
+                                    <img style="width: 50px; padding-top: 10px; padding-right: 0px;"
+                                        src="../../assets/img/icon/confirm.png" alt="">
+                                        <br> <b> {{btn02}} </b>
+
+                                </div>
+                                <div class="col-10" style="margin: auto;">
+                                    {{UM02}}
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 40px; margin-top: 20px;">
+                                <div class="col-2" style="text-align: center;">
+                                    <img style="width: 50px; padding-top: 10px; padding-right: 0px;"
+                                        src="../../assets/img/icon/reset.png" alt="">
+                                        <br> <b> {{btn03}} </b>
+
+                                </div>
+                                <div class="col-10" style="margin: auto;">
+                                    {{UM03}}
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 40px; margin-top: 20px;">
+                                <div class="col-2" style="text-align: center;">
+                                    <img style="width: 50px; padding-top: 10px; padding-right: 0px;"
+                                        src="../../assets/img/icon/Export.PNG" alt="">
+                                        <br> <b> {{btn04}} </b>
+
+                                </div>
+                                <div class="col-10" style="margin: auto;">
+                                    {{UM04}}
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 40px; margin-top: 20px;">
+                                <div class="col-2" style="text-align: center;">
+                                    <img style="width: 50px; padding-top: 10px; padding-right: 0px;"
+                                        src="../../assets/img/icon/2D.PNG" alt="">
+                                        <br><b> {{btn05}} </b>
+
+                                </div>
+                                <div class="col-10" style="margin: auto;">
+                                    {{UM05}}
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 40px; margin-top: 20px;">
+                                <div class="col-2" style="text-align: center;">
+                                    <img style="width: 50px; padding-top: 10px; padding-right: 0px;"
+                                        src="../../assets/img/icon/3D.PNG" alt="">
+                                        <br> <b> {{btn06}} </b>
+
+                                </div>
+                                <div class="col-10" style="margin: auto;">
+                                    {{UM06}}
+                                </div>
+                            </div>
+
+
+
+
+                            <!-- <div style="margin-bottom: 40px; margin-top: 15px;">
+                                <span><img style="width: 50px; margin-right: 80px; margin-left: 20px;"
+                                        src="../../assets/img/icon/confirm.png" alt=""> {{UM02}}</span>
+                            </div>
+                            <div style="margin-bottom: 40px; margin-top: 15px;">
+                                <span><img style="width: 50px; margin-right: 80px; margin-left: 20px;"
+                                        src="../../assets/img/icon/reset.png" alt=""> {{UM02}}</span>
+                            </div>
+                            <div style="margin-bottom: 40px; margin-top: 15px;">
+                                <span><img style="width: 50px; margin-right: 80px; margin-left: 20px;"
+                                        src="../../assets/img/icon/Export.PNG" alt=""> {{UM02}}</span>
+                            </div>
+                            <div style="margin-bottom: 40px; margin-top: 15px;">
+                                <span><img style="width: 50px; margin-right: 80px; margin-left: 20px;"
+                                        src="../../assets/img/icon/2D.PNG" alt=""> {{UM02}}</span>
+                            </div>
+                            <div style="margin-bottom: 40px; margin-top: 15px;">
+                                <span><img style="width: 50px; margin-right: 80px; margin-left: 20px;"
+                                        src="../../assets/img/icon/3D.PNG" alt=""> {{UM02}}</span>
+                            </div> -->
+                        </div>
+
                     </div>
                     <!-- Modal footer -->
-                    <!-- <div class="modal-footer">
-                        Modal Footer
-                    </div> -->
+                    <div class="modal-footer">
+                        ref. = test
+                    </div>
 
 
                     <!-- <span class="close">&times;</span> -->
                     <!-- <p>{{test}}</p> -->
+
+
+
+
+                    <!-- <ul class="navbar-nav" style="list-style-type: none;">
+                        <li class="nav-card-item bg-white">
+                            <a id="th" style="cursor: pointer;" class="nav-link" [ngClass]="{'active': isTH}" (click)="switch_to_th()">
+                                <span><img src="../../assets/img/language/thailand.png" style="width: 20px;" alt=""></span>
+                                &nbsp;&nbsp;{{navbar_language_1}}
+                            </a>
+                        </li>
+                        <li class="nav-card-item bg-white">
+                            <a id="en" style="cursor: pointer;" class="nav-link" [ngClass]="{'active': isEN}" (click)="switch_to_eng()">
+                                <span><img src="../../assets/img/language/united-kingdom.png" style="width: 20px;" alt=""></span>
+                                &nbsp;&nbsp;{{navbar_language_2}}
+                            </a>
+                        </li>
+                    </ul> -->
+                    <!-- <span class="close">&times;</span>
+                  <p>Some text in the Modal..</p> -->
                 </div>
             </div>
             <ul class="right navbar-nav ms-auto">
                 <li class="nav-card-item-right" style="margin-top: 8px; margin-left: 10px;">
-                    <button style="width: 65px; height: 50px;" id="hint-btn" type="button"
-                        class="btn btn-secondary px-3 text-white"><i class="fas fa-question-circle"
-                            style="font-size: 25px;" aria-hidden="true"></i><br></button>
+                    <button id="export" style="width: 60px; height: 50px;" type="button"
+                        class="btn btn-danger px-3 text-white"><i class="fas fa-download" style="font-size: 25px;"
+                            aria-hidden="true"></i><br></button>
+                </li>
+                <li class="nav-card-item-right" style="margin-top: 8px; margin-left: 10px;">
+                    <button style="width: 60px; height: 50px;" id="hint-btn" type="button"
+                        class="btn btn-secondary px-3 text-white"><i class="fas fa-question-circle text"
+                            style="font-size: 25px; padding-top: 3px;" aria-hidden="true"></i><br></button>
                 </li>
             </ul>
         </div>
