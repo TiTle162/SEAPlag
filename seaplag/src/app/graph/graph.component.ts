@@ -28,7 +28,9 @@ export class GraphComponent implements OnInit {
   navbar_language_1: string = "";
   navbar_language_2: string = "";
 
-  title: string = "";
+  title_1: string = "";
+  title_2: string = "";
+  title_3: string = "";
   UM01: string ="";
   UM02: string ="";
   UM03: string ="";
@@ -42,8 +44,6 @@ export class GraphComponent implements OnInit {
   btn04: string ="";
   btn05: string ="";
   btn06: string ="";
-
-
 
   isTH: boolean = false;
   isEN: boolean = false;
@@ -122,6 +122,12 @@ export class GraphComponent implements OnInit {
 
       //start create export 17-12-65
       // if 2D => .jpeg, else 3D => .html
+      if(mode == "2D"){
+        console.log("to .jpeg");
+      }else if(mode == "3D"){
+        console.log("to .html");
+      }
+      
       $("#export").click(function(){
         var element = jQuery("#graph")[0];
         html2canvas(element).then((canvas) => {
@@ -448,7 +454,9 @@ export class GraphComponent implements OnInit {
 
     this.navbar_language_1 = "ไทย";
     this.navbar_language_2 = "อังกฤษ";
-    this.title = "คู่มือการใช้งาน";
+    this.title_1 = "คู่มือ";
+    this.title_2 = "";
+    this.title_3 = "การใช้งาน";
     this.UM01 = "ผู้ใช้สามารถกำหนดขอบเขตเปอร์เซนต์ความคล้ายคลึงกันของข้อมูลซอร์สโค้ดบนกราฟที่ผู้ใช้ต้องการแสดง";
     this.UM02 = "ปุ่มสำหรับยืนยันขอบเขตเปอร์เซนต์ความคล้ายคลึงกันของข้อมูลซอร์สโค้ดบนกราฟที่ผู้ใช้ต้องการ";
     this.UM03 = "ปุ่มสำหรับปรับแก้ขอบเขตเปอร์เซนต์ความคล้ายคลึงกันของข้อมูลซอร์สโค้ดบนกราฟให้เป็นค่าเริ่มต้น";
@@ -470,7 +478,9 @@ export class GraphComponent implements OnInit {
 
     this.navbar_language_1 = "TH";
     this.navbar_language_2 = "EN";
-    this.title = "USER MANUAL";
+    this.title_1 = "USER ";
+    this.title_2 = " ";
+    this.title_3 = " MANUAL";
 
     this.UM01 = "The user can define the similarity percentage range of the source code data on the graph that the user wants to display.";
     this.UM02 = "Button for confirming the similarity percentage boundaries of the source code data on the graph that the user wants.";

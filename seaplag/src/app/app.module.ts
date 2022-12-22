@@ -3,16 +3,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { AppComponent } from './app.component';
-import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { GraphComponent } from './graph/graph.component';
 import { DetailsComponent } from './details/details.component';
 import { ImportComponent } from './import/import.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSliderModule } from '@angular/material/slider';
 import { PagefaultComponent } from './pagefault/pagefault.component';
 
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { NgxFileDropModule } from 'ngx-file-drop';
+
 import { HttpClientModule } from '@angular/common/http';
 
 const appRoute: Routes = [
@@ -36,11 +37,10 @@ const appRoute: Routes = [
     RouterModule.forRoot(appRoute),
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatSliderModule,
     FormsModule,
     NgxSliderModule,
-    HttpClientModule,
-    NgxFileDropModule
+    NgxFileDropModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -123,6 +123,7 @@ export class ImportComponent implements OnInit {
   ref2: string = "";
   ref3: string = "";
   Or: string = "";
+  choose_file: string = "";
 
   ngOnInit() {
     this.switch_to_th();
@@ -167,9 +168,8 @@ export class ImportComponent implements OnInit {
 
     this.current_language = "TH";
 
-    // this.file_upload = "จุดวางไฟล์ซอร์สโค้ด (.zip)";
-    // this.suggestion_1 = "คําแนะนํา: ";
-    // this.suggestion_2 = "กรุณารีเฟรชหน้าจอนี้ หากระบบไม่แสดงกราฟผลลัพธ์ หลังจากนําเข้า .zip";
+    this.suggestion_1 = "คําแนะนํา: ";
+    this.suggestion_2 = "กรุณารีเฟรชหน้าจอนี้ หากระบบไม่แสดงกราฟผลลัพธ์ หลังจากนําเข้า .zip";
 
     this.navbar_menu_1 = "เป้าหมาย";
     this.navbar_menu_2 = "วิธีใช้งาน";
@@ -224,6 +224,8 @@ export class ImportComponent implements OnInit {
     this.article = "บทความวิจัยที่เกี่ยวข้อง";
     this.copyright = "ลิขสิทธิ์";
     this.current_year = new Date().getFullYear()+543;
+
+    this.choose_file = "เลือกไฟล์";
   }
 
   switch_to_eng(){
@@ -288,6 +290,8 @@ export class ImportComponent implements OnInit {
     this.article = "Research articles";
     this.copyright = "Copyright";
     this.current_year = new Date().getFullYear();
+
+    this.choose_file = "Browse file";
   }
   
   random_file_name(){

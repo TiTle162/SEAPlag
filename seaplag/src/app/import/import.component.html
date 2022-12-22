@@ -58,21 +58,20 @@
                                 (onFileLeave)="fileLeave($event)">
                                 <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
                                     <div >
-                                        <!-- <img src="../../assets/img/icon/upload.png" /><br> -->
-                                        <strong>{{file_upload}}</strong><br>
-                                        <strong style="color: rgb(215, 62, 42);">{{Or}}</strong>
-                                        <button type="button" class="btn btnIcon1 mx-auto "
-                                            (click)="openFileSelector()">Browse Files</button>
-                                        <!-- <p class="fs-12">
-                              <strong class="text-orange mr-1">Note:</strong>
-                              <span>Maximum 5 documents, having 20 MB each can be uploaded.</span>
-                            </p> -->
+                                        <strong style="font-size: 20px;">{{file_upload}}</strong>
+                                        &nbsp;
+                                        &nbsp;
+                                        {{Or}}
+                                        &nbsp;
+                                        &nbsp;
+                                        <button type="button" class="btn btn-primary" style="margin-top: -5px;font-size: 18px;background-color: red; color: white;"
+                                            (click)="openFileSelector()">{{choose_file}}</button>
                                     </div>
                                 </ng-template>
                             </ngx-file-drop>
                         </div>
                         <br>
-                        <div class="container">
+                        <div class="container" style="font-size: 19px;">
                             <span class="text-warning">{{suggestion_1}}</span>
                             &nbsp;
                             <span class="text-secondary">{{suggestion_2}}</span>
@@ -173,14 +172,14 @@
                         </div>
                         <div class="text">
                             <h1 class="text-info">1. {{how_to_step1}}</h1>
-                            <p class="front-page">{{how_to_step1_detail}}</p>
+                            <p class="front-page" style="font-size: 19px;">{{how_to_step1_detail}}</p>
                             <!-- <a href="" class="main-btn">Read More</a> -->
                         </div>
                     </div>
                     <div class="second-variation">
                         <div class="text" style="padding-left: 50px;">
                             <h1 class="text-info">2. {{how_to_step2}}</h1>
-                            <p class="front-page">{{how_to_step2_detail}}</p>
+                            <p class="front-page" style="font-size: 19px;">{{how_to_step2_detail}}</p>
                             <!-- <a href="" class="main-btn">Read More</a> -->
                         </div>
                         <div class="img">
@@ -194,7 +193,7 @@
                         </div>
                         <div class="text">
                             <h1 class="text-info">3. {{how_to_step3}}</h1>
-                            <p class="front-page">{{how_to_step3_detail}}</p>
+                            <p class="front-page" style="font-size: 19px;">{{how_to_step3_detail}}</p>
                             <!-- <a href="" class="main-btn">Read More</a> -->
                         </div>
                     </div>
