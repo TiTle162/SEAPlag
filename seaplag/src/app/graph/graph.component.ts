@@ -37,6 +37,10 @@ export class GraphComponent implements OnInit {
   UM04: string ="";
   UM05: string ="";
   UM06: string ="";
+  UM07: string ="";
+  UM08: string ="";
+  UM09: string ="";
+
 
   btn01: string ="";
   btn02: string ="";
@@ -44,6 +48,10 @@ export class GraphComponent implements OnInit {
   btn04: string ="";
   btn05: string ="";
   btn06: string ="";
+  btn07: string ="";
+  btn08: string ="";
+  btn09: string ="";
+
 
   isTH: boolean = false;
   isEN: boolean = false;
@@ -460,9 +468,12 @@ export class GraphComponent implements OnInit {
     this.UM01 = "ผู้ใช้สามารถกำหนดขอบเขตเปอร์เซนต์ความคล้ายคลึงกันของข้อมูลซอร์สโค้ดบนกราฟที่ผู้ใช้ต้องการแสดง";
     this.UM02 = "ปุ่มสำหรับยืนยันขอบเขตเปอร์เซนต์ความคล้ายคลึงกันของข้อมูลซอร์สโค้ดบนกราฟที่ผู้ใช้ต้องการ";
     this.UM03 = "ปุ่มสำหรับปรับแก้ขอบเขตเปอร์เซนต์ความคล้ายคลึงกันของข้อมูลซอร์สโค้ดบนกราฟให้เป็นค่าเริ่มต้น";
-    this.UM04 = "ปุ่มสำหรับ";
-    this.UM05 = "ปุ่มสำหรับ";
-    this.UM06 = "ปุ่มสำหรับ";
+    this.UM04 = "ปุ่มสำหรับดาวน์โหลดกราฟ 2D เป็นรูปแบบไฟล์รูปภาพ และดาวน์โหลดกราฟ 3D ในรูปแบบไฟล์ html";
+    this.UM05 = "ปุ่มสำหรับเปลี่ยนการแสดงผลกราฟให้อยู่ในรูปแบบ 2D";
+    this.UM06 = "ปุ่มสำหรับเปลี่ยนการแสดงผลกราฟให้อยู่ในรูปแบบ 3D";
+    this.UM07 = "โฟลเดอร์หรือไดเรคทอรีย่อย ซึ่งใช้แทนผู้เป็นเจ้าของซอร์สโค้ดชุดนั้นๆ โดยแต่ละโหนดจะมีการแสดงชื่อของผู้เป็นเจ้าของชุดซอร์สโค้ดกำกับเอาไว้";
+    this.UM08 = "ความสัมพันธ์ระหว่างโหนดซึ่งในที่นี้คือร้อยละความคล้ายคลึงกันระหว่างชุดซอร์สโค้ด";
+    this.UM09 = "ความสามารถพิเศษที่กราฟสามารถทำงานได้ คือ 1) เมื่อผู้ใช้กดที่เส้นความสัมพันธ์ระบบจะไปที่หน้าถัดไป 2) เมื่อผู้ใช้ทำการกดที่โหนดระบบจะทำการซูมเจาะจงไปที่โหนดโดยตรง 3) ผู้ใช้สามารถปรับโหนดเพื่อตรวจสอบได้ง่ายขึ้นได้";
 
 
     this.btn01 = "ขอบเขตข้อมูล";
@@ -471,6 +482,11 @@ export class GraphComponent implements OnInit {
     this.btn04 = "ปุ่มบันทึกภาพ";
     this.btn05 = "ปุ่มปรับ 2D";
     this.btn06 = "ปุ่มปรับ 3D";
+    this.btn07 = "โหนด";
+    this.btn08 = "เส้นความสัมพันธ์";
+    this.btn09 = "กราฟข้อมูล";
+
+
   }
 
   switch_to_eng(){
@@ -485,9 +501,12 @@ export class GraphComponent implements OnInit {
     this.UM01 = "The user can define the similarity percentage range of the source code data on the graph that the user wants to display.";
     this.UM02 = "Button for confirming the similarity percentage boundaries of the source code data on the graph that the user wants.";
     this.UM03 = "Button for adjusting the similarity percentage region of the source data on the graph to the default value.";
-    this.UM04 = "Button for";
-    this.UM05 = "Button for";
-    this.UM06 = "Button for";
+    this.UM04 = "Button for download 2D chart as image file format. and download the chart 3D in html file format.";
+    this.UM05 = "Button for changing the graph display to be in 2D format.";
+    this.UM06 = "Button for changing the graph display to be in 3D format.";
+    this.UM07 = "folder or subdirectory Which represents the owner of that source code set, where each Node will display the name of the owner of the source code set.";
+    this.UM08 = "The relationship between nodes, here is the percentage similarity between source code sets or Source Code Similarity.";
+    this.UM09 = "The special ability that the graph can work on is 1) When the user presses on Branch, the system will go to the next page. 2) When the user presses on the node, the system will zoom directly to the specific node. 3) The user can adjust the node to check more easily.";
 
     this.btn01 = "Scoop Data";
     this.btn02 = "Confirm";
@@ -495,6 +514,11 @@ export class GraphComponent implements OnInit {
     this.btn04 = "Export";
     this.btn05 = "2D Display";
     this.btn06 = "3D Display";
+    this.btn07 = "Node";
+    this.btn08 = "Branch";
+    this.btn09 = "Graph";
+
+
   }
 
   change_to_2d(){
