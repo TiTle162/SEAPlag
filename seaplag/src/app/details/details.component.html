@@ -41,7 +41,7 @@
 <div class="container main">
   <div class="row">
     <div class="aboutus col-lg-8">
-      <h2 class="text-center" style="padding-top: 50px; font-size: 35px;">{{code_sim}}: <span class="blue-frame">100.00 &#65285;</span></h2>
+      <h2 class="text-center" style="padding-top: 50px; font-size: 35px;">{{code_sim}}: <span class="blue-frame">{{similarity}} &#65285;</span></h2>
 
         <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla illo corrupti debitis recusandae hic, ipsa sit quas? Autem fuga nihil voluptate dolorum similique dignissimos quaerat quidem consectetur nobis aliquid quae voluptatibus ex assumenda, amet adipisci eveniet porro soluta accusamus voluptatem doloremque, nulla impedit, culpa hic. Ad nihil vero, debitis fuga at nostrum modi! Expedita ab ex, dolores, fugit quis optio laborum sint, officiis molestiae temporibus ratione totam odio explicabo beatae voluptatem neque deleniti iusto eaque?  Ad nihil vero, debitis fuga at nostrum modi </p>
         <br>
@@ -69,7 +69,7 @@
         <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum ab est repudiandae quasi hic sapiente earum velit fuga odio neque numquam eligendi qui tenetur ipsam, animi atque expedita eaque nesciunt in.Atque ut blanditiis quos excepturi perferendis a, quidem modi.</p> -->
         <button class="btn btn-primary text-white" id="switch_mode">{{switch_mode}}</button> 
         <div class="team-person">
-            <div class="person">
+            <div class="person container">
               <span class="name text-info">Main.java</span>
               <textarea wrap="off" disabled name="" id="" cols="30" rows="10">
 
@@ -105,7 +105,7 @@
                 }
               </textarea>
             </div>
-            <div class="person">
+            <div class="person container">
               <span class="name text-danger">Main.java</span>
               <textarea wrap="off" disabled name="" id="" cols="30" rows="10">
 
@@ -161,11 +161,11 @@
         <div class="category">
           <div class="category-item" style="background-color: #24bbe6;">
             <!-- <img class="category-icon" src="../../assets/img/icon/analytics.svg" alt=""> -->
-            <h6 class="category-title text-center text-white">Bob</h6>
+            <h6 class="category-title text-center text-white">{{source}}</h6>
           </div>
           <div class="category-item" style="background-color: #ec5665;">
             <!-- <img class="category-icon" src="../../assets/img/icon/marketing.svg" alt=""> -->
-            <h6 class="category-title text-center text-white">Alice</h6>
+            <h6 class="category-title text-center text-white">{{target}}</h6>
           </div>
           <div class="category-item">
             <!-- <img class="category-icon" src="../../assets/img/icon/analytics.svg" alt=""> -->

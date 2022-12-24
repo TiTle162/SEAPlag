@@ -416,7 +416,7 @@ export class GraphComponent implements OnInit {
       queryParams: {
         language: this.current_language,
         file_id: this.file_id,
-        sourec: start,
+        source: start,
         target: end 
       }
     });

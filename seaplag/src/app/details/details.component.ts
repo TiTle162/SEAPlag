@@ -1,7 +1,7 @@
 import { Component, OnInit  } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
-// import Data from '62160162-62160164.json';
+import Data from '../../assets/datasets/62160002-62160008.json';
 
 @Component({
   selector: 'app-details',
@@ -9,6 +9,8 @@ import * as $ from 'jquery';
   styleUrls: ['./details.component.css']
 })
 export class DetailsComponent implements OnInit {
+  DetailsData: any = "";
+
   current_year: any = "";
   file_id: string = "";
   navbar_language_1: string = "";
@@ -28,12 +30,18 @@ export class DetailsComponent implements OnInit {
   isTH: boolean = false;
   isEN: boolean = false;
 
+  similarity: any = 0;
+  source: any = 0;
+  target: any = 0;
+
   constructor(private route: ActivatedRoute){}
 
   ngOnInit() {
     var params = this.route.snapshot.queryParams;
     var language = params['language'];
     var file_id = params['file_id'];
+    var source = params['source'];
+    var target = params['target'];
 
     this.file_id = file_id;
     if(language == "TH"){
@@ -49,6 +57,9 @@ export class DetailsComponent implements OnInit {
       this.isEN = false;
       this.switch_to_th();
     }
+
+    this.DetailsData = Data;
+    this.set_details_data(source, target);
 
     $(document).ready(function(){
       // left-nav-bar
@@ -66,7 +77,7 @@ export class DetailsComponent implements OnInit {
         if(compare_mode == 1){
           compare_mode = 2;
 
-          $('textarea').css("width", "810px");
+          $('textarea').css("width", "680px");
         }else if(compare_mode == 2){
           compare_mode = 1;
 
@@ -122,4 +133,17 @@ export class DetailsComponent implements OnInit {
     this.current_year = new Date().getFullYear();
   }
 
+  set_details_data(source: any, target: any){
+    console.log(this.DetailsData);
+
+    // Set similarity(percent).
+    var read_similarity = this.DetailsData.similarity;
+    this.similarity = Number(read_similarity*100).toFixed(2);
+
+    // Set source code owner.
+    this.source = source;
+    this.target = target;
+
+    // Loop file 
+  }
 }
