@@ -1,0 +1,23 @@
+# Create node stage.
+FROM node:18.12.1 as builder
+# Set working directory.
+WORKDIR /seaplag
+# Copy file from the current directory.
+COPY . .
+# Run 'npm install' and build build the application.
+RUN npm install && npm run ng build
+# Copy 3d-force-graph.ts configuration.
+COPY ./3d-force-graph.d.ts ./node_modules/3d-force-graph/dist/3d-force-graph.d.ts
+
+# Create the nginx stage for the serving the content.
+FROM nginx:alpine
+# Set the working directory to nginx assets directory.
+WORKDIR /usr/share/nginx/html
+# Remove the default nginx static files.
+RUN rm -rf ./*
+# Tell nginx first look at index.html
+COPY ./nginx.conf /etc/nginx/nginx.conf
+# Copy the static content from builder stage.
+COPY --from=builder /seaplag/dist/seaplag .
+# Container run the nginx with global directive and Daemon off. (Change to on in production)
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

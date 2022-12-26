@@ -77,11 +77,11 @@ export class DetailsComponent implements OnInit {
         if(compare_mode == 1){
           compare_mode = 2;
 
-          $('textarea').css("width", "680px");
+          $('textarea').css("width", "720px");
         }else if(compare_mode == 2){
           compare_mode = 1;
 
-          $('textarea').css("width", "410px");
+          $('textarea').css("width", "400px");
         }
       });
     });
