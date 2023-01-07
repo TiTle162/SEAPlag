@@ -1,7 +1,11 @@
-import { Component, OnInit  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
-import Data from '../../assets/datasets/62160002-62160008.json';
+import { HttpClient } from '@angular/common/http';
+
+import Data from '../../assets/datasets/62160005-62160006.json';
+import { data } from 'jquery';
+
 
 @Component({
   selector: 'app-details',
@@ -22,7 +26,7 @@ export class DetailsComponent implements OnInit {
   copyright: string = "";
   language: string = "";
   tool: string = "";
-  article: string ="";
+  article: string = "";
   ref1: string = "";
   ref2: string = "";
   ref3: string = "";
@@ -33,8 +37,17 @@ export class DetailsComponent implements OnInit {
   similarity: any = 0;
   source: any = 0;
   target: any = 0;
+  file: any[] = [];
+  file_name1: string = "";
+  file_name2: string = "";
 
-  constructor(private route: ActivatedRoute){}
+  file_path: any = "";
+  file_path2: any = "";
+
+  file_content: any = "";
+  file_content2: any = "";
+  default_file: boolean = false;
+  constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
   ngOnInit() {
     var params = this.route.snapshot.queryParams;
@@ -43,16 +56,15 @@ export class DetailsComponent implements OnInit {
     var source = params['source'];
     var target = params['target'];
 
-    this.file_id = file_id;
-    if(language == "TH"){
+    if (language == "TH") {
       this.isTH = true;
       this.isEN = false;
       this.switch_to_th();
-    }else if(language == "EN"){
+    } else if (language == "EN") {
       this.isTH = false;
       this.isEN = true;
       this.switch_to_eng();
-    }else{
+    } else {
       this.isTH = true;
       this.isEN = false;
       this.switch_to_th();
@@ -60,25 +72,27 @@ export class DetailsComponent implements OnInit {
 
     this.DetailsData = Data;
     this.set_details_data(source, target);
-
-    $(document).ready(function(){
+    if (this.default_file == false) {
+      this.get_file(this.DetailsData.matches[0]);
+    }
+    $(document).ready(function () {
       // left-nav-bar
-      $("#th").click(function(){
+      $("#th").click(function () {
         $("#en").removeClass("active");
         $("#th").addClass("active");
       });
-      $("#en").click(function(){
+      $("#en").click(function () {
         $("#th").removeClass("active");
         $("#en").addClass("active");
       });
 
       var compare_mode = 1;
-      $("#switch_mode").click(function(){
-        if(compare_mode == 1){
+      $("#switch_mode").click(function () {
+        if (compare_mode == 1) {
           compare_mode = 2;
 
           $('textarea').css("width", "680px");
-        }else if(compare_mode == 2){
+        } else if (compare_mode == 2) {
           compare_mode = 1;
 
           $('textarea').css("width", "410px");
@@ -87,7 +101,7 @@ export class DetailsComponent implements OnInit {
     });
   }
 
-  switch_to_th(){
+  switch_to_th() {
     this.navbar_language_1 = "ไทย";
     this.navbar_language_2 = "อังกฤษ";
 
@@ -107,10 +121,10 @@ export class DetailsComponent implements OnInit {
     this.tool = "เครื่องมือ";
     this.article = "บทความวิจัยที่เกี่ยวข้อง";
     this.copyright = "ลิขสิทธิ์";
-    this.current_year = new Date().getFullYear()+543;
+    this.current_year = new Date().getFullYear() + 543;
   }
 
-  switch_to_eng(){
+  switch_to_eng() {
     this.navbar_language_1 = "TH";
     this.navbar_language_2 = "EN";
 
@@ -133,17 +147,45 @@ export class DetailsComponent implements OnInit {
     this.current_year = new Date().getFullYear();
   }
 
-  set_details_data(source: any, target: any){
+  set_details_data(source: any, target: any) {
     console.log(this.DetailsData);
-
+    // this.DetailsData.matches[0]
     // Set similarity(percent).
     var read_similarity = this.DetailsData.similarity;
-    this.similarity = Number(read_similarity*100).toFixed(2);
+    this.similarity = Number(read_similarity * 100).toFixed(2);
 
     // Set source code owner.
     this.source = source;
     this.target = target;
 
     // Loop file 
+    this.file = this.DetailsData.matches;
+  }
+
+  get_file(file_data: any) {
+    console.log(file_data)
+    //set file name
+    if (this.default_file == true) {
+      this.file_name1 = file_data.value.file1
+      this.file_name2 = file_data.value.file2
+    } else {
+      this.file_name1 = file_data.file1
+      this.file_name2 = file_data.file2
+    }
+
+    // set file path
+    this.file_path = "assets/datasets/submissions/" + this.source + "/" + this.file_name1;
+    this.file_path2 = "assets/datasets/submissions/" + this.target + "/" + this.file_name2;
+
+    // get data file content
+    this.http.get(this.file_path, { responseType: 'text' })
+      .subscribe(
+        data => this.file_content = data
+      );
+    this.http.get(this.file_path2, { responseType: 'text' })
+      .subscribe(
+        data => this.file_content2 = data
+      );
+    this.default_file = true;
   }
 }

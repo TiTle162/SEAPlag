@@ -131,24 +131,41 @@ export class GraphComponent implements OnInit {
       //start create export 17-12-65
       // if 2D => .jpeg, else 3D => .html
       if(mode == "2D"){
-        console.log("to .jpeg");
+        $("#export").click(function(){
+          var element = jQuery("#graph")[0];
+          html2canvas(element).then((canvas) => {
+            let img = canvas.toDataURL('image/jpg');
+            const fakeLink = window.document.createElement('a');
+            fakeLink.download = 'Graph_SEAPlag.jpg';
+            fakeLink.href = img;
+            document.body.appendChild(fakeLink);
+            fakeLink.click();
+            document.body.removeChild(fakeLink);
+            fakeLink.remove();
+          });
+        });      
       }else if(mode == "3D"){
         console.log("to .html");
+        $("#export").click(function(){
+          // var element = jQuery("#graph")[0];
+          var element = window.document.body;
+  
+          html2canvas(element).then((canvas) => {
+            
+            let img = canvas.toDataURL();
+            // const fakeLink = window.document.createElement('a');
+            // fakeLink.download = 'Graph_SEAPlag.html';
+            // fakeLink.href = img;
+            // document.body.appendChild(fakeLink);
+            // fakeLink.click();
+            // document.body.removeChild(fakeLink);
+            // fakeLink.remove();
+           });
+        }); 
+
       }
       
-      $("#export").click(function(){
-        var element = jQuery("#graph")[0];
-        html2canvas(element).then((canvas) => {
-          let img = canvas.toDataURL('image/jpeg');
-          const fakeLink = window.document.createElement('a');
-          fakeLink.download = 'Graph_SEAPlag.jpeg';
-          fakeLink.href = img;
-          document.body.appendChild(fakeLink);
-          fakeLink.click();
-          document.body.removeChild(fakeLink);
-          fakeLink.remove();
-        });
-      });
+     
       //end create export 17-12-65
 
       $("#hint-btn").click(function(){
