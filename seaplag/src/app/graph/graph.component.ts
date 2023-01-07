@@ -3,9 +3,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
 
 import ForceGraph from 'force-graph/';
-import Data from '../../assets/datasets/overview.json';
 import html2canvas from 'html2canvas';
 import ForceGraph3D from '3d-force-graph';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import SpriteText from 'three-spritetext';
 
 import { Options } from '@angular-slider/ngx-slider';
@@ -23,7 +23,8 @@ export class GraphComponent implements OnInit {
   GraphData: any = "";  
   Graph: any = "";
   current_language: string = "";
-  file_id: string = "";
+  filename: string = "";
+  dest: string = ""
   mode: string = "";
   navbar_language_1: string = "";
   navbar_language_2: string = "";
@@ -41,7 +42,6 @@ export class GraphComponent implements OnInit {
   UM08: string ="";
   UM09: string ="";
 
-
   btn01: string ="";
   btn02: string ="";
   btn03: string ="";
@@ -51,7 +51,6 @@ export class GraphComponent implements OnInit {
   btn07: string ="";
   btn08: string ="";
   btn09: string ="";
-
 
   isTH: boolean = false;
   isEN: boolean = false;
@@ -67,17 +66,17 @@ export class GraphComponent implements OnInit {
     ceil: 100,
   };
 
-  constructor(private router: Router, private route: ActivatedRoute){}
+  constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient){}
 
   ngOnInit(){
     var params = this.route.snapshot.queryParams;
     var language = params['language'];
-    var file_id = params['file_id'];
+    this.filename = params['filename']; 
+    this.dest = params['dest'];
     this.mode = params['mode'];
     this.minValue = params['min'];
     this.maxValue = params['max'];
 
-    this.file_id = file_id;
     if(language == "TH"){
       this.isTH = true;
       this.isEN = false;
@@ -92,28 +91,48 @@ export class GraphComponent implements OnInit {
       this.switch_to_th();
     }
 
-    // Read JSON data.
-    if(this.mode == "2D"){
-      this.is2D = true;
-      this.is3D = false;
+    // Read data from backend server. 
+    // You could upload it like this:
+    const formData = new FormData()
+    formData.append('file', this.filename);
+    const headers = new HttpHeaders({
+      'path1': this.filename,
+      'path2': this.dest,
+    })
 
-      this.ForceGraph = require('force-graph');
-      this.GraphData = Data;
-    }else if(this.mode == "3D"){
-      this.is2D = false;
-      this.is3D = true;
+    this.http.post('http://localhost:4000/api/result', formData, { headers: headers })
+    .subscribe(data => {
+      const res = JSON.stringify(data);
+      if(!res.includes("error")){
+        // Read JSON data.
+        if(this.mode == "2D"){
+          this.is2D = true;
+          this.is3D = false;
 
-      this.ForceGraph3D = require('3d-force-graph');
-      this.SpriteText = require('three-spritetext');
-      this.GraphData = Data;
-    }else{
-      this.is2D = true;
-      this.is3D = false;
+          this.ForceGraph = require('force-graph');
+        }else if(this.mode == "3D"){
+          this.is2D = false;
+          this.is3D = true;
 
-      this.ForceGraph = require('force-graph');
-      this.GraphData = Data;
-    }
-    
+          this.ForceGraph3D = require('3d-force-graph');
+          this.SpriteText = require('three-spritetext');
+        }else{
+          this.is2D = true;
+          this.is3D = false;
+
+          this.ForceGraph = require('force-graph');
+        }
+
+        this.GraphData = Object.assign({}, data);
+        this.set_graph();
+
+      }else if(res.includes("error")){
+        console.log(data);
+      }else{
+        alert("error");
+      }
+    });
+
     var mode = this.mode;
     $(document).ready(function () {
       $("body").css('background-image', 'none');
@@ -131,9 +150,9 @@ export class GraphComponent implements OnInit {
       //start create export 17-12-65
       // if 2D => .jpeg, else 3D => .html
       if(mode == "2D"){
-        console.log("to .jpeg");
+        // console.log("to .jpeg");
       }else if(mode == "3D"){
-        console.log("to .html");
+        // console.log("to .html");
       }
       
       $("#export").click(function(){
@@ -167,7 +186,6 @@ export class GraphComponent implements OnInit {
 
     });
   
-    this.set_graph();
   }
 
   set_graph(){
@@ -415,7 +433,8 @@ export class GraphComponent implements OnInit {
     var urlTree = this.router.createUrlTree(['/Details'], {
       queryParams: {
         language: this.current_language,
-        file_id: this.file_id,
+        filename: this.filename,
+        dest: this.dest,
         source: start,
         target: end 
       }
@@ -429,7 +448,8 @@ export class GraphComponent implements OnInit {
     var urlTree = this.router.createUrlTree(['/Graph'], {
       queryParams: {
         language: this.current_language,
-        file_id: this.file_id,
+        filename: this.filename,
+        dest: this.dest,
         mode: this.mode,
         min: this.minValue,
         max: this.maxValue
@@ -438,15 +458,14 @@ export class GraphComponent implements OnInit {
 
     var url = this.router.serializeUrl(urlTree);
     window.open(url, '_self');
-
-    // Something not right (bug detected).
   }
 
   reset_display_output(){
     var urlTree = this.router.createUrlTree(['/Graph'], {
       queryParams: {
         language: this.current_language,
-        file_id: this.file_id,
+        filename: this.filename,
+        dest: this.dest,
         mode: this.mode,
         min: 1,
         max: 100
@@ -475,7 +494,6 @@ export class GraphComponent implements OnInit {
     this.UM08 = "ความสัมพันธ์ระหว่างโหนดซึ่งในที่นี้คือร้อยละความคล้ายคลึงกันระหว่างชุดซอร์สโค้ด";
     this.UM09 = "ความสามารถพิเศษที่กราฟสามารถทำงานได้ คือ 1) เมื่อผู้ใช้กดที่เส้นความสัมพันธ์ระบบจะไปที่หน้าถัดไป 2) เมื่อผู้ใช้ทำการกดที่โหนดระบบจะทำการซูมเจาะจงไปที่โหนดโดยตรง 3) ผู้ใช้สามารถปรับโหนดเพื่อตรวจสอบได้ง่ายขึ้นได้";
 
-
     this.btn01 = "ขอบเขตข้อมูล";
     this.btn02 = "ปุ่มยืนยัน";
     this.btn03 = "ปุ่มรีเซ็ต";
@@ -485,8 +503,6 @@ export class GraphComponent implements OnInit {
     this.btn07 = "โหนด";
     this.btn08 = "เส้นความสัมพันธ์";
     this.btn09 = "กราฟข้อมูล";
-
-
   }
 
   switch_to_eng(){
@@ -517,15 +533,14 @@ export class GraphComponent implements OnInit {
     this.btn07 = "Node";
     this.btn08 = "Branch";
     this.btn09 = "Graph";
-
-
   }
 
   change_to_2d(){
     var urlTree = this.router.createUrlTree(['/Graph'], {
       queryParams: {
         language: this.current_language,
-        file_id: this.file_id,
+        filename: this.filename,
+        dest: this.dest,
         mode: "2D",
         min: this.minValue,
         max: this.maxValue
@@ -540,7 +555,8 @@ export class GraphComponent implements OnInit {
     var urlTree = this.router.createUrlTree(['/Graph'], {
       queryParams: {
         language: this.current_language,
-        file_id: this.file_id,
+        filename: this.filename,
+        dest: this.dest,
         mode: "3D",
         min: this.minValue,
         max: this.maxValue
