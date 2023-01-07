@@ -13,7 +13,8 @@ textarea {
     border-radius: 5px;
     font-size: 15px;
     width: 410px; 
-    height: 470px;
+    height: 650px;
+    font-size: 18px;
 }
 
 /* Demonstrate a "mostly customized" scrollbar

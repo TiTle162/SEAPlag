@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import * as $ from 'jquery';
 
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import { NgxSpinnerService } from 'ngx-spinner';
+
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-import',
@@ -10,11 +13,10 @@ import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 
   styleUrls: ['./import.component.css']
 })
 export class ImportComponent implements OnInit {
-  constructor(private router: Router){}
+  constructor(private router: Router, private http: HttpClient, private spinner: NgxSpinnerService){}
 
   /* File upload */
   public files: NgxFileDropEntry[] = [];
-
   public dropped(files: NgxFileDropEntry[]) {
     this.files = files;
     for (const droppedFile of files) {
@@ -24,35 +26,39 @@ export class ImportComponent implements OnInit {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
 
-          // Here you can access the real file
-          console.log(droppedFile.relativePath, file);
-          var new_file_name = this.random_file_name(); 
+          var new_file_name = this.random_file_name();
+          var destination = file.name;
 
-          /**
+          // Show loading screen.
+          this.showSpinner();
+
           // You could upload it like this:
           const formData = new FormData()
-          formData.append('logo', file, new_file_name)
+          formData.append('file', file, new_file_name+'.zip');
 
-          // Headers
           const headers = new HttpHeaders({
-            'security-token': 'mytoken'
+            'destination': destination
           })
 
-          this.http.post('https://mybackend.com/api/upload/sanitize-and-save-logo', formData, { headers: headers, responseType: 'blob' })
+          this.http.post('http://localhost:4000/api/jplag', formData, { headers: headers })
           .subscribe(data => {
-            // Sanitized logo returned from backend
-          })
-          **/
-
-          // Redirect to Graph page.
-          this.router.navigate(['/Graph'], {
-            queryParams: {
-              language: this.current_language,
-              file_id: new_file_name,
-              mode: "2D",
-              min: 1,
-              max: 100
-            },
+            const res = JSON.stringify(data);
+            if(res.includes("success")){
+              this.router.navigate(['/Graph'], {
+                queryParams: {
+                  language: this.current_language,
+                  filename: new_file_name,
+                  dest: destination.slice(0, -4),
+                  mode: "2D",
+                  min: 1,
+                  max: 100
+                },
+              });
+            }else if(res.includes("error")){
+              alert("error");
+            }else{
+              alert("error");
+            }
           });
         });
       } else {
@@ -302,5 +308,13 @@ export class ImportComponent implements OnInit {
     }
     
     return result;
+  }
+
+  showSpinner(): void {
+    this.spinner.show();
+
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 30000);
   }
 }

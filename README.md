@@ -27,3 +27,7 @@ Go to `../seaplag/seaplag` and run `ng serve` for a dev server. Navigate to `htt
 - P.S. Run `ng serve -o` to automatically navigate to `http://localhost:4200/`.
 
 - *** If `ng serve` not work correctly. Please try to run `npm install`. After that, Try to run `ng serve` once again.
+
+
+## Recommend
+After install another Node Package Manager (npm install ...) and `ng serve` not work correctly. Please try to remove folder name `.angular` and `node_modules` and run `npm install` to build whole project once again then run `ng serve`. 

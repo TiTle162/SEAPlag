@@ -1,0 +1,1 @@
+{"id1":"62160003","id2":"62160001","similarity":0.7133757961783439,"matches":[{"file1":"Cat.java","file2":"Dog.java","start1":1,"end1":22,"start2":1,"end2":22,"tokens":21},{"file1":"Dog.java","file2":"Cat.java","start1":1,"end1":22,"start2":1,"end2":22,"tokens":21},{"file1":"Main.java","file2":"Main.java","start1":13,"end1":36,"start2":23,"end2":46,"tokens":14}]}

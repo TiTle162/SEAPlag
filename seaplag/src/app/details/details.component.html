@@ -40,7 +40,7 @@
   </div>
 </nav>
 
-<div class="content-box container bg-white" style="width: 1920px; border-radius: 10px; margin-top: -10px;">
+<div class="content-box container bg-white mb-3" style="width: 1920px; border-radius: 10px; margin-top: -10px;">
   <div class="container main">
     <div class="row">
       <div class="aboutus col-lg-8">
@@ -68,16 +68,12 @@
         </figure> -->
 
 
-        <div class="team text-center mt-1">
-          <!-- <h3>See <span class="green">team </span>More details.</h3> -->
-          <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum ab est repudiandae quasi hic sapiente earum velit fuga odio neque numquam eligendi qui tenetur ipsam, animi atque expedita eaque nesciunt in.Atque ut blanditiis quos excepturi perferendis a, quidem modi.</p> -->
-          <button class="btn btn-primary text-white" id="switch_mode">{{switch_mode}}</button>
+        <!-- <div class="team text-center mt-1">
           <div class="team-person">
             <div class="person container">
               <span class="name text-info">{{file_name1}}</span>
               <textarea wrap="off" name="" id="" cols="30" rows="10">
                 {{file_content}}
-                
               </textarea>
             </div>
             <div class="person container">
@@ -87,8 +83,32 @@
               </textarea>
             </div>
           </div>
+        </div> -->
+
+        <div class="team text-center" style="margin-top: -1px;">
+          <!-- <h3>A <span class="green">team </span>that’s growing every day</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum ab est repudiandae quasi hic sapiente earum velit fuga odio neque numquam eligendi qui tenetur ipsam, animi atque expedita eaque nesciunt in.Atque ut blanditiis quos excepturi perferendis a, quidem modi.</p> -->
+                <div class="team-person">
+                  <div class="person">
+                    <span class="name">{{source}}</span>
+                    <span style="font-size: 20px;">{{file_name1}}</span>
+                    <textarea disabled wrap="off" name="" id="" cols="30" rows="10">
+                      {{file_content1}}
+                    </textarea>
+                  </div>
+                  <div class="person">
+                    <span class="name">{{target}}</span>
+                    <span style="font-size: 20px;">{{file_name2}}</span>
+                    <textarea disabled wrap="off" name="" id="" cols="30" rows="10">
+                      {{file_content2}}
+                    </textarea>
+                  </div>
+                </div>
         </div>
+        
       </div>
+
+
       <div class="sidebar col-lg-4">
         <!-- <div class="input-group">
         <div class="form-outline">
@@ -120,12 +140,12 @@
               <div class="category">
                 <div class="category-item">
                   <h6 class="category-title">{{item.value.file1}}</h6>
-                  <a (click)="get_file(item)"><img style="width: 20px;" src="../../assets/img/icon/arrow-right-icon.svg"
+                  <a (click)="get_file(item)"><img style="cursor: pointer; width: 20px;" src="../../assets/img/icon/arrow-right-icon.svg"
                       alt=""></a>
                 </div>
                 <div class="category-item">
                   <h6 class="category-title">{{item.value.file2}}</h6>
-                  <a (click)="get_file(item)"><img style="width: 20px;" src="../../assets/img/icon/arrow-right-icon.svg"
+                  <a (click)="get_file(item)"><img style="cursor: pointer; width: 20px;" src="../../assets/img/icon/arrow-right-icon.svg"
                       alt=""></a>
                 </div>
               </div>

@@ -13,6 +13,7 @@ import { PagefaultComponent } from './pagefault/pagefault.component';
 
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -40,6 +41,7 @@ const appRoute: Routes = [
     FormsModule,
     NgxSliderModule,
     NgxFileDropModule,
+    NgxSpinnerModule,
     HttpClientModule
   ],
   providers: [],

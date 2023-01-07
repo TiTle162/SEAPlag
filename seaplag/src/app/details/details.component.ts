@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
-import { HttpClient } from '@angular/common/http';
 
-import Data from '../../assets/datasets/62160005-62160006.json';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { data } from 'jquery';
-
 
 @Component({
   selector: 'app-details',
@@ -14,9 +12,8 @@ import { data } from 'jquery';
 })
 export class DetailsComponent implements OnInit {
   DetailsData: any = "";
-
   current_year: any = "";
-  file_id: string = "";
+
   navbar_language_1: string = "";
   navbar_language_2: string = "";
   link_to_jplag: string = "";
@@ -34,17 +31,20 @@ export class DetailsComponent implements OnInit {
   isTH: boolean = false;
   isEN: boolean = false;
 
+  filename: string = "";
+  dest: string = "";
   similarity: any = 0;
   source: any = 0;
   target: any = 0;
   file: any[] = [];
+
   file_name1: string = "";
   file_name2: string = "";
 
   file_path: any = "";
   file_path2: any = "";
 
-  file_content: any = "";
+  file_content1: any = "";
   file_content2: any = "";
   default_file: boolean = false;
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
@@ -52,9 +52,10 @@ export class DetailsComponent implements OnInit {
   ngOnInit() {
     var params = this.route.snapshot.queryParams;
     var language = params['language'];
-    var file_id = params['file_id'];
-    var source = params['source'];
-    var target = params['target'];
+    this.filename = params['filename'];
+    this.dest = params['dest'];
+    this.source = params['source'];
+    this.target = params['target'];
 
     if (language == "TH") {
       this.isTH = true;
@@ -70,11 +71,32 @@ export class DetailsComponent implements OnInit {
       this.switch_to_th();
     }
 
-    this.DetailsData = Data;
-    this.set_details_data(source, target);
-    if (this.default_file == false) {
-      this.get_file(this.DetailsData.matches[0]);
-    }
+    // You could upload it like this:
+    const formData = new FormData()
+    formData.append('file', this.filename);
+    const headers = new HttpHeaders({
+      'path1': this.filename,
+      'path2': this.dest,
+      'source': this.source,
+      'target': this.target
+    })
+
+    this.http.post('http://localhost:4000/api/compare', formData, { headers: headers })
+    .subscribe(data => {
+      const res = JSON.stringify(data);
+      if(!res.includes("error")){
+        this.DetailsData = Object.assign({}, data);
+        this.set_details_data();
+      }else if(res.includes("error")){
+        alert("error");
+      }else{
+        alert("error");
+      }
+    });
+
+    // if (this.default_file == false) {
+    //   this.get_file(this.DetailsData.matches[0]);
+    // }
     $(document).ready(function () {
       // left-nav-bar
       $("#th").click(function () {
@@ -84,19 +106,6 @@ export class DetailsComponent implements OnInit {
       $("#en").click(function () {
         $("#th").removeClass("active");
         $("#en").addClass("active");
-      });
-
-      var compare_mode = 1;
-      $("#switch_mode").click(function () {
-        if (compare_mode == 1) {
-          compare_mode = 2;
-
-          $('textarea').css("width", "680px");
-        } else if (compare_mode == 2) {
-          compare_mode = 1;
-
-          $('textarea').css("width", "410px");
-        }
       });
     });
   }
@@ -147,45 +156,112 @@ export class DetailsComponent implements OnInit {
     this.current_year = new Date().getFullYear();
   }
 
-  set_details_data(source: any, target: any) {
-    console.log(this.DetailsData);
+  set_details_data() {
+    // console.log(this.DetailsData);
     // this.DetailsData.matches[0]
+
     // Set similarity(percent).
     var read_similarity = this.DetailsData.similarity;
     this.similarity = Number(read_similarity * 100).toFixed(2);
 
-    // Set source code owner.
-    this.source = source;
-    this.target = target;
-
     // Loop file 
     this.file = this.DetailsData.matches;
+
+    // Default file output.
+    this.file_name1 = this.file[0].file1;
+    this.file_name2 = this.file[0].file2;
+
+    // First file readed.
+    const formData = new FormData()
+    formData.append('file', this.filename);
+    const headers = new HttpHeaders({
+      'path1': this.filename,
+      'path2': this.dest,
+      'owner': this.source,
+      'filename': this.file_name1
+    })
+    this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
+    .subscribe(data => {
+      const res = JSON.stringify(data);
+      if(!res.includes("error")){
+        var temp = data;
+
+        // Second file readed.
+        const formData = new FormData()
+        formData.append('file', this.filename);
+        const headers = new HttpHeaders({
+          'path1': this.filename,
+          'path2': this.dest,
+          'owner': this.target,
+          'filename': this.file_name2
+        })
+        this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
+        .subscribe(data => {
+          const res = JSON.stringify(data);
+          if(!res.includes("error")){
+            this.file_content1 = temp;
+            this.file_content2 = data;
+            
+          }else if(res.includes("error")){
+            alert("error");
+          }else{
+            alert("error");
+          }
+        });
+      }else if(res.includes("error")){
+        alert("error");
+      }else{
+        alert("error");
+      }
+    });
   }
 
   get_file(file_data: any) {
-    console.log(file_data)
-    //set file name
-    if (this.default_file == true) {
-      this.file_name1 = file_data.value.file1
-      this.file_name2 = file_data.value.file2
-    } else {
-      this.file_name1 = file_data.file1
-      this.file_name2 = file_data.file2
-    }
+    this.file_name1 = file_data.value.file1;
+    this.file_name2 = file_data.value.file2;
 
-    // set file path
-    this.file_path = "assets/datasets/submissions/" + this.source + "/" + this.file_name1;
-    this.file_path2 = "assets/datasets/submissions/" + this.target + "/" + this.file_name2;
+    // First file readed.
+    const formData = new FormData()
+    formData.append('file', this.filename);
+    const headers = new HttpHeaders({
+      'path1': this.filename,
+      'path2': this.dest,
+      'owner': this.source,
+      'filename': file_data.value.file1
+    })
+    this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
+    .subscribe(data => {
+      const res = JSON.stringify(data);
+      if(!res.includes("error")){
+        var temp = data;
 
-    // get data file content
-    this.http.get(this.file_path, { responseType: 'text' })
-      .subscribe(
-        data => this.file_content = data
-      );
-    this.http.get(this.file_path2, { responseType: 'text' })
-      .subscribe(
-        data => this.file_content2 = data
-      );
-    this.default_file = true;
+        // Second file readed.
+        const formData = new FormData()
+        formData.append('file', this.filename);
+        const headers = new HttpHeaders({
+          'path1': this.filename,
+          'path2': this.dest,
+          'owner': this.target,
+          'filename': file_data.value.file2
+        })
+        this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
+        .subscribe(data => {
+          const res = JSON.stringify(data);
+          if(!res.includes("error")){
+            this.file_content1 = temp;
+            this.file_content2 = data;
+            
+          }else if(res.includes("error")){
+            alert("error");
+          }else{
+            alert("error");
+          }
+        });
+      }else if(res.includes("error")){
+        alert("error");
+      }else{
+        alert("error");
+      }
+    });
   }
 }
