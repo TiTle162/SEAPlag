@@ -1,47 +1,89 @@
-html{
-    scroll-behavior: smooth;
+html {
+  scroll-behavior: smooth;
 }
 
-.content-box{
-    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px; */
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+.content-box {
+  /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px; */
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 textarea {
-    color: #5DB0D7;
-    background-color: black;
+    color: #0a1791;
+    background-color: whitesmoke;
     border-radius: 5px;
     font-size: 15px;
     width: 390px; 
     height: 650px;
     font-size: 18px;
+    counter-reset: line-numbering;
+    word-break: break-word;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    text-align: left;
+    white-space: pre-wrap;
 }
 
 /* Demonstrate a "mostly customized" scrollbar
  * (won't be visible otherwise if width/height is specified) */
- textarea::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-    background: rgb(184, 184, 184);
-    background-color: #aaa; /* or add it to the track */
-  }
+.editor::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: rgb(184, 184, 184);
+  background-color: #aaa;
+  /* or add it to the track */
+}
 
-  /* Track */
-  textarea::-webkit-scrollbar-track {
-    background: #ebebeb; 
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: rgb(255, 0, 0); 
-  }
+/* Track */
+.editor::-webkit-scrollbar-track {
+  background: #ebebeb;
+}
+
+/* Handle */
+/* ::-webkit-scrollbar-thumb {
+  background: rgb(255, 0, 0);
+} */
+
+/* Handle on hover */
+/* ::-webkit-scrollbar-thumb:hover {
+  background: rgb(117, 117, 117);
+} */
+
+/* Add a thumb */
+.editor::-webkit-scrollbar-thumb {
+  background: rgb(184, 184, 184);
+}
+
+.editor {
+  display: inline-flex;
+  gap: 10px;
+  line-height: 25px;
+  background: whitesmoke;
+  border-radius: 2px;
+  color: #0a1791;
+  overflow-y: auto;
+  width: 380px;
+  height: 550px;
+  /* white-space: pre-wrap; */
+  padding-left: 2px;
   
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgb(117, 117, 117);
-  }
-  
-  /* Add a thumb */
-  textarea::-webkit-scrollbar-thumb {
-    background: rgb(184, 184, 184);
-  }
+}
+
+/* add line number  */
+/* textarea {
+  color: #0a1791;
+  background-color: whitesmoke;
+  border-radius: 5px;
+  font-size: 15px;
+  width: 350px;
+  font-size: 18px;
+  word-break: break-word;
+  flex-wrap: wrap;
+  overflow-y: hidden;
+  text-align: left;
+  white-space: pre-wrap; */
+  /* resize: none; */
+  /* height: 100%; */
+  /* counter-reset: line-numbering; */
+  /* display: none; */
+  /* height: 550px; */
+/* } */
