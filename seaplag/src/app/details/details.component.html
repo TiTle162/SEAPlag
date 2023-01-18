@@ -84,28 +84,38 @@
             </div>
           </div>
         </div> -->
-
         <div class="team text-center" style="margin-top: -1px;">
           <!-- <h3>A <span class="green">team </span>that’s growing every day</h3>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum ab est repudiandae quasi hic sapiente earum velit fuga odio neque numquam eligendi qui tenetur ipsam, animi atque expedita eaque nesciunt in.Atque ut blanditiis quos excepturi perferendis a, quidem modi.</p> -->
-                <div class="team-person">
-                  <div class="person">
-                    <span class="name">{{source}}</span>
-                    <span style="font-size: 20px;">{{file_name1}}</span>
-                    <textarea disabled wrap="off" name="" id="" cols="30" rows="10">
-                      {{file_content1}}
-                    </textarea>
-                  </div>
-                  <div class="person">
-                    <span class="name">{{target}}</span>
-                    <span style="font-size: 20px;">{{file_name2}}</span>
-                    <textarea disabled wrap="off" name="" id="" cols="30" rows="10">
-                      {{file_content2}}
-                    </textarea>
-                  </div>
-                </div>
+          <div class="team-person">
+            <div class="person">
+              <span class="name">{{source}}</span>
+              <span style="font-size: 20px;">{{file_name1}}</span>
+              <!-- <pre><code>{{file_content1}}</code></pre> -->
+              
+              <!-- <div class="editor"> -->
+                <!-- <div class="line-numbers">
+                  <div *ngFor="let count of [].constructor(numberOfLines); let i = index">{{i+1}}</div>
+                </div> -->
+                <textarea wrap="off" cols="30" rows="10" readonly id="textarea" >{{file_content1}}</textarea>
+              <!-- </div> -->
+            </div>
+
+            <div class="person">
+              <span class="name">{{target}}</span>
+              <span style="font-size: 20px;">{{file_name2}}</span>
+              <!-- <pre><code>{{file_content2}}</code></pre> -->
+
+              <!-- <div class="editor"> -->
+                <!-- <div class="line-numbers2">
+                  <div *ngFor="let  count of [].constructor(numberOfLines2); let i = index">{{i+1}}</div>
+                </div> -->
+                <textarea wrap="off" cols="30" rows="10" readonly id="textarea2">{{file_content2}}</textarea>
+              <!-- </div> -->
+            </div>
+          </div>
         </div>
-        
+
       </div>
 
 
@@ -136,17 +146,19 @@
 
             <div *ngFor="let item of file | keyvalue">
               <!-- Key: <b>{{item.key}}</b> and Value: <b>{{item.value.file1}}</b><b>{{item.value.file2}}</b> -->
-            
+
               <div class="category">
                 <div class="category-item">
-                  <h6 class="category-title">{{item.value.file1}}</h6>
-                  <a (click)="get_file(item)"><img style="cursor: pointer; width: 20px;" src="../../assets/img/icon/arrow-right-icon.svg"
-                      alt=""></a>
+                  <a (click)="get_file(item)" style="cursor: pointer;">
+                    <h6 class="category-title">{{item.value.file1}}</h6>
+                    <img style="width: 20px;" src="../../assets/img/icon/arrow-right-icon.svg" alt="">
+                  </a>
                 </div>
                 <div class="category-item">
-                  <h6 class="category-title">{{item.value.file2}}</h6>
-                  <a (click)="get_file(item)"><img style="cursor: pointer; width: 20px;" src="../../assets/img/icon/arrow-right-icon.svg"
-                      alt=""></a>
+                  <a (click)="get_file(item)" style="cursor: pointer;">
+                    <h6 class="category-title">{{item.value.file2}}</h6>
+                    <img style="width: 20px;" src="../../assets/img/icon/arrow-right-icon.svg" alt="">
+                  </a>
                 </div>
               </div>
             </div>
