@@ -6,7 +6,9 @@ import ForceGraph from 'force-graph/';
 import html2canvas from 'html2canvas';
 import ForceGraph3D from '3d-force-graph';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import SpriteText from 'three-spritetext';
+// import SpriteText from 'three-spritetext';
+import { NgxSpinnerService } from 'ngx-spinner';
+import Swal from 'sweetalert2';
 
 import { Options } from '@angular-slider/ngx-slider';
 
@@ -66,7 +68,7 @@ export class GraphComponent implements OnInit {
     ceil: 100,
   };
 
-  constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient){}
+  constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private spinner: NgxSpinnerService){}
 
   ngOnInit(){
     var params = this.route.snapshot.queryParams;
@@ -91,6 +93,9 @@ export class GraphComponent implements OnInit {
       this.switch_to_th();
     }
 
+    // Show loading screen.
+    this.showSpinner();
+
     // Read data from backend server. 
     // You could upload it like this:
     const formData = new FormData()
@@ -102,7 +107,9 @@ export class GraphComponent implements OnInit {
 
     this.http.post('http://localhost:4000/api/result', formData, { headers: headers })
     .subscribe(data => {
-      const res = JSON.stringify(data);
+      this.hideSpinner();
+
+      var res = JSON.stringify(data);
       if(!res.includes("error")){
         // Read JSON data.
         if(this.mode == "2D"){
@@ -126,9 +133,9 @@ export class GraphComponent implements OnInit {
         this.GraphData = Object.assign({}, data);
         this.set_graph();
       }else if(res.includes("error")){
-        alert("error");
+        this.show_error();
       }else{
-        alert("error");
+        this.show_error();
       }
     });
 
@@ -163,25 +170,10 @@ export class GraphComponent implements OnInit {
           });
         });      
       }else if(mode == "3D"){
-        // $("#export").click(function(){
-        //   // var element = jQuery("#graph")[0];
-        //   var element = window.document.body;
-  
-        //   html2canvas(element).then((canvas) => {
-            
-        //     let img = canvas.toDataURL();
-        //     // const fakeLink = window.document.createElement('a');
-        //     // fakeLink.download = 'Graph_SEAPlag.html';
-        //     // fakeLink.href = img;
-        //     // document.body.appendChild(fakeLink);
-        //     // fakeLink.click();
-        //     // document.body.removeChild(fakeLink);
-        //     // fakeLink.remove();
-        //    });
-        // }); 
+        $("#export").click(function(){
+          alert("error");
+        }); 
       }
-      
-     
       //end create export 17-12-65
 
       $("#hint-btn").click(function(){
@@ -214,8 +206,10 @@ export class GraphComponent implements OnInit {
     var temp_nodes = [];
     for(let i in nodes)
       final_nodes.push(i);
+
     for(let i in nodes)
       temp_nodes.push(i);
+
     const GROUPS = 12;
     for(let i=0;i<final_nodes.length;i++){
       final_nodes[i] = {id : final_nodes[i], group: Math.ceil(Math.random() * GROUPS)};
@@ -227,16 +221,17 @@ export class GraphComponent implements OnInit {
       links[i].similarity = links[i].similarity*100;
       links[i].similarity = parseInt(links[i].similarity);
       // If similarity equal 0.
-      if ((links[i].similarity) <= 0) {
-        links.splice(i);
-      }
+      // if ((links[i].similarity) <= 0) {
+      //   links.splice(i);
+      // }
     }
+    
     // Scope calculation.
-    for(let i=0;i<links.length;i++){
-      if(links[i].similarity < this.minValue || links[i].similarity > this.maxValue){
-        links.splice(i);
-      }
-    }
+    // for(let i=0;i<links.length;i++){
+    //   if(links[i].similarity < this.minValue || links[i].similarity > this.maxValue){
+    //     links.splice(i);
+    //   }
+    // }
     // Links Formatter.
     for (let i = 0; i < links.length; i++) {
       links[i].source = links[i].first_submission;
@@ -249,24 +244,24 @@ export class GraphComponent implements OnInit {
     }
 
     // Remove nodes which no edge.
-    for(let i=0;i<temp_nodes.length;i++){
-      let switch_check = 0;
+    // for(let i=0;i<temp_nodes.length;i++){
+    //   let switch_check = 0;
       
-      for(let j=0;j<links.length;j++){
-        let temp_source = links[j].source;
-        let temp_target = links[j].target;
-        if (temp_nodes[i] == temp_source || temp_nodes[i] == temp_target) {
-          switch_check = 1;
-          break;
-        }
-      }
+    //   for(let j=0;j<links.length;j++){
+    //     let temp_source = links[j].source;
+    //     let temp_target = links[j].target;
+    //     if (temp_nodes[i] == temp_source || temp_nodes[i] == temp_target) {
+    //       switch_check = 1;
+    //       break;
+    //     }
+    //   }
 
-      if (switch_check == 0) {
-        final_nodes.splice(i);
-      } else{
-        continue;
-      }
-    }
+    //   if (switch_check == 0) {
+    //     final_nodes.splice(i);
+    //   } else{
+    //     continue;
+    //   }
+    // }
 
     // Set nodes and links.
     GraphObject["nodes"] = final_nodes;
@@ -319,8 +314,8 @@ export class GraphComponent implements OnInit {
               ctx.beginPath();
               ctx.arc(temp_x, temp_y, NODE_R * 0, 0, 2 * Math.PI, false);
               ctx.fillStyle = node === hoverNode ? '' : '#000000';
-              ctx.fill();
               ctx.fillText(temp_id, temp_x+5, temp_y-6);
+              ctx.fill();
             })
             .onNodeDragEnd(node => {
               node.fx = node.x;
@@ -579,5 +574,41 @@ export class GraphComponent implements OnInit {
 
     var url = this.router.serializeUrl(urlTree);
     window.open(url, '_self');
+  }
+
+  showSpinner(): void {
+    this.spinner.show();
+  }
+  
+  hideSpinner(): void {
+    this.spinner.hide();
+  }
+
+  show_error() {
+    if(this.current_language == "TH"){
+      Swal.fire({
+        title: 'เกิดข้อผิดพลาด!',
+        text: 'ไม่สามารถดึงข้อมูลการประมวลผลลัพธ์ได้',
+        icon: 'error',
+        showCancelButton: false,
+        showDenyButton: false,
+      }).then((result)=>{
+        if (result.isConfirmed) {
+          window.location.href = '/';
+        } 
+      });
+    }else if(this.current_language == "EN"){
+      Swal.fire({
+        title: 'Error!',
+        text: "Can't query a processed result data.",
+        icon: 'error',
+        showCancelButton: false,
+        showDenyButton: false,
+      }).then((result)=>{
+        if (result.isConfirmed) {
+          window.location.href = '/';
+        } 
+      });
+    }
   }
 }

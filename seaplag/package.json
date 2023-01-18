@@ -30,6 +30,7 @@
     "ngx-spinner": "^15.0.1",
     "rxjs": "~7.5.0",
     "save": "^2.9.0",
+    "sweetalert2": "^11.7.0",
     "three-spritetext": "^1.6.5",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"

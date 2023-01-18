@@ -5,6 +5,8 @@ import * as $ from 'jquery';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { NgxSpinnerService } from 'ngx-spinner';
 
+import Swal from 'sweetalert2';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
@@ -13,7 +15,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./import.component.css']
 })
 export class ImportComponent implements OnInit {
-  constructor(private router: Router, private http: HttpClient, private spinner: NgxSpinnerService){}
+  constructor(private router: Router, private http: HttpClient, private spinner: NgxSpinnerService, ){}
 
   /* File upload */
   public files: NgxFileDropEntry[] = [];
@@ -42,7 +44,9 @@ export class ImportComponent implements OnInit {
 
           this.http.post('http://localhost:4000/api/jplag', formData, { headers: headers })
           .subscribe(data => {
-            const res = JSON.stringify(data);
+            this.hideSpinner();
+
+            var res = JSON.stringify(data);
             if(res.includes("success")){
               this.router.navigate(['/Graph'], {
                 queryParams: {
@@ -55,9 +59,9 @@ export class ImportComponent implements OnInit {
                 },
               });
             }else if(res.includes("error")){
-              alert("error");
+              this.show_error();
             }else{
-              alert("error");
+              this.show_error();
             }
           });
         });
@@ -312,9 +316,37 @@ export class ImportComponent implements OnInit {
 
   showSpinner(): void {
     this.spinner.show();
+  }
 
-    setTimeout(() => {
-      this.spinner.hide();
-    }, 30000);
+  hideSpinner(): void {
+    this.spinner.hide();
+  }
+
+  show_error() {
+    if(this.current_language == "TH"){
+      Swal.fire({
+        title: 'เกิดข้อผิดพลาด!',
+        text: 'ไม่สามารถประมวลผลไฟล์ซอร์สโค้ดได้',
+        icon: 'error',
+        showCancelButton: false,
+        showDenyButton: false,
+      }).then((result)=>{
+        if (result.isConfirmed) {
+          window.location.reload();
+        } 
+      });
+    }else if(this.current_language == "EN"){
+      Swal.fire({
+        title: 'Error!',
+        text: "Can't processed source code in zip file.",
+        icon: 'error',
+        showCancelButton: false,
+        showDenyButton: false,
+      }).then((result)=>{
+        if (result.isConfirmed) {
+          window.location.reload();
+        } 
+      });
+    }
   }
 }
