@@ -42,7 +42,7 @@ app.get('/', (req, res) => {
 function check_file_exists(path){
   var time= new Date();
   var time_start = '';
-  var time_end = (time.getSeconds()*1000)+30000;
+  var time_end = (time.getSeconds()*1000)+15000;
 
   while(true){
     time_start = (time.getSeconds()*1000);

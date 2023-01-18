@@ -267,12 +267,6 @@ export class GraphComponent implements OnInit {
     GraphObject["nodes"] = final_nodes;
     GraphObject["links"] = links;
 
-    // Copy clean graph.
-    this.GraphData = Object.assign({}, GraphObject);
-    for (let i = 0; i < GraphObject.links.length; i++) {
-      GraphObject.links[i].value = GraphObject.links[i].value+ "%"; // add '%'
-    } 
-
     // Create graph
     this.create_graph(GraphObject);
   }
