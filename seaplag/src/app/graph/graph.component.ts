@@ -11,6 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
 
 import { Options } from '@angular-slider/ngx-slider';
+import { EqualStencilFunc } from 'three/src/constants';
 
 @Component({
   selector: 'app-graph',
@@ -61,11 +62,12 @@ export class GraphComponent implements OnInit {
   is3D: boolean = false;
 
   // Slider options.
-  minValue: number = 1;
-  maxValue: number = 100;
+  minValue: number = 50;
   options: Options = {
     floor: 1,
     ceil: 100,
+    ticksArray: [1, 25, 50, 75, 100],
+    showSelectionBarEnd: true
   };
 
   constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private spinner: NgxSpinnerService){}
@@ -77,7 +79,6 @@ export class GraphComponent implements OnInit {
     this.dest = params['dest'];
     this.mode = params['mode'];
     this.minValue = params['min'];
-    this.maxValue = params['max'];
 
     if(language == "TH"){
       this.isTH = true;
@@ -216,22 +217,21 @@ export class GraphComponent implements OnInit {
     }
 
     /* Links */
+    var minValue: number = this.minValue;
     var links = GraphObject.metrics[0]["topComparisons"];
     for(let i=0;i<links.length;i++){
       links[i].similarity = links[i].similarity*100;
       links[i].similarity = parseInt(links[i].similarity);
-      // If similarity equal 0.
-      // if ((links[i].similarity) <= 0) {
-      //   links.splice(i);
-      // }
+
+      if(links[i].similarity < 0){
+        links.splice(i);
+      }else{
+        if(links[i].similarity < minValue){
+          links.splice(i);
+        }
+      }
     }
-    
-    // Scope calculation.
-    // for(let i=0;i<links.length;i++){
-    //   if(links[i].similarity < this.minValue || links[i].similarity > this.maxValue){
-    //     links.splice(i);
-    //   }
-    // }
+
     // Links Formatter.
     for (let i = 0; i < links.length; i++) {
       links[i].source = links[i].first_submission;
@@ -244,24 +244,24 @@ export class GraphComponent implements OnInit {
     }
 
     // Remove nodes which no edge.
-    // for(let i=0;i<temp_nodes.length;i++){
-    //   let switch_check = 0;
+    for(let i=0;i<temp_nodes.length;i++){
+      let switch_check = 0;
       
-    //   for(let j=0;j<links.length;j++){
-    //     let temp_source = links[j].source;
-    //     let temp_target = links[j].target;
-    //     if (temp_nodes[i] == temp_source || temp_nodes[i] == temp_target) {
-    //       switch_check = 1;
-    //       break;
-    //     }
-    //   }
+      for(let j=0;j<links.length;j++){
+        let temp_source = links[j].source;
+        let temp_target = links[j].target;
+        if (temp_nodes[i] == temp_source || temp_nodes[i] == temp_target) {
+          switch_check = 1;
+          break;
+        }
+      }
 
-    //   if (switch_check == 0) {
-    //     final_nodes.splice(i);
-    //   } else{
-    //     continue;
-    //   }
-    // }
+      if (switch_check == 0) {
+        final_nodes.splice(i, 1);
+      } else{
+        continue;
+      }
+    }
 
     // Set nodes and links.
     GraphObject["nodes"] = final_nodes;
@@ -455,7 +455,7 @@ export class GraphComponent implements OnInit {
         dest: this.dest,
         mode: this.mode,
         min: this.minValue,
-        max: this.maxValue
+        max: 100
       }
     });
 
@@ -470,7 +470,7 @@ export class GraphComponent implements OnInit {
         filename: this.filename,
         dest: this.dest,
         mode: this.mode,
-        min: 1,
+        min: 50,
         max: 100
       }
     });
@@ -546,7 +546,7 @@ export class GraphComponent implements OnInit {
         dest: this.dest,
         mode: "2D",
         min: this.minValue,
-        max: this.maxValue
+        max: 100
       }
     });
 
@@ -562,7 +562,7 @@ export class GraphComponent implements OnInit {
         dest: this.dest,
         mode: "3D",
         min: this.minValue,
-        max: this.maxValue
+        max: 100
       }
     });
 

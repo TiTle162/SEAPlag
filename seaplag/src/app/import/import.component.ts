@@ -54,7 +54,7 @@ export class ImportComponent implements OnInit {
                   filename: new_file_name,
                   dest: destination.slice(0, -4),
                   mode: "2D",
-                  min: 1,
+                  min: 50,
                   max: 100
                 },
               });
