@@ -151,6 +151,9 @@ export class ImportComponent implements OnInit {
   Or: string = "";
   choose_file: string = "";
 
+  titel_code_language: string ="";
+  selected_code_language: string ="Java";
+
   ngOnInit() {
     this.switch_to_th();
 
@@ -252,8 +255,13 @@ export class ImportComponent implements OnInit {
     this.current_year = new Date().getFullYear()+543;
 
     this.choose_file = "เลือกไฟล์";
+<<<<<<< HEAD
 
     this.title_code_language= "เลือกภาษา :"
+=======
+    this.titel_code_language= "เลือกภาษา :"
+
+>>>>>>> b9b26444773f9e7651c574a21ceff8809a4a5633
   }
 
   switch_to_eng(){
@@ -320,8 +328,12 @@ export class ImportComponent implements OnInit {
     this.current_year = new Date().getFullYear();
 
     this.choose_file = "Browse file";
+<<<<<<< HEAD
 
     this.title_code_language= "Choose languages :"
+=======
+    this.titel_code_language= "Choose languages :"
+>>>>>>> b9b26444773f9e7651c574a21ceff8809a4a5633
   }
   
   random_file_name(){
@@ -340,6 +352,10 @@ export class ImportComponent implements OnInit {
 
   hideSpinner(): void {
     this.spinner.hide();
+  }
+
+  onChange(value: any) {
+    this.selected_code_language = value.target.value;
   }
 
   show_error() {

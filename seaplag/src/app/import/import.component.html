@@ -54,6 +54,7 @@
                 <div class="front-page" style="padding-top: 0px;">
                     <div class="container" style="font-size: 19px;">
                         <div class="container center row" style="margin-bottom: 30px; text-align: center;">
+<<<<<<< HEAD
                             <div class="col-6 text-info" style="font-weight: bold; text-align: right; margin-top: 3px;">
                                 <span>{{title_code_language}}</span>
                             </div>
@@ -62,6 +63,27 @@
                                   <option class="text-secondary" *ngFor="let n of code_language"  [ngValue]="n.description">{{ n.name }}</option>
                                 </select>
                             </div>
+=======
+                            <!-- <div class="col-6 text-warning" style="text-align: right; margin-left: 4%;"> -->
+                                <div class="col-6 text-info" style="font-weight: bold; text-align: right; margin-left: 4%;">
+
+                                <!-- <span>Select the language you want to check : {{selected_code_language}}</span> -->
+                                <span>{{titel_code_language}}</span>
+                            </div>
+                            <div class="col-2" style="padding-left: 0px;"  >
+                                <select required style="width:fit-content;" class="form-control text-secondary" (change)="onChange($event)">
+                                    <option class="text-secondary" default> Java </option>
+                                    <option class="text-secondary" > C# </option>
+                                    <option class="text-secondary" > C++ </option>
+                                    <option class="text-secondary" > Python </option>
+                                    <option class="text-secondary" > Kotlin </option>
+                                    <option class="text-secondary" > Switf </option>
+                                    <option class="text-secondary" > Scalar </option>
+                                    <option class="text-secondary" > R </option>
+                                </select>
+                            </div>
+                            <!-- <h4>Select the language you want to check : {{selected_code_language}}</h4> -->
+>>>>>>> b9b26444773f9e7651c574a21ceff8809a4a5633
                         </div>
 
                         <div class="container center" style="width: 95%;">
