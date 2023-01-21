@@ -56,92 +56,78 @@ function check_file_exists(path){
   }
 }
 
-function exec_jplag(path){
-  exec('java -jar ./jplag-4.1.0-jar-with-dependencies.jar -r ./datasets/'+path+' -new ./datasets/'+path, (error, stdout, stderr) => {
-    if(error){
-      return false;
-    }
-  });
-
-  var check_file = false;
-  check_file = check_file_exists('./datasets/'+path+'/overview.json');
-  if(check_file == true){
-    return true;
-  }else if(check_file == false){
-    return false;
-  }else{
-    return false;
-  }
-}
-
 // Input & Process.
 app.post('/api/jplag', (req, res) => {
-    var check_file = false;  
 
-    // 1. Uploaded zip file.
-    upload(req, res, function (err) {
-      if(err){
-        res.send({'msg': 'error'});
-      }else{
-        var file_name = req.file.filename;
-        var destination = req.headers.destination;
-        var pure_file_name = req.file.filename.slice(0, -4);
-        var pure_destination = req.headers.destination.slice(0, -4);
+      // 1. Uploaded zip file.
+      upload(req, res, function (err) {
+        if(err){
+          res.send({'msg': 'error'});
+        }else{
+          var file_name = req.file.filename;
+          var destination = req.headers.destination;
+          var pure_file_name = req.file.filename.slice(0, -4);
+          var pure_destination = req.headers.destination.slice(0, -4);
+          var aug = req.headers.aug;
 
-        // 2. Extract zip file.        
-        var path = "./datasets/"+pure_file_name;
-        decompress("./input_datasets/"+file_name, path)
-        .then((files) => {
-          check_file = check_file_exists(path);
-          if(check_file == true){
+          // 2. Extract zip file.        
+          decompress("./input_datasets/"+file_name, "./datasets/"+pure_file_name)
+          .then((files) => {
+            if(check_file_exists("./datasets/"+pure_file_name+"/"+pure_destination)){
+              
+              // 3 JPlag file. 
+              var path = "./datasets/"+pure_file_name+"/"+pure_destination; 
+              exec('java -jar ./jplag-4.1.0-jar-with-dependencies.jar -l'+ aug +' -r '+path+' -new '+path, (error, stdout, stderr) => {
+                if(error){
+                  res.send({'msg': 'error'});
+                }
+              });
 
-            // 3. Process plagiarism of source code with JPlag.
-            path = pure_file_name+'/'+pure_destination;
-            check_file = false;
-            check_file = exec_jplag(path);
-            if(check_file == true){
-              res.send({'msg': 'success'});
-            }else if(check_file == false){
-              res.send({'msg': 'error'});
+              if(check_file_exists("./datasets/"+pure_file_name+"/"+pure_destination+"/overview.json")){
+                res.send({'msg': 'success'});
+
+                // fs.readFile(path, (err, data) => {
+                //   if(err){
+                //     res.send({'msg': 'error'});
+                //   }else{
+                //     var jsonData = JSON.parse(data);
+                //     res.send(jsonData);
+                //   } 
+                // });
+              }else{
+                res.send({'msg': 'error'});
+              }
             }else{
               res.send({'msg': 'error'});
             }
-          }else if(check_file == false){
+          })
+          .catch((error) => {
             res.send({'msg': 'error'});
-          }else{
-            res.send({'msg': 'error'});
-          }
-        })
-        .catch((error) => {
-          res.send({'msg': 'error'});
-        });
-      }
-    })
+          });
+        }
+      });
 });
 
 // Response plagirism results.
-app.post('/api/result', (req, res) => {
-  var check_file = false;  
-  var path1 = req.headers.path1;
-  var path2 = req.headers.path2;
+// app.post('/api/result', (req, res) => {
+//     var path1 = req.headers.path1;
+//     var path2 = req.headers.path2;
+  
+//     if(check_file_exists("./datasets/"+path1+"/"+path2+"/overview.json")){
+//       res.send({'msg': 'success +++'});
 
-  var path = "./datasets/"+path1+"/"+path2+"/overview.json";
-  check_file = check_file_exists(path);
-  if(check_file == true){
-    fs.readFile(path, (err, data) => {
-      if(err){
-        res.send({'msg': 'error'});
-      }else{
-        var jsonData = JSON.parse(data);
-        res.send(jsonData);
-      } 
-    });
-  }else if(check_file == false){
-    res.send({'msg': 'error'});
-  }else{
-    res.send({'msg': 'error'});
-  }
-});
+//       // fs.readFile(path, (err, data) => {
+//       //   if(err){
+//       //     res.send({'msg': 'error'});
+//       //   }else{
+//       //     var jsonData = JSON.parse(data);
+//       //     res.send(jsonData);
+//       //   } 
+//       // });
+//     }else{
+//       res.send({'msg': 'error'});
+//     }
+// });
 
 // Response compare result.
 app.post('/api/compare', (req, res) => {

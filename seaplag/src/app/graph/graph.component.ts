@@ -80,6 +80,10 @@ export class GraphComponent implements OnInit {
     this.mode = params['mode'];
     this.minValue = params['min'];
 
+    // read json from import.
+    var data = "";
+    this.GraphData = Object.assign({}, data);
+
     if(language == "TH"){
       this.isTH = true;
       this.isEN = false;
@@ -94,51 +98,71 @@ export class GraphComponent implements OnInit {
       this.switch_to_th();
     }
 
-    // Show loading screen.
-    this.showSpinner();
+    // Read JSON data.
+    if(this.mode == "2D"){
+      this.is2D = true;
+      this.is3D = false;
+      this.ForceGraph = require('force-graph');
+    }else if(this.mode == "3D"){
+      this.is2D = false;
+      this.is3D = 
+      this.ForceGraph3D = require('3d-force-graph');
+      this.SpriteText = require('three-spritetext');
+    }else{
+      this.is2D = true;
+      this.is3D = false;
+      this.ForceGraph = require('force-graph');
+    
+      this.set_graph();
+    }
 
-    // Read data from backend server. 
-    // You could upload it like this:
-    const formData = new FormData()
-    formData.append('file', this.filename);
-    const headers = new HttpHeaders({
-      'path1': this.filename,
-      'path2': this.dest,
-    })
+    // // Show loading screen.
+    // // this.showSpinner();
 
-    this.http.post('http://localhost:4000/api/result', formData, { headers: headers })
-    .subscribe(data => {
-      this.hideSpinner();
+    // // Read data from backend server. 
+    // // You could upload it like this:
+    // const formData = new FormData()
+    // formData.append('file', this.filename);
+    // const headers = new HttpHeaders({
+    //   'path1': this.filename,
+    //   'path2': this.dest,
+    // })
 
-      var res = JSON.stringify(data);
-      if(!res.includes("error")){
-        // Read JSON data.
-        if(this.mode == "2D"){
-          this.is2D = true;
-          this.is3D = false;
+    // this.http.post('http://localhost:4000/api/result', formData, { headers: headers })
+    // .subscribe(data => {
+    //   this.hideSpinner();
 
-          this.ForceGraph = require('force-graph');
-        }else if(this.mode == "3D"){
-          this.is2D = false;
-          this.is3D = true;
+    //   console.log(data);
 
-          this.ForceGraph3D = require('3d-force-graph');
-          this.SpriteText = require('three-spritetext');
-        }else{
-          this.is2D = true;
-          this.is3D = false;
+    //   // var res = JSON.stringify(data);
+    //   // if(!res.includes("error")){
+    //   //   // Read JSON data.
+    //   //   if(this.mode == "2D"){
+    //   //     this.is2D = true;
+    //   //     this.is3D = false;
 
-          this.ForceGraph = require('force-graph');
-        }
+    //   //     this.ForceGraph = require('force-graph');
+    //   //   }else if(this.mode == "3D"){
+    //   //     this.is2D = false;
+    //   //     this.is3D = true;
 
-        this.GraphData = Object.assign({}, data);
-        this.set_graph();
-      }else if(res.includes("error")){
-        this.show_error();
-      }else{
-        this.show_error();
-      }
-    });
+    //   //     this.ForceGraph3D = require('3d-force-graph');
+    //   //     this.SpriteText = require('three-spritetext');
+    //   //   }else{
+    //   //     this.is2D = true;
+    //   //     this.is3D = false;
+
+    //   //     this.ForceGraph = require('force-graph');
+    //   //   }
+
+    //   //   this.GraphData = Object.assign({}, data);
+    //   //   this.set_graph();
+    //   // }else if(res.includes("error")){
+    //   //   this.show_error();
+    //   // }else{
+    //   //   this.show_error();
+    //   // }
+    // });
 
     var mode = this.mode;
     $(document).ready(function () {
@@ -192,7 +216,6 @@ export class GraphComponent implements OnInit {
       });
 
     });
-  
   }
 
   set_graph(){

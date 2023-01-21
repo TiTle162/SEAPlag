@@ -17,6 +17,19 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class ImportComponent implements OnInit {
   constructor(private router: Router, private http: HttpClient, private spinner: NgxSpinnerService, ){}
 
+  title_code_language: string = "";
+  selected_code_language: any ='java';
+  code_language = [
+    { name: 'Java', description: 'java' },
+    { name: 'C++', description: 'cpp' },
+    { name: 'C#', description: 'csharp' },
+    { name: 'Python', description: 'python3' },
+    { name: 'Kotlin', description: 'kotlin' },
+    { name: 'Switf', description: 'swift' },
+    { name: 'Scalar', description: 'scala' },
+    { name: 'R', description: 'rlang' },
+  ]; 
+
   /* File upload */
   public files: NgxFileDropEntry[] = [];
   public dropped(files: NgxFileDropEntry[]) {
@@ -39,30 +52,33 @@ export class ImportComponent implements OnInit {
           formData.append('file', file, new_file_name+'.zip');
 
           const headers = new HttpHeaders({
-            'destination': destination
-          })
+            'destination': destination,
+            'aug': this.selected_code_language 
+          });
 
           this.http.post('http://localhost:4000/api/jplag', formData, { headers: headers })
           .subscribe(data => {
             this.hideSpinner();
 
-            var res = JSON.stringify(data);
-            if(res.includes("success")){
-              this.router.navigate(['/Graph'], {
-                queryParams: {
-                  language: this.current_language,
-                  filename: new_file_name,
-                  dest: destination.slice(0, -4),
-                  mode: "2D",
-                  min: 50,
-                  max: 100
-                },
-              });
-            }else if(res.includes("error")){
-              this.show_error();
-            }else{
-              this.show_error();
-            }
+            console.log(data);
+
+            // var res = JSON.stringify(data);
+            // if(!res.includes("error")){
+            //   this.router.navigate(['/Graph'], {
+            //     queryParams: {
+            //       language: this.current_language,
+            //       filename: new_file_name,
+            //       dest: destination.slice(0, -4),
+            //       mode: "2D",
+            //       min: 50,
+            //       max: 100
+            //     },
+            //   });
+            // }else if(res.includes("error")){
+            //   this.show_error();
+            // }else{
+            //   this.show_error();
+            // }
           });
         });
       } else {
@@ -236,6 +252,8 @@ export class ImportComponent implements OnInit {
     this.current_year = new Date().getFullYear()+543;
 
     this.choose_file = "เลือกไฟล์";
+
+    this.title_code_language= "เลือกภาษา :"
   }
 
   switch_to_eng(){
@@ -302,6 +320,8 @@ export class ImportComponent implements OnInit {
     this.current_year = new Date().getFullYear();
 
     this.choose_file = "Browse file";
+
+    this.title_code_language= "Choose languages :"
   }
   
   random_file_name(){

@@ -47,24 +47,36 @@
             <!-- Intro -->
             <br><br>
             <div class="intro text-center">
-                <h1>{{welcome_word}}<br>
+                <h1 style="margin-bottom: 25px ;">{{welcome_word}}<br>
                     <span class="text-info" style="padding-top: 30px; font-size: 100px;">SEA</span>
                     <span class="text-danger" style="padding-top: 30px; font-size: 100px;"> Plag.</span>
                 </h1>
-                <div class="front-page">
-                    <div class="container center" style="width: 95%;">
-                        <div class="container" >
+                <div class="front-page" style="padding-top: 0px;">
+                    <div class="container" style="font-size: 19px;">
+                        <div class="container center row" style="margin-bottom: 30px; text-align: center;">
+                            <div class="col-6 text-info" style="font-weight: bold; text-align: right; margin-top: 3px;">
+                                <span>{{title_code_language}}</span>
+                            </div>
+                            <div class="col-2" style="padding-left: 0px;"  >
+                                <select required style="width:fit-content;" class="form-control text-secondary"  class="form-select" [(ngModel)]="selected_code_language">
+                                  <option class="text-secondary" *ngFor="let n of code_language"  [ngValue]="n.description">{{ n.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="container center" style="width: 95%;">
                             <ngx-file-drop (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)"
                                 (onFileLeave)="fileLeave($event)">
                                 <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                                    <div >
+                                    <div>
                                         <strong style="font-size: 20px;">{{file_upload}}</strong>
                                         &nbsp;
                                         &nbsp;
                                         {{Or}}
                                         &nbsp;
                                         &nbsp;
-                                        <button type="button" class="btn btn-primary" style="margin-top: -5px;font-size: 18px;background-color: red; color: white;"
+                                        <button type="button" class="btn btn-primary"
+                                            style="margin-top: -5px;font-size: 18px;background-color: red; color: white;"
                                             (click)="openFileSelector()">{{choose_file}}</button>
                                     </div>
                                 </ng-template>
@@ -204,7 +216,7 @@
             <div class="latest-articles text-center" id="credit" style="padding-top: 115px;">
                 <h1><span class="blue-frame">{{credit_word}}</span></h1>
                 <!-- <a href="">All category <img style="width: 20px; margin-left: 20px;" src="img/icon/arrow-right-icon.svg" alt=""></a> -->
-                <div  style="padding-left: 3%;" class="latest-articles-wrapper">
+                <div style="padding-left: 3%;" class="latest-articles-wrapper">
                     <div class="article">
                         <img style="height: 200px; width: 325px;" src="../../assets/img/developer/ping.jpg" alt="">
                         <p class="article-meta"><span class="data text-muted"><b>{{front_end_dev_name}}</b>
@@ -325,7 +337,18 @@
 <ngx-spinner type="node_modules/ngx-spinner/animations/ball-atom" style="text-align: center;">
     <div class="loadingio-spinner-interwind-np28c1ms6cg">
         <div class="ldio-wwr28bcm9qb">
-            <div><div><div><div></div></div></div><div><div><div></div></div></div></div>
+            <div>
+                <div>
+                    <div>
+                        <div></div>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
             <!-- <p style="text-align: center; font-size:x-large; color: #aef1ff"> Loading... </p> -->
         </div>
     </div>
