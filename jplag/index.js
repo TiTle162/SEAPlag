@@ -11,7 +11,16 @@ const multer = require('multer');
 const cors = require('cors');
 const decompress = require("decompress");
 const fs = require('fs');
-const { exec } = require('child_process');
+
+// Options for run child process //
+/*
+  fork = created new child process which have the same PID of parent process, return value to parent process.
+  exec = replaced parent process with child process, No return value to parent process.
+  spawn = supported big amount of data.
+*/
+// const { fork } = require('child_process'); // Can't find an example.
+// const { exec } = require('child_process'); // Size of buffer limit to 200k (If buffer is bigger than 200k program will Crash!!!)
+const { spawn } = require('child_process'); // Better than exec (Size of data).
 
 /* Express */
 const app = express();
@@ -42,7 +51,7 @@ app.get('/', (req, res) => {
 function check_file_exists(path){
   var time= new Date();
   var time_start = '';
-  var time_end = (time.getSeconds()*1000)+15000;
+  var time_end = (time.getSeconds()*1000)+10000;
 
   while(true){
     time_start = (time.getSeconds()*1000);
@@ -72,31 +81,40 @@ app.post('/api/jplag', (req, res) => {
 
           // 2. Extract zip file.        
           decompress("./input_datasets/"+file_name, "./datasets/"+pure_file_name)
-          .then((files) => {
+          .then(async (files) => {
             if(check_file_exists("./datasets/"+pure_file_name+"/"+pure_destination)){
               
-              // 3 JPlag file. 
-              var path = "./datasets/"+pure_file_name+"/"+pure_destination; 
-              exec('java -jar ./jplag-4.1.0-jar-with-dependencies.jar -l'+ aug +' -r '+path+' -new '+path, (error, stdout, stderr) => {
-                if(error){
+                // 3. JPlag file. 
+                /* fork */
+                // -
+
+                /* exec */
+                // var path = "./datasets/"+pure_file_name+"/"+pure_destination; 
+                // exec('java -jar ./jplag-4.1.0-jar-with-dependencies.jar -l'+ aug +' -r '+path+' -new '+path, (error, stdout, stderr) => {
+                //   if(error){
+                //     res.send({'msg': 'error'});
+                //   }
+                // });
+
+                /* spawn */
+                var path = "./datasets/"+pure_file_name+"/"+pure_destination; 
+                var child = spawn('java', ['-jar', './jplag-4.1.0-jar-with-dependencies.jar', '-l', aug, '-r', path, '-new', path]);
+                child.stdout.on('data', (data) => {
+                  console.log('stdout: '+data);
+                })
+                child.stderr.on('data', (data) => {
+                  console.log('stderr: '+data);
+                })
+                child.on('error', (error) => {
+                  console.log('error: '+error.message);
+                })
+
+                if(check_file_exists("./datasets/"+pure_file_name+"/"+pure_destination+"/overview.json")){
+                  res.send({'msg': 'success'});
+                }else{
                   res.send({'msg': 'error'});
                 }
-              });
 
-              if(check_file_exists("./datasets/"+pure_file_name+"/"+pure_destination+"/overview.json")){
-                res.send({'msg': 'success'});
-
-                // fs.readFile(path, (err, data) => {
-                //   if(err){
-                //     res.send({'msg': 'error'});
-                //   }else{
-                //     var jsonData = JSON.parse(data);
-                //     res.send(jsonData);
-                //   } 
-                // });
-              }else{
-                res.send({'msg': 'error'});
-              }
             }else{
               res.send({'msg': 'error'});
             }
@@ -109,25 +127,28 @@ app.post('/api/jplag', (req, res) => {
 });
 
 // Response plagirism results.
-// app.post('/api/result', (req, res) => {
-//     var path1 = req.headers.path1;
-//     var path2 = req.headers.path2;
-  
-//     if(check_file_exists("./datasets/"+path1+"/"+path2+"/overview.json")){
-//       res.send({'msg': 'success +++'});
+app.post('/api/result', async (req, res) => {
+    var path1 = req.headers.path1;
+    var path2 = req.headers.path2;
+    var path = "./datasets/"+path1+"/"+path2+"/overview.json";
 
-//       // fs.readFile(path, (err, data) => {
-//       //   if(err){
-//       //     res.send({'msg': 'error'});
-//       //   }else{
-//       //     var jsonData = JSON.parse(data);
-//       //     res.send(jsonData);
-//       //   } 
-//       // });
-//     }else{
-//       res.send({'msg': 'error'});
-//     }
-// });
+    if(check_file_exists(path)){
+      fs.readFile(path, 'utf8', (err, data) => {
+        if (err) {
+          res.send({'msg': 'error'});
+        }
+
+        try {
+          const jsonData = JSON.parse(data);
+          res.send(jsonData);
+        } catch (err) {
+          res.send({'msg': 'refresh'});
+        }
+      });
+    }else{
+      res.send({'msg': 'error'});
+    }
+});
 
 // Response compare result.
 app.post('/api/compare', (req, res) => {

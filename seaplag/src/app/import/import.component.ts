@@ -60,25 +60,37 @@ export class ImportComponent implements OnInit {
           .subscribe(data => {
             this.hideSpinner();
 
-            console.log(data);
+            var res = JSON.stringify(data);
+            if(res.includes("success")){
+              var urlTree = this.router.createUrlTree(['/Graph'], {
+                queryParams: {
+                  language: this.current_language,
+                  filename: new_file_name,
+                  dest: destination.slice(0, -4),
+                  mode: "2D",
+                  min: 50,
+                  max: 100
+                }
+              });
+          
+              var url = this.router.serializeUrl(urlTree);
+              window.open(url, '_self');
 
-            // var res = JSON.stringify(data);
-            // if(!res.includes("error")){
-            //   this.router.navigate(['/Graph'], {
-            //     queryParams: {
-            //       language: this.current_language,
-            //       filename: new_file_name,
-            //       dest: destination.slice(0, -4),
-            //       mode: "2D",
-            //       min: 50,
-            //       max: 100
-            //     },
-            //   });
-            // }else if(res.includes("error")){
-            //   this.show_error();
-            // }else{
-            //   this.show_error();
-            // }
+              // this.router.navigate(['/Graph'], {
+              //   queryParams: {
+              //     language: this.current_language,
+              //     filename: new_file_name,
+              //     dest: destination.slice(0, -4),
+              //     mode: "2D",
+              //     min: 50,
+              //     max: 100
+              //   },
+              // });
+            }else if(res.includes("error")){
+              this.show_error();
+            }else{
+              this.show_error();
+            }
           });
         });
       } else {
@@ -152,7 +164,6 @@ export class ImportComponent implements OnInit {
   choose_file: string = "";
 
   titel_code_language: string ="";
-  selected_code_language: string ="Java";
 
   ngOnInit() {
     this.switch_to_th();
@@ -255,13 +266,8 @@ export class ImportComponent implements OnInit {
     this.current_year = new Date().getFullYear()+543;
 
     this.choose_file = "เลือกไฟล์";
-<<<<<<< HEAD
 
     this.title_code_language= "เลือกภาษา :"
-=======
-    this.titel_code_language= "เลือกภาษา :"
-
->>>>>>> b9b26444773f9e7651c574a21ceff8809a4a5633
   }
 
   switch_to_eng(){
@@ -328,12 +334,7 @@ export class ImportComponent implements OnInit {
     this.current_year = new Date().getFullYear();
 
     this.choose_file = "Browse file";
-<<<<<<< HEAD
-
-    this.title_code_language= "Choose languages :"
-=======
     this.titel_code_language= "Choose languages :"
->>>>>>> b9b26444773f9e7651c574a21ceff8809a4a5633
   }
   
   random_file_name(){

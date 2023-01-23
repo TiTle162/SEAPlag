@@ -11,7 +11,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
 
 import { Options } from '@angular-slider/ngx-slider';
-import { EqualStencilFunc } from 'three/src/constants';
+// import { EqualStencilFunc } from 'three/src/constants';
 
 @Component({
   selector: 'app-graph',
@@ -74,21 +74,20 @@ export class GraphComponent implements OnInit {
 
   ngOnInit(){
     var params = this.route.snapshot.queryParams;
-    var language = params['language'];
+    this.current_language = params['language'];
     this.filename = params['filename']; 
     this.dest = params['dest'];
     this.mode = params['mode'];
     this.minValue = params['min'];
 
-    // read json from import.
-    var data = "";
-    this.GraphData = Object.assign({}, data);
+    // Show loading screen.
+    this.showSpinner();
 
-    if(language == "TH"){
+    if(this.current_language == "TH"){
       this.isTH = true;
       this.isEN = false;
       this.switch_to_th();
-    }else if(language == "EN"){
+    }else if(this.current_language == "EN"){
       this.isTH = false;
       this.isEN = true;
       this.switch_to_eng();
@@ -97,72 +96,6 @@ export class GraphComponent implements OnInit {
       this.isEN = false;
       this.switch_to_th();
     }
-
-    // Read JSON data.
-    if(this.mode == "2D"){
-      this.is2D = true;
-      this.is3D = false;
-      this.ForceGraph = require('force-graph');
-    }else if(this.mode == "3D"){
-      this.is2D = false;
-      this.is3D = 
-      this.ForceGraph3D = require('3d-force-graph');
-      this.SpriteText = require('three-spritetext');
-    }else{
-      this.is2D = true;
-      this.is3D = false;
-      this.ForceGraph = require('force-graph');
-    
-      this.set_graph();
-    }
-
-    // // Show loading screen.
-    // // this.showSpinner();
-
-    // // Read data from backend server. 
-    // // You could upload it like this:
-    // const formData = new FormData()
-    // formData.append('file', this.filename);
-    // const headers = new HttpHeaders({
-    //   'path1': this.filename,
-    //   'path2': this.dest,
-    // })
-
-    // this.http.post('http://localhost:4000/api/result', formData, { headers: headers })
-    // .subscribe(data => {
-    //   this.hideSpinner();
-
-    //   console.log(data);
-
-    //   // var res = JSON.stringify(data);
-    //   // if(!res.includes("error")){
-    //   //   // Read JSON data.
-    //   //   if(this.mode == "2D"){
-    //   //     this.is2D = true;
-    //   //     this.is3D = false;
-
-    //   //     this.ForceGraph = require('force-graph');
-    //   //   }else if(this.mode == "3D"){
-    //   //     this.is2D = false;
-    //   //     this.is3D = true;
-
-    //   //     this.ForceGraph3D = require('3d-force-graph');
-    //   //     this.SpriteText = require('three-spritetext');
-    //   //   }else{
-    //   //     this.is2D = true;
-    //   //     this.is3D = false;
-
-    //   //     this.ForceGraph = require('force-graph');
-    //   //   }
-
-    //   //   this.GraphData = Object.assign({}, data);
-    //   //   this.set_graph();
-    //   // }else if(res.includes("error")){
-    //   //   this.show_error();
-    //   // }else{
-    //   //   this.show_error();
-    //   // }
-    // });
 
     var mode = this.mode;
     $(document).ready(function () {
@@ -214,8 +147,61 @@ export class GraphComponent implements OnInit {
           $(".modal").css('display', 'none');
         }
       });
-
     });
+
+    this.load_data();
+  }
+
+  load_data(){
+    // Read data from backend server. 
+    const formData = new FormData()
+    formData.append('file', this.filename);
+    const headers = new HttpHeaders({
+      'path1': this.filename,
+      'path2': this.dest,
+    })
+
+    this.http.post('http://localhost:4000/api/result', formData, { headers: headers })
+    .subscribe(data => {
+      this.hideSpinner();
+
+      console.log(data);
+
+      var res = JSON.stringify(data);
+
+      if(res.includes("refresh")){
+        return ;
+      }
+
+      if(!res.includes("error")){
+        // Read JSON data.
+        if(this.mode == "2D"){
+          this.is2D = true;
+          this.is3D = false;
+          this.ForceGraph = require('force-graph');
+          this.GraphData = Object.assign({}, data);
+          this.set_graph();
+        }else if(this.mode == "3D"){
+          this.is2D = false;
+          this.is3D = true;
+          this.ForceGraph3D = require('3d-force-graph');
+          this.SpriteText = require('three-spritetext');
+          this.GraphData = Object.assign({}, data);
+          this.set_graph();
+        }else{
+          this.is2D = true;
+          this.is3D = false;
+          this.ForceGraph = require('force-graph');
+          this.GraphData = Object.assign({}, data);
+          this.set_graph();
+        }
+      }else if(res.includes("error")){
+        this.show_error();
+      }else{
+        this.show_error();
+      }
+    });
+
   }
 
   set_graph(){
@@ -267,24 +253,24 @@ export class GraphComponent implements OnInit {
     }
 
     // Remove nodes which no edge.
-    for(let i=0;i<temp_nodes.length;i++){
-      let switch_check = 0;
+    // for(let i=0;i<temp_nodes.length;i++){
+    //   let switch_check = 0;
       
-      for(let j=0;j<links.length;j++){
-        let temp_source = links[j].source;
-        let temp_target = links[j].target;
-        if (temp_nodes[i] == temp_source || temp_nodes[i] == temp_target) {
-          switch_check = 1;
-          break;
-        }
-      }
+    //   for(let j=0;j<links.length;j++){
+    //     let temp_source = links[j].source;
+    //     let temp_target = links[j].target;
+    //     if (temp_nodes[i] == temp_source || temp_nodes[i] == temp_target) {
+    //       switch_check = 1;
+    //       break;
+    //     }
+    //   }
 
-      if (switch_check == 0) {
-        final_nodes.splice(i, 1);
-      } else{
-        continue;
-      }
-    }
+    //   if (switch_check == 0) {
+    //     final_nodes.splice(i, 1);
+    //   } else{
+    //     continue;
+    //   }
+    // }
 
     // Set nodes and links.
     GraphObject["nodes"] = final_nodes;
@@ -293,7 +279,6 @@ export class GraphComponent implements OnInit {
     // Create graph
     this.create_graph(GraphObject);
   }
-  
 
   create_graph(GraphObject: any){
     // Creat graph.
