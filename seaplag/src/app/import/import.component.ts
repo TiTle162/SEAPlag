@@ -33,7 +33,24 @@ export class ImportComponent implements OnInit {
   /* File upload */
   public files: NgxFileDropEntry[] = [];
   public dropped(files: NgxFileDropEntry[]) {
-    this.files = files;
+
+    // Check count file input.
+    if(files.length > 1){
+      this.show_input_size_error();
+      return ;
+    }else if(files.length == 1){
+      console.log();
+
+      // Check file name extension.
+      if(files[0].relativePath.slice(-4) != ".zip"){
+        this.show_input_type_error();
+        return ;
+      }else if(files[0].relativePath.slice(-4) == ".zip"){
+        this.files = files;
+      }
+    }
+
+
     for (const droppedFile of files) {
 
       // Is it a file?
@@ -382,6 +399,62 @@ export class ImportComponent implements OnInit {
       }).then((result)=>{
         if (result.isConfirmed) {
           window.location.reload();
+        } 
+      });
+    }
+  }
+
+  show_input_size_error() {
+    if(this.current_language == "TH"){
+      Swal.fire({
+        title: 'เกิดข้อผิดพลาด!',
+        text: 'กรุณาเลือก .zip ไฟล์ เพียง 1 ไฟล์',
+        icon: 'error',
+        showCancelButton: false,
+        showDenyButton: false,
+      }).then((result)=>{
+        if (result.isConfirmed) {
+          // window.location.reload();
+        } 
+      });
+    }else if(this.current_language == "EN"){
+      Swal.fire({
+        title: 'Error!',
+        text: "Please choose only 1 .zip file.",
+        icon: 'error',
+        showCancelButton: false,
+        showDenyButton: false,
+      }).then((result)=>{
+        if (result.isConfirmed) {
+          // window.location.reload();
+        } 
+      });
+    }
+  }
+
+  show_input_type_error() {
+    if(this.current_language == "TH"){
+      Swal.fire({
+        title: 'เกิดข้อผิดพลาด!',
+        text: 'กรุณาเลือกไฟล์ที่มีนามสกุล .zip เท่านั้น',
+        icon: 'error',
+        showCancelButton: false,
+        showDenyButton: false,
+      }).then((result)=>{
+        if (result.isConfirmed) {
+          // window.location.reload();
+        } 
+      });
+    }else if(this.current_language == "EN"){
+      Swal.fire({
+        title: 'Error!',
+        text: "Please choose only .zip name extension.",
+        icon: 'error',
+        showCancelButton: false,
+        showDenyButton: false,
+      }).then((result)=>{
+        if (result.isConfirmed) {
+          // window.location.reload();
         } 
       });
     }
