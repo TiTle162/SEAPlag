@@ -9,11 +9,13 @@ import { AppComponent } from './app.component';
 import { GraphComponent } from './graph/graph.component';
 import { DetailsComponent } from './details/details.component';
 import { ImportComponent } from './import/import.component';
+import { TableComponent } from './table/table.component';
 import { PagefaultComponent } from './pagefault/pagefault.component';
 
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -22,6 +24,7 @@ const appRoute: Routes = [
   {path: 'Home', component: ImportComponent},
   {path: 'Graph', component: GraphComponent},
   {path: 'Details', component: DetailsComponent},
+  {path: 'Table', component: TableComponent},
   {path: '**', component: PagefaultComponent},
 ]
 
@@ -32,6 +35,7 @@ const appRoute: Routes = [
     DetailsComponent,
     ImportComponent,
     PagefaultComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +46,8 @@ const appRoute: Routes = [
     NgxSliderModule,
     NgxFileDropModule,
     NgxSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
+    CodemirrorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

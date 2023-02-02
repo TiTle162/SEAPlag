@@ -185,6 +185,26 @@ app.post('/api/sourcecode', (req, res) => {
   });
 });
 
+// Response sourcecode for table.
+app.post('/api/table', async (req, res) => {
+  var filename = req.headers.filename;
+  var dest = req.headers.dest;
+  var path = "./datasets/"+filename+"/"+dest+"/overview.json";
+
+  if(check_file_exists(path)){
+    fs.readFile(path, 'utf8', (err, data) => {
+      if (err) {
+        res.send({'msg': 'error'});
+      }
+
+      const jsonData = JSON.parse(data);
+      res.send(jsonData);
+    });
+  }else{
+    res.send({'msg': 'error'});
+  }
+});
+
 app.listen(PORT, HOST, () => {
   console.log(`Running on http://${HOST}:${PORT}`);
 });

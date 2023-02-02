@@ -11,22 +11,26 @@
 
             </ul>
             <ul class="right navbar-nav ms-auto">
-                <li style="margin-top: 3px; margin-right: 10px;">
-                    <div
-                        style="width: 175px; background-color: rgba(255, 255, 255, 0); border-radius: 5px; padding: 2px;">
+                <li class="nav-card-item-right" style="margin-top: 27px;">
+                    <span style="padding-left: 25px;"><b>{{scope_language}}: </b></span>
+                </li>
+                <div style="width: 15px;"></div>
+                <li style="margin-top: 3px;">
+                    <div style="width: 230px; background-color: rgba(255, 255, 255, 0); border-radius: 5px; padding: 2px;">
                         <ngx-slider [(value)]="minValue" [options]="options"></ngx-slider>
                     </div>
                 </li>
+                <div style="width: 10px;"></div>
                 <li class="nav-card-item-right" style="margin-top: 14px; margin-left: 10px;">
                     <button style="width: 60px; height: 50px;" (click)="set_display_output()" type="button"
                         class="btn btn-info px-3 text-white"><i class="fas fa-check"
                             aria-hidden="true"></i><br></button>
                 </li>
-                <li class="nav-card-item-right" style="margin-top: 14px; margin-left: 10px;">
+                <!-- <li class="nav-card-item-right" style="margin-top: 14px; margin-left: 10px;">
                     <button style="width: 60px; height: 50px;" (click)="reset_display_output()" type="button"
                         class="btn btn-warning px-3 text-white"><i class="fa fa-refresh"
                             aria-hidden="true"></i><br></button>
-                </li>
+                </li> -->
             </ul>
         </div>
     </div>
@@ -55,7 +59,6 @@
             </ul>
             <div id="myModal" class="modal">
                 <div class="modal-content" style="margin-bottom: 90px;">
-
                     <!-- Modal Header -->
                     <div class="modal-header" id="modal-header">
                         <h4 class="modal-title" id="modal-title">
@@ -202,39 +205,25 @@
                     <div class="modal-footer">
                         <!-- ref. = test -->
                     </div>
-
-
-                    <!-- <span class="close">&times;</span> -->
-                    <!-- <p>{{test}}</p> -->
-
-
-
-
-                    <!-- <ul class="navbar-nav" style="list-style-type: none;">
-                        <li class="nav-card-item bg-white">
-                            <a id="th" style="cursor: pointer;" class="nav-link" [ngClass]="{'active': isTH}" (click)="switch_to_th()">
-                                <span><img src="../../assets/img/language/thailand.png" style="width: 20px;" alt=""></span>
-                                &nbsp;&nbsp;{{navbar_language_1}}
-                            </a>
-                        </li>
-                        <li class="nav-card-item bg-white">
-                            <a id="en" style="cursor: pointer;" class="nav-link" [ngClass]="{'active': isEN}" (click)="switch_to_eng()">
-                                <span><img src="../../assets/img/language/united-kingdom.png" style="width: 20px;" alt=""></span>
-                                &nbsp;&nbsp;{{navbar_language_2}}
-                            </a>
-                        </li>
-                    </ul> -->
-                    <!-- <span class="close">&times;</span>
-                  <p>Some text in the Modal..</p> -->
                 </div>
             </div>
+
+            <div style="width: 100%; text-align: center; margin-left: 15px;">
+                <span style="padding-left: 75px;">{{suggest_language}}</span>
+            </div>
+
             <ul class="right navbar-nav ms-auto">
                 <li class="nav-card-item-right" style="margin-top: 8px; margin-left: 10px;">
                     <button id="export" style="width: 60px; height: 50px;" type="button"
                         class="btn px-3 text-white"
-                        [ngClass]="{'btn-danger': is2D, 'btn-secondary': is3D, 'disabled': is3D}"
+                        [ngClass]="{'btn-danger': is2D, 'btn-secondary': is3D}"
                         ><i class="fas fa-download" style="font-size: 25px;"
                         aria-hidden="true"></i><br></button>
+                </li>
+                <li class="nav-card-item-right" style="margin-top: 8px; margin-left: 10px;">
+                    <button style="width: 60px; height: 50px;" type="button" (click)="show_display_table()"
+                        class="btn btn-primary px-3 text-white"><i class="fa fa-table text"
+                            style="font-size: 25px; padding-top: 3px;" aria-hidden="true"></i><br></button>
                 </li>
                 <li class="nav-card-item-right" style="margin-top: 8px; margin-left: 10px;">
                     <button style="width: 60px; height: 50px;" id="hint-btn" type="button"

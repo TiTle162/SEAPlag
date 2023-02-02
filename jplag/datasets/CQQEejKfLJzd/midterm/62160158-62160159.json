@@ -1,0 +1,1 @@
+{"id1":"62160158","id2":"62160159","similarity":0.6938775510204082,"matches":[{"file1":"Main.java","file2":"Main.java","start1":1,"end1":11,"start2":1,"end2":10,"tokens":14},{"file1":"Teacher.java","file2":"Teacher.java","start1":13,"end1":21,"start2":16,"end2":26,"tokens":11},{"file1":"Teacher.java","file2":"Teacher.java","start1":7,"end1":12,"start2":9,"end2":14,"tokens":9}]}

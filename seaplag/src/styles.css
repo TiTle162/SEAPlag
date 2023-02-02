@@ -1,0 +1,21 @@
+/* Add application styles & imports to this file! */
+@import '~codemirror/lib/codemirror.css';
+/* @import '~codemirror/theme/idea.css'; */
+@import '~codemirror/theme/eclipse.css';
+/* @import '~codemirror/addon/fold/foldgutter.css'; */
+/* @import '~codemirror/addon/lint/lint.css'; */
+@import '~codemirror/addon/hint/show-hint.css';
+
+.CodeMirror {
+  position:relative;
+  overflow:hidden;
+  background: whitesmoke;
+  text-align: left;
+  flex-wrap: wrap;
+  white-space: pre-wrap;
+  width: auto; 
+  height: 450px;
+  word-break: break-word;
+  /* display: block; */
+
+}

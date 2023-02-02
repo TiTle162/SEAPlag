@@ -1,0 +1,168 @@
+<nav class="navbar navbar-expand-xl fixed-top">
+    <div class="container">
+      <img claass="w-100" src="../../assets/img/SEAPlag.png" style="width: 220px; height: 63px;" alt="">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav" style="margin-left: 45px;">
+        <ul class="navbar-nav">
+          <!-- <li class="nav-card-item">
+                    <a class="nav-link" href="#top">Top</a>
+                </li> -->
+          <!-- <li class="nav-card-item">
+                    <a class="nav-link" href="#howto">How to use</a>
+                </li>
+                <li class="nav-card-item">
+                    <a class="nav-link" href="#credit">Credits</a>
+                </li> -->
+        </ul>
+        <ul class="right navbar-nav ms-auto">
+          <li class="nav-card-item-right">
+            <a id="th" style="cursor: pointer;" class="nav-link"
+              (click)="switch_to_th()">
+              <span><img src="../../assets/img/language/thailand.png" style="width: 20px;" alt=""></span>
+              &nbsp;&nbsp;{{navbar_language_1}}
+            </a>
+          </li>
+          <li class="nav-card-item-right">
+            <a id="en" style="cursor: pointer;" class="nav-link" (click)="switch_to_eng()">
+              <span><img src="../../assets/img/language/united-kingdom.png" style="width: 20px;" alt=""></span>
+              &nbsp;&nbsp;{{navbar_language_2}}
+            </a>
+          </li>
+          <li class="nav-card-item-right create-account">
+            <a class="nav-link" target="_blank" href="https://github.com/jplag/JPlag">{{link_to_jplag}} <span
+                class="text-info">JPlag</span></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="content-box container bg-white mb-3" style="width: 1920px; border-radius: 10px; margin-top: -40px;">
+    <main>
+        <div class="container" >
+            <div class="container px-5">
+                <!-- Intro -->
+                <br><br>
+                <h1 class="text-center" style="font-size: 35px;"><b>{{table_header}}</b></h1>
+                <br>
+                <div class="intro text-center scollable">
+                  <table class="table table-striped">
+                    <thead class="table-info">
+                      <tr>
+                        <th scope="col" class='content-size' style="width: 10%;">{{no}}</th>
+                        <th scope="col" class='content-size' style="width: 35%;">{{link}}</th>
+                        <th scope="col" class='content-size' style="width: 40%;">
+                          {{similarity}}
+                          <!-- <i style="padding-left: 10px;" class="fa fa-sort text-secondary" aria-hidden="true"></i> -->
+                        </th>
+                        <th scope="col" class='content-size' style="width: 15%;"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of TableData; index as i">
+                        <th class='content-center' style="width: 10%;" scope="row">{{ i + 1 }}</th>
+                        <td class='content-center' style="width: 35%;">
+                          {{ data.first_submission }} - {{ data.second_submission }}
+                        </td>
+                        <td class='content-center' style="width: 40%;" 
+                          [ngClass]="{
+                            'text-success': data.value <= 60,
+                            'text-warning': data.value > 60 && data.value <= 80,
+                            'text-danger': data.value > 80
+                          }"
+                          >
+                          <b>{{ data.value }}</b>
+                        </td>
+                        <td style="width: 15%;">
+                          <button type="button" class="btn btn-primary text-white" (click)="show_comparison(data.first_submission, data.second_submission);">
+                            <i class="fa fa-search"style="font-size: 15px;" aria-hidden="true"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+            </div>
+        </div>
+    </main>
+    <br><br>
+    <!-- Footer -->
+    <footer>
+      <div class="container text-center text-md-start">
+        <div class="footer-wrap">
+          <div class="about">
+            <img src="../../assets/../../assets/img/SEAPlag.png" alt="">
+            <p class="text-muted py-4">
+              {{ref1}} <span class="text-info"> JPlag </span>{{ref2}}<span class="text-info"> Chart.js </span>{{ref3}}
+            </p>
+            <!-- <div class="social-media">
+                <a href="" class="me-2 text-reset"><img src="../../assets/img/icon/instagram-icon.svg" alt=""></a>
+                <a href="" class="me-2 text-reset"><img src="../../assets/img/icon/facebook-icon.svg" alt=""></a>
+                <a href="" class="me-2 text-reset"><img src="../../assets/img/icon/twitter-icon.svg" alt=""></a>
+                <a href="" class="me-2 text-reset"><img src="../../assets/img/icon/linkedin-icon.svg" alt=""></a>
+            </div> -->
+          </div>
+  
+          <div class="company">
+            <p class="fw-bold">{{language}}</p>
+            <ul>
+              <li>
+                <p>HTML</p>
+              </li>
+              <li>
+                <p>CSS</p>
+              </li>
+              <li>
+                <p>JavaScript</p>
+              </li>
+              <li>
+                <p>PHP</p>
+              </li>
+              <li>
+                <p>Java</p>
+              </li>
+            </ul>
+          </div>
+  
+          <div class="useful-links">
+            <p class="fw-bold">{{tool}}</p>
+            <ul>
+              <li>
+                <p>Visual Studio Code</p>
+              </li>
+              <li>
+                <p>Google Chrome</p>
+              </li>
+              <li>
+                <p>GitLab</p>
+              </li>
+            </ul>
+          </div>
+  
+          <div class="useful-links">
+            <p class="fw-bold">{{article}}</p>
+            <ul>
+              <li><a target="_blank"
+                  href="https://www.researchgate.net/publication/349532079_An_intelligent_decision_support_system_for_software_plagiarism_detection_in_academia">An
+                  intelligent decision support system for <br> software plagiarism detection in academia</a></li>
+  
+            </ul>
+          </div>
+        </div>
+  
+        <div class="copyright">
+          <p class="text-center">{{copyright}} &copy; SEAPlag {{current_year}}</p>
+          <!--
+            This template is licenced under Attribution 3.0 (CC BY 3.0 PL),
+            You are free to: Share and Adapt. You must give appropriate credit, you may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+            -->
+          <br>
+        </div>
+      </div>
+    </footer>
+</div>
+<br>

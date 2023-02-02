@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
 
+import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { data } from 'jquery';
+import { float } from 'html2canvas/dist/types/css/property-descriptors/float';
 
 @Component({
   selector: 'app-details',
@@ -47,9 +50,45 @@ export class DetailsComponent implements OnInit {
   file_content1: any = "";
   file_content2: any = "";
   default_file: boolean = false;
+
+  codeMirrorOptions: any = {
+    // theme: 'idea',
+    theme: 'eclipse',
+    // mode: "text/x-java",
+    mode: "application/ld+json",
+    // mode: 'application/json',
+    initialEditType: "markdown",
+    lineNumbers: true,
+    readOnly: true,
+    lineWrapping: false,
+    foldGutter: true,
+    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
+    autoCloseBrackets: true,
+    matchBrackets: true,
+    lint: true
+    // readonly: true
+  };
+
+  // CodemirrorComponent.fromTextArea(document.getElementById("codepane"), {
+  //   mode: "text/x-java",
+  //   indentWithTabs: true,
+  //   smartIndent: true,
+  //   lineNumbers: true,
+  //   lineWrapping: true,
+  //   matchBrackets: true,
+  //   autofocus: true,
+  //   theme: "ambiance",
+  // });
+  
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
   ngOnInit() {
+    // console.log(this.file_content1)
+
+    // this.codeObj = JSON.stringify(this.file_content1, undefined, 2);
+    // this.codeObj2 = JSON.stringify(this.file_content2, undefined, 2);
+    // console.log(this.codeObj+'++++----///'+this.file_content1)
+
     var params = this.route.snapshot.queryParams;
     var language = params['language'];
     this.filename = params['filename'];
@@ -82,17 +121,17 @@ export class DetailsComponent implements OnInit {
     })
 
     this.http.post('http://localhost:4000/api/compare', formData, { headers: headers })
-    .subscribe(data => {
-      const res = JSON.stringify(data);
-      if(!res.includes("error")){
-        this.DetailsData = Object.assign({}, data);
-        this.set_details_data();
-      }else if(res.includes("error")){
-        alert("error");
-      }else{
-        alert("error");
-      }
-    });
+      .subscribe(data => {
+        const res = JSON.stringify(data);
+        if (!res.includes("error")) {
+          this.DetailsData = Object.assign({}, data);
+          this.set_details_data();
+        } else if (res.includes("error")) {
+          alert("error");
+        } else {
+          alert("error");
+        }
+      });
 
     // if (this.default_file == false) {
     //   this.get_file(this.DetailsData.matches[0]);
@@ -108,6 +147,7 @@ export class DetailsComponent implements OnInit {
         $("#en").addClass("active");
       });
     });
+
   }
 
   switch_to_th() {
@@ -181,39 +221,39 @@ export class DetailsComponent implements OnInit {
       'filename': this.file_name1
     })
     this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
-    .subscribe(data => {
-      const res = JSON.stringify(data);
-      if(!res.includes("error")){
-        var temp = data;
+      .subscribe(data => {
+        const res = JSON.stringify(data);
+        if (!res.includes("error")) {
+          var temp = data;
 
-        // Second file readed.
-        const formData = new FormData()
-        formData.append('file', this.filename);
-        const headers = new HttpHeaders({
-          'path1': this.filename,
-          'path2': this.dest,
-          'owner': this.target,
-          'filename': this.file_name2
-        })
-        this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
-        .subscribe(data => {
-          const res = JSON.stringify(data);
-          if(!res.includes("error")){
-            this.file_content1 = temp;
-            this.file_content2 = data;
-            
-          }else if(res.includes("error")){
-            alert("error");
-          }else{
-            alert("error");
-          }
-        });
-      }else if(res.includes("error")){
-        alert("error");
-      }else{
-        alert("error");
-      }
-    });
+          // Second file readed.
+          const formData = new FormData()
+          formData.append('file', this.filename);
+          const headers = new HttpHeaders({
+            'path1': this.filename,
+            'path2': this.dest,
+            'owner': this.target,
+            'filename': this.file_name2
+          })
+          this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
+            .subscribe(data => {
+              const res = JSON.stringify(data);
+              if (!res.includes("error")) {
+                this.file_content1 = temp;
+                this.file_content2 = data;
+
+              } else if (res.includes("error")) {
+                alert("error");
+              } else {
+                alert("error");
+              }
+            });
+        } else if (res.includes("error")) {
+          alert("error");
+        } else {
+          alert("error");
+        }
+      });
   }
 
   get_file(file_data: any) {
@@ -230,38 +270,38 @@ export class DetailsComponent implements OnInit {
       'filename': file_data.value.file1
     })
     this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
-    .subscribe(data => {
-      const res = JSON.stringify(data);
-      if(!res.includes("error")){
-        var temp = data;
+      .subscribe(data => {
+        const res = JSON.stringify(data);
+        if (!res.includes("error")) {
+          var temp = data;
 
-        // Second file readed.
-        const formData = new FormData()
-        formData.append('file', this.filename);
-        const headers = new HttpHeaders({
-          'path1': this.filename,
-          'path2': this.dest,
-          'owner': this.target,
-          'filename': file_data.value.file2
-        })
-        this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
-        .subscribe(data => {
-          const res = JSON.stringify(data);
-          if(!res.includes("error")){
-            this.file_content1 = temp;
-            this.file_content2 = data;
-            
-          }else if(res.includes("error")){
-            alert("error");
-          }else{
-            alert("error");
-          }
-        });
-      }else if(res.includes("error")){
-        alert("error");
-      }else{
-        alert("error");
-      }
-    });
+          // Second file readed.
+          const formData = new FormData()
+          formData.append('file', this.filename);
+          const headers = new HttpHeaders({
+            'path1': this.filename,
+            'path2': this.dest,
+            'owner': this.target,
+            'filename': file_data.value.file2
+          })
+          this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
+            .subscribe(data => {
+              const res = JSON.stringify(data);
+              if (!res.includes("error")) {
+                this.file_content1 = temp;
+                this.file_content2 = data;
+
+              } else if (res.includes("error")) {
+                alert("error");
+              } else {
+                alert("error");
+              }
+            });
+        } else if (res.includes("error")) {
+          alert("error");
+        } else {
+          alert("error");
+        }
+      });
   }
 }

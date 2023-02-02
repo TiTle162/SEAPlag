@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
 
-import ForceGraph from 'force-graph/';
+import ForceGraph from 'force-graph';
 import html2canvas from 'html2canvas';
 import ForceGraph3D from '3d-force-graph';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import SpriteText from 'three-spritetext';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
 
@@ -61,6 +60,9 @@ export class GraphComponent implements OnInit {
   is2D: boolean = false;
   is3D: boolean = false;
 
+  scope_language: string = "";
+  suggest_language: string = "";
+
   // Slider options.
   minValue: number = 50;
   options: Options = {
@@ -97,6 +99,52 @@ export class GraphComponent implements OnInit {
       this.switch_to_th();
     }
 
+    // Get data.
+    // Read data from backend server. 
+    const formData = new FormData()
+    formData.append('file', this.filename);
+    const headers = new HttpHeaders({
+      'path1': this.filename,
+      'path2': this.dest,
+    })
+
+    this.http.post('http://localhost:4000/api/result', formData, { headers: headers })
+    .subscribe(data => {
+      this.hideSpinner();
+
+      console.log(data);
+
+      var res = JSON.stringify(data);
+
+      if(!res.includes("error")){
+        // Read JSON data.
+        if(this.mode == "2D"){
+          this.is2D = true;
+          this.is3D = false;
+          this.ForceGraph = require('force-graph');
+          this.GraphData = Object.assign({}, data);
+          this.set_graph();
+        }else if(this.mode == "3D"){
+          this.is2D = false;
+          this.is3D = true;
+          this.ForceGraph3D = require('3d-force-graph');
+          this.SpriteText = require('three-spritetext');
+          this.GraphData = Object.assign({}, data);
+          this.set_graph();
+        }else{
+          this.is2D = true;
+          this.is3D = false;
+          this.ForceGraph = require('force-graph');
+          this.GraphData = Object.assign({}, data);
+          this.set_graph();
+        }
+      }else if(res.includes("error")){
+        this.show_error();
+      }else{
+        this.show_error();
+      }
+    });
+
     var mode = this.mode;
     $(document).ready(function () {
       $("body").css('background-image', 'none');
@@ -128,9 +176,7 @@ export class GraphComponent implements OnInit {
           });
         });      
       }else if(mode == "3D"){
-        $("#export").click(function(){
-          alert("error");
-        }); 
+        $("#export").hide();
       }
       //end create export 17-12-65
 
@@ -147,59 +193,6 @@ export class GraphComponent implements OnInit {
           $(".modal").css('display', 'none');
         }
       });
-    });
-
-    this.load_data();
-  }
-
-  load_data(){
-    // Read data from backend server. 
-    const formData = new FormData()
-    formData.append('file', this.filename);
-    const headers = new HttpHeaders({
-      'path1': this.filename,
-      'path2': this.dest,
-    })
-
-    this.http.post('http://localhost:4000/api/result', formData, { headers: headers })
-    .subscribe(data => {
-      this.hideSpinner();
-
-      console.log(data);
-
-      var res = JSON.stringify(data);
-
-      if(res.includes("refresh")){
-        return ;
-      }
-
-      if(!res.includes("error")){
-        // Read JSON data.
-        if(this.mode == "2D"){
-          this.is2D = true;
-          this.is3D = false;
-          this.ForceGraph = require('force-graph');
-          this.GraphData = Object.assign({}, data);
-          this.set_graph();
-        }else if(this.mode == "3D"){
-          this.is2D = false;
-          this.is3D = true;
-          this.ForceGraph3D = require('3d-force-graph');
-          this.SpriteText = require('three-spritetext');
-          this.GraphData = Object.assign({}, data);
-          this.set_graph();
-        }else{
-          this.is2D = true;
-          this.is3D = false;
-          this.ForceGraph = require('force-graph');
-          this.GraphData = Object.assign({}, data);
-          this.set_graph();
-        }
-      }else if(res.includes("error")){
-        this.show_error();
-      }else{
-        this.show_error();
-      }
     });
 
   }
@@ -245,7 +238,7 @@ export class GraphComponent implements OnInit {
     for (let i = 0; i < links.length; i++) {
       links[i].source = links[i].first_submission;
       links[i].target = links[i].second_submission;
-      links[i].value = links[i].similarity;
+      links[i].value = links[i].similarity+"%";
 
       delete links[i].first_submission;
       delete links[i].second_submission;
@@ -295,6 +288,7 @@ export class GraphComponent implements OnInit {
             .nodeId('id')
             .nodeVal('val')
             .nodeLabel('id')
+            .nodeRelSize(6)
             .nodeAutoColorBy('group')
             .nodeCanvasObjectMode(() => 'after')
             .nodeCanvasObject((node, ctx) => {
@@ -316,7 +310,7 @@ export class GraphComponent implements OnInit {
               ctx.beginPath();
               ctx.arc(temp_x, temp_y, NODE_R * 0, 0, 2 * Math.PI, false);
               ctx.fillStyle = node === hoverNode ? '' : '#000000';
-              ctx.fillText(temp_id, temp_x+5, temp_y-6);
+              ctx.fillText(temp_id, temp_x+7, temp_y-8);
               ctx.fill();
             })
             .onNodeDragEnd(node => {
@@ -362,34 +356,14 @@ export class GraphComponent implements OnInit {
     }else if(this.mode == "3D"){
       this.Graph = ForceGraph3D()(document.getElementById("graph") as HTMLCanvasElement)
         .graphData(GraphObject)
-        .backgroundColor('#181836')
+        .backgroundColor('#ffffff')
         // Node //
         .nodeId('id')
         .nodeVal('val')
         .nodeLabel('id')
         .nodeAutoColorBy('group')
+        .nodeRelSize(6)
         .nodeOpacity(1)
-        // // To show id as a node.
-        // .nodeThreeObject(node => {
-        //   let temp_id: string;
-        //   let temp_color: string;
-        //   if(node.id === undefined){
-        //     temp_id = "";
-        //   }else{
-        //     temp_id = node.id.toString();
-        //   }
-        //   if(node.color === undefined){
-        //     temp_color = "#000000";
-        //   }else{
-        //     temp_color = node.color;
-        //   }
-
-        //   const sprite = new SpriteText(temp_id);
-        //   sprite.material.depthWrite = false; // make sprite background transparent
-        //   sprite.color = temp_color;
-        //   sprite.textHeight = 8;
-        //   return sprite;
-        // })
         .onNodeDragEnd(node => {
           node.fx = node.x;
           node.fy = node.y;
@@ -426,7 +400,7 @@ export class GraphComponent implements OnInit {
         .linkLabel('value')  
         .linkAutoColorBy('group')
         .linkOpacity(0.4)
-        .linkWidth(0.6)
+        .linkWidth(1.5)
         .linkThreeObjectExtend(true)
         .onLinkClick(link => {
           const temp_source = JSON.stringify(link.source); 
@@ -471,21 +445,34 @@ export class GraphComponent implements OnInit {
     window.open(url, '_self');
   }
 
-  reset_display_output(){
-    var urlTree = this.router.createUrlTree(['/Graph'], {
+  show_display_table(){
+    var urlTree = this.router.createUrlTree(['/Table'], {
       queryParams: {
         language: this.current_language,
         filename: this.filename,
-        dest: this.dest,
-        mode: this.mode,
-        min: 50,
-        max: 100
+        dest: this.dest
       }
     });
 
     var url = this.router.serializeUrl(urlTree);
-    window.open(url, '_self');
+    window.open(url, '_blank');
   }
+
+  // reset_display_output(){
+  //   var urlTree = this.router.createUrlTree(['/Graph'], {
+  //     queryParams: {
+  //       language: this.current_language,
+  //       filename: this.filename,
+  //       dest: this.dest,
+  //       mode: this.mode,
+  //       min: 50,
+  //       max: 100
+  //     }
+  //   });
+
+  //   var url = this.router.serializeUrl(urlTree);
+  //   window.open(url, '_self');
+  // }
 
   switch_to_th(){
     this.current_language = "TH";
@@ -514,6 +501,14 @@ export class GraphComponent implements OnInit {
     this.btn07 = "โหนด";
     this.btn08 = "เส้นความสัมพันธ์";
     this.btn09 = "กราฟข้อมูล";
+
+    this.scope_language = "ความคล้ายคลึงกันของซอร์สโค้ด (%)";
+
+    if(this.mode=="3D"){
+      this.suggest_language = "";
+    }else{
+      this.suggest_language = "คลิกเมาส์ซ้าย: เลื่อน, ลูกกลิ้งเมาส์: ซูม";
+    }
   }
 
   switch_to_eng(){
@@ -544,6 +539,14 @@ export class GraphComponent implements OnInit {
     this.btn07 = "Node";
     this.btn08 = "Branch";
     this.btn09 = "Graph";
+  
+    this.scope_language = "Source Code Similarity (%)";
+
+    if(this.mode=="3D"){
+      this.suggest_language = "";
+    }else{
+      this.suggest_language = "Left-click: move, Mouse-wheel: zoom";
+    }
   }
 
   change_to_2d(){

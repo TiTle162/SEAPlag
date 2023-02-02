@@ -40,164 +40,72 @@
   </div>
 </nav>
 
-<div class="content-box container bg-white mb-3" style="width: 1920px; border-radius: 10px; margin-top: -10px;">
-  <div class="container main">
+<!-- <div class="content-box container-fluid bg-white mb-3" style="border-radius: 10px; margin-top: -10px;"> -->
+
+<div class="content-box container-fluid bg-white" style="border-radius: 25px; margin-top: -15px;">
+  <div class="container-fluid main">
+    <h2 class="text-center" style="padding-top: 50px; font-size: 35px;">{{code_sim}}: <span
+        class="blue-frame">{{similarity}} &#65285;</span></h2>
     <div class="row">
-      <div class="aboutus col-lg-8">
-        <h2 class="text-center" style="padding-top: 50px; font-size: 35px;">{{code_sim}}: <span
-            class="blue-frame">{{similarity}} &#65285;</span></h2>
-
-        <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla illo corrupti debitis recusandae hic, ipsa sit quas? Autem fuga nihil voluptate dolorum similique dignissimos quaerat quidem consectetur nobis aliquid quae voluptatibus ex assumenda, amet adipisci eveniet porro soluta accusamus voluptatem doloremque, nulla impedit, culpa hic. Ad nihil vero, debitis fuga at nostrum modi! Expedita ab ex, dolores, fugit quis optio laborum sint, officiis molestiae temporibus ratione totam odio explicabo beatae voluptatem neque deleniti iusto eaque?  Ad nihil vero, debitis fuga at nostrum modi </p>
-        <br>
-        <h3>A wide <span class="green">partner</span> network:</h3>
-        <ul class="list-in-text">
-          <li>Lorem ipsum dolor sit amet consectetur.</li>
-          <li>Lorem ipsum dolor sit amet consectetur.</li>
-          <li>Lorem ipsum dolor sit amet consectetur.</li>
-          <li>Lorem ipsum dolor sit amet consectetur.</li>
-          <li>Lorem ipsum dolor sit amet consectetur.</li>
-        </ul>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sit laudantium, labore inventore fugiat doloremque ab soluta at. Ex, corporis? Necessitatibus distinctio quam sed unde soluta delectus facilis, corporis iusto. Nihil modi eveniet laudantium quisquam a expedita est inventore doloremque, ad officiis odit earum alias asperiores. Nihil accusamus rerum delectus cumque ducimus illum temporibus ratione dolores quibusdam sint facere provident aperiam quis dignissimos reiciendis sed iure quidem eos quasi, nesciunt, ipsum voluptatem at debitis odio. Doloribus explicabo dignissimos nemo rerum sunt amet aspernatur distinctio, deleniti blanditiis cumque soluta officiis suscipit. Minima nesciunt dicta magnam aliquid inventore voluptates laudantium quaerat aperiam in.</p>
-        <figure class="quote text-start">
-          <blockquote class="blockquote">
-            <p>A well-known quote, contained in a blockquote element.</p>
-          </blockquote>
-          <figcaption class="blockquote-footer">
-            Someone famous in <cite title="Source Title">Source Title</cite>
-          </figcaption>
-        </figure> -->
 
 
-        <!-- <div class="team text-center mt-1">
-          <div class="team-person">
-            <div class="person container">
-              <span class="name text-info">{{file_name1}}</span>
-              <textarea wrap="off" name="" id="" cols="30" rows="10">
-                {{file_content}}
-              </textarea>
-            </div>
-            <div class="person container">
-              <span class="name text-danger">{{file_name2}}</span>
-              <textarea wrap="off" disabled name="" id="" cols="30" rows="10">
-                {{file_content2}}
-              </textarea>
-            </div>
-          </div>
-        </div> -->
-        <div class="team text-center" style="margin-top: -1px;">
-          <!-- <h3>A <span class="green">team </span>that’s growing every day</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum ab est repudiandae quasi hic sapiente earum velit fuga odio neque numquam eligendi qui tenetur ipsam, animi atque expedita eaque nesciunt in.Atque ut blanditiis quos excepturi perferendis a, quidem modi.</p> -->
-          <div class="team-person">
-            <div class="person">
-              <span class="name">{{source}}</span>
-              <span style="font-size: 20px;">{{file_name1}}</span>
-              <!-- <pre><code>{{file_content1}}</code></pre> -->
-              
-              <!-- <div class="editor"> -->
-                <!-- <div class="line-numbers">
-                  <div *ngFor="let count of [].constructor(numberOfLines); let i = index">{{i+1}}</div>
-                </div> -->
-                <textarea wrap="off" cols="30" rows="10" readonly id="textarea" >{{file_content1}}</textarea>
-              <!-- </div> -->
-            </div>
+      <div class="col-4 text-center" style="margin-left: 30px; margin-right: 15px; margin-top: 10px;">
+        <div style="font-size: 20px;"><b>Folder Name : {{source}} </b></div>
+        <div style="font-size: 20px; margin-bottom: 10px;"><b> {{file_name1}} </b></div>
 
-            <div class="person">
-              <span class="name">{{target}}</span>
-              <span style="font-size: 20px;">{{file_name2}}</span>
-              <!-- <pre><code>{{file_content2}}</code></pre> -->
+        <ngx-codemirror #codeMirror [options]="codeMirrorOptions" [(ngModel)]="file_content1"></ngx-codemirror>
+      </div>
+      <div class="col-4  text-center" style="margin-left: 15px; margin-right: 20px; margin-top: 10px;">
+        <div style="font-size: 20px;"><b>Folder Name : {{target}} </b></div>
+        <div style="font-size: 20px; margin-bottom: 10px;"><b> {{file_name2}} </b></div>
 
-              <!-- <div class="editor"> -->
-                <!-- <div class="line-numbers2">
-                  <div *ngFor="let  count of [].constructor(numberOfLines2); let i = index">{{i+1}}</div>
-                </div> -->
-                <textarea wrap="off" cols="30" rows="10" readonly id="textarea2">{{file_content2}}</textarea>
-              <!-- </div> -->
-            </div>
-          </div>
-        </div>
-
+        <ngx-codemirror #codeMirror [options]="codeMirrorOptions" [(ngModel)]="file_content2"></ngx-codemirror>
       </div>
 
+      <div class="col-lg-3 col-md-3 col-sm-3 text-center">
+        <!-- <span>{{code_select}}</span> -->
+        <h4 class="text-center" style="padding-top: 85px;"><span class="blue-frame">{{code_select}}</span></h4>
 
-      <div class="sidebar col-lg-4">
-        <!-- <div class="input-group">
-        <div class="form-outline">
-          <input id="search-input" type="search" id="form1" class="form-control" placeholder="search" />
-        </div>
-        <button id="search-button" type="button" class="btn dark">
-          <i class="fas fa-search"></i>
-        </button>
-      </div> -->
+        <div style="height: 20px;"></div>
+        <div class="bg-white border rounded">
+          <!-- <div *ngFor="let item of file | keyvalue"> -->
 
-        <div>
-          <div class="sidebar-category">
-            <h4 class="text-center" style="padding-top: 91px;"><span class="blue-frame">{{code_select}}</span></h4>
-            <!-- <a href="">All category <img style="width: 20px; margin-left: 20px;" src="../../assets/img/icon/arrow-right-icon.svg" alt=""></a> -->
-            <div class="category">
-              <div class="category-item" style="background-color: #24bbe6;">
-                <!-- <img class="category-icon" src="../../assets/img/icon/analytics.svg" alt=""> -->
-                <h6 class="category-title text-center text-white">{{source}}</h6>
-              </div>
-              <div class="category-item" style="background-color: #ec5665;">
-                <!-- <img class="category-icon" src="../../assets/img/icon/marketing.svg" alt=""> -->
-                <h6 class="category-title text-center text-white">{{target}}</h6>
-              </div>
-            </div>
-
-            <div *ngFor="let item of file | keyvalue">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">{{source}}</th>
+                <th scope="col">{{target}}</th>
+                <th scope="col">View</th>
+              </tr>
+            </thead>
+            <tbody>
               <!-- Key: <b>{{item.key}}</b> and Value: <b>{{item.value.file1}}</b><b>{{item.value.file2}}</b> -->
+              <!-- <a (click)="get_file(item)" style="cursor: pointer;"> -->
+              <!-- <div *ngFor="let item of file | keyvalue"> -->
 
-              <div class="category">
-                <div class="category-item">
-                  <a (click)="get_file(item)" style="cursor: pointer;">
-                    <h6 class="category-title">{{item.value.file1}}</h6>
+                <tr (click)="get_file(item)" style="cursor: pointer;" *ngFor="let item of file | keyvalue">
+                  <td>
+                    {{item.value.file1}}
+                  </td>
+                  <td>
+                    {{item.value.file2}}
+                  </td>
+                  <td>
                     <img style="width: 20px;" src="../../assets/img/icon/arrow-right-icon.svg" alt="">
-                  </a>
-                </div>
-                <div class="category-item">
-                  <a (click)="get_file(item)" style="cursor: pointer;">
-                    <h6 class="category-title">{{item.value.file2}}</h6>
-                    <img style="width: 20px;" src="../../assets/img/icon/arrow-right-icon.svg" alt="">
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="recent-posts my-5">
-          <!-- <h4>Our latest Articles</h4>
-        <a href="">All category <img style="width: 20px; margin-left: 20px;" src="../../assets/img/icon/arrow-right-icon.svg" alt=""></a> -->
-          <div class="latest-articles-wrapper">
-            <!-- <div class="article">
-          <div class="arcticle-photo"><img src="../../assets/img/post-1.png" alt=""></div>
-          <div class="article-text">
-          <a href="single-post.html"><h5 class="title">Develop Marketing</h5></a>
-          <p class="article-meta"><img src="../../assets/img/icon/calendar.svg" alt=""><span class="data text-muted">August 24, 2021</span></p>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-          </div>
-        </div>
-        <div class="article">
-          <div class="arcticle-photo"><img src="../../assets/img/post-2.png" alt=""></div>  
-          <div class="article-text">
-          <a href="single-post.html"><h5 class="title">Resources Your Blog</h5></a>
-          <p class="article-meta"><img src="../../assets/img/icon/calendar.svg" alt=""><span class="data text-muted">July 13, 2021</span></p>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-          </div>
-        </div>
-        <div class="article">
-          <div class="arcticle-photo"><img src="../../assets/img/post-3.png" alt=""></div>
-          <div class="article-text">
-          <a href="single-post.html"><h5 class="title">Know Your Audience</h5></a>
-          <p class="article-meta"><img src="../../assets/img/icon/calendar.svg" alt=""><span class="data text-muted">April 18, 2021</span></p>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-          </div>
-        </div> -->
-          </div>
+                  </td>
+                </tr>
+               
+              <!-- </div> -->
+              <!-- </a> -->
+            </tbody>
+          </table>
+          <!-- </div> -->
         </div>
       </div>
     </div>
+
   </div>
+
   <!-- Footer -->
   <footer>
     <div class="container text-center text-md-start">
@@ -257,7 +165,6 @@
             <li><a target="_blank"
                 href="https://www.researchgate.net/publication/349532079_An_intelligent_decision_support_system_for_software_plagiarism_detection_in_academia">An
                 intelligent decision support system for <br> software plagiarism detection in academia</a></li>
-
           </ul>
         </div>
       </div>

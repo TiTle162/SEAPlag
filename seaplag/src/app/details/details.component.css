@@ -7,7 +7,8 @@ html {
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
-textarea {
+
+/* textarea {
     color: #0a1791;
     background-color: whitesmoke;
     border-radius: 5px;
@@ -21,22 +22,22 @@ textarea {
     overflow-y: auto;
     text-align: left;
     white-space: pre-wrap;
-}
+} */
 
 /* Demonstrate a "mostly customized" scrollbar
  * (won't be visible otherwise if width/height is specified) */
-.editor::-webkit-scrollbar {
+/* .editor::-webkit-scrollbar {
   width: 10px;
   height: 10px;
   background: rgb(184, 184, 184);
   background-color: #aaa;
   /* or add it to the track */
-}
+/* } */
 
 /* Track */
-.editor::-webkit-scrollbar-track {
+/* .editor::-webkit-scrollbar-track {
   background: #ebebeb;
-}
+} */
 
 /* Handle */
 /* ::-webkit-scrollbar-thumb {
@@ -49,7 +50,7 @@ textarea {
 } */
 
 /* Add a thumb */
-.editor::-webkit-scrollbar-thumb {
+/* .editor::-webkit-scrollbar-thumb {
   background: rgb(184, 184, 184);
 }
 
@@ -62,11 +63,11 @@ textarea {
   color: #0a1791;
   overflow-y: auto;
   width: 380px;
-  height: 550px;
+  height: 550px; */
   /* white-space: pre-wrap; */
-  padding-left: 2px;
+  /* padding-left: 2px;
   
-}
+} */
 
 /* add line number  */
 /* textarea {
