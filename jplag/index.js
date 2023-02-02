@@ -109,11 +109,7 @@ app.post('/api/jplag', (req, res) => {
                   console.log('error: '+error.message);
                 })
 
-                if(check_file_exists("./datasets/"+pure_file_name+"/"+pure_destination+"/overview.json")){
-                  res.send({'msg': 'success'});
-                }else{
-                  res.send({'msg': 'error'});
-                }
+                res.send({'msg': 'success'});
 
             }else{
               res.send({'msg': 'error'});
