@@ -42,70 +42,72 @@
 
 <!-- <div class="content-box container-fluid bg-white mb-3" style="border-radius: 10px; margin-top: -10px;"> -->
 
-<div class="content-box container-fluid bg-white" style="border-radius: 25px; margin-top: -15px;">
+<div class="content-box container-fluid bg-white" style="border-radius: 25px; margin-top: -12px;">
   <div class="container-fluid main">
     <h2 class="text-center" style="padding-top: 50px; font-size: 35px;">{{code_sim}}: <span
-        class="blue-frame">{{similarity}} &#65285;</span></h2>
+        class="blue-frame">{{similarity}} &#65285;</span></h2><br>
     <div class="row">
 
-
-      <div class="col-4 text-center" style="margin-left: 30px; margin-right: 15px; margin-top: 10px;">
-        <div style="font-size: 20px;"><b>Folder Name : {{source}} </b></div>
-        <div style="font-size: 20px; margin-bottom: 10px;"><b> {{file_name1}} </b></div>
-
-        <ngx-codemirror #codeMirror [options]="codeMirrorOptions" [(ngModel)]="file_content1"></ngx-codemirror>
-      </div>
-      <div class="col-4  text-center" style="margin-left: 15px; margin-right: 20px; margin-top: 10px;">
-        <div style="font-size: 20px;"><b>Folder Name : {{target}} </b></div>
-        <div style="font-size: 20px; margin-bottom: 10px;"><b> {{file_name2}} </b></div>
-
-        <ngx-codemirror #codeMirror [options]="codeMirrorOptions" [(ngModel)]="file_content2"></ngx-codemirror>
-      </div>
-
-      <div class="col-lg-3 col-md-3 col-sm-3 text-center">
-        <!-- <span>{{code_select}}</span> -->
-        <h4 class="text-center" style="padding-top: 85px;"><span class="blue-frame">{{code_select}}</span></h4>
-
-        <div style="height: 20px;"></div>
-        <div class="bg-white border rounded">
-          <!-- <div *ngFor="let item of file | keyvalue"> -->
-
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">{{source}}</th>
-                <th scope="col">{{target}}</th>
-                <th scope="col">View</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Key: <b>{{item.key}}</b> and Value: <b>{{item.value.file1}}</b><b>{{item.value.file2}}</b> -->
-              <!-- <a (click)="get_file(item)" style="cursor: pointer;"> -->
-              <!-- <div *ngFor="let item of file | keyvalue"> -->
-
-                <tr (click)="get_file(item)" style="cursor: pointer;" *ngFor="let item of file | keyvalue">
-                  <td>
-                    {{item.value.file1}}
-                  </td>
-                  <td>
-                    {{item.value.file2}}
-                  </td>
-                  <td>
-                    <img style="width: 20px;" src="../../assets/img/icon/arrow-right-icon.svg" alt="">
-                  </td>
-                </tr>
-               
-              <!-- </div> -->
-              <!-- </a> -->
-            </tbody>
-          </table>
-          <!-- </div> -->
+      <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-6 text-center" style="">
+          <div style="font-size: 20px;"><b>Folder Name : {{source}} </b></div>
+          <div style="font-size: 20px; margin-bottom: 10px;"><b> {{file_name1}} </b></div>
+  
+          <ngx-codemirror #codeMirror [options]="codeMirrorOptions" [(ngModel)]="file_content1"></ngx-codemirror>
         </div>
+        <div class="col-lg-5 col-md-5 col-sm-6  text-center" style="">
+          <div style="font-size: 20px;"><b>Folder Name : {{target}} </b></div>
+          <div style="font-size: 20px; margin-bottom: 10px;"><b> {{file_name2}} </b></div>
+  
+          <ngx-codemirror #codeMirror [options]="codeMirrorOptions" [(ngModel)]="file_content2"></ngx-codemirror>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 text-center">
+          <!-- <span>{{code_select}}</span> -->
+          <h4 class="text-center" style="padding-top: 70px;"><span class="blue-frame">{{code_select}}</span></h4>
+  
+          <div style="height: 20px;"></div>
+          <div class="bg-white border rounded">
+            <!-- <div *ngFor="let item of file | keyvalue"> -->
+  
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>{{source}}</th>
+                  <th>{{target}}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Key: <b>{{item.key}}</b> and Value: <b>{{item.value.file1}}</b><b>{{item.value.file2}}</b> -->
+                <!-- <a (click)="get_file(item)" style="cursor: pointer;"> -->
+                <!-- <div *ngFor="let item of file | keyvalue"> -->
+  
+                  <tr (click)="get_file(item)" style="cursor: pointer;" *ngFor="let item of file | keyvalue">
+                    <td>
+                      {{item.value.file1 }}
+                    </td>
+                    <td>
+                      {{item.value.file2}}
+                    </td>
+                    <td>
+                      <i class='fas fa-arrow-right'></i>
+                    </td>
+                  </tr>
+                 
+                <!-- </div> -->
+                <!-- </a> -->
+              </tbody>
+            </table>
+            <!-- </div> -->
+          </div>
+        </div>
+        
       </div>
     </div>
 
   </div>
 
+  <br><br><br>
   <!-- Footer -->
   <footer>
     <div class="container text-center text-md-start">
