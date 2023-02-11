@@ -50,16 +50,16 @@
 
       <div class="row">
         <div class="col-lg-5 col-md-5 col-sm-6 text-center" style="">
-          <div style="font-size: 20px;"><b>Folder Name : {{source}} </b></div>
-          <div style="font-size: 20px; margin-bottom: 10px;"><b> {{file_name1}} </b></div>
+          <div style="font-size: 20px;"><b>{{file_title}} : {{source}} </b></div>
+          <div style="font-size: 20px; margin-bottom: 10px;"><b> {{file_name_source}} </b></div>
   
-          <ngx-codemirror #codeMirror [options]="codeMirrorOptions" [(ngModel)]="file_content1"></ngx-codemirror>
+          <ngx-codemirror #codeMirror [options]="codeMirrorOptions" [(ngModel)]="file_content_source"></ngx-codemirror>
         </div>
         <div class="col-lg-5 col-md-5 col-sm-6  text-center" style="">
-          <div style="font-size: 20px;"><b>Folder Name : {{target}} </b></div>
-          <div style="font-size: 20px; margin-bottom: 10px;"><b> {{file_name2}} </b></div>
+          <div style="font-size: 20px;"><b>{{file_title}} : {{target}} </b></div>
+          <div style="font-size: 20px; margin-bottom: 10px;"><b> {{file_name_target}} </b></div>
   
-          <ngx-codemirror #codeMirror [options]="codeMirrorOptions" [(ngModel)]="file_content2"></ngx-codemirror>
+          <ngx-codemirror #codeMirror [options]="codeMirrorOptions" [(ngModel)]="file_content_target"></ngx-codemirror>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-12 text-center">
           <!-- <span>{{code_select}}</span> -->

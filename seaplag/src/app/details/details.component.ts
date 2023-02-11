@@ -41,14 +41,15 @@ export class DetailsComponent implements OnInit {
   target: any = 0;
   file: any[] = [];
 
-  file_name1: string = "";
-  file_name2: string = "";
+  file_title: string = "";
+  file_name_source: string = "";
+  file_name_target: string = "";
 
   file_path: any = "";
   file_path2: any = "";
 
-  file_content1: any = "";
-  file_content2: any = "";
+  file_content_source: any = "";
+  file_content_target: any = "";
   default_file: boolean = false;
 
   codeMirrorOptions: any = {
@@ -83,11 +84,11 @@ export class DetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
   ngOnInit() {
-    // console.log(this.file_content1)
+    // console.log(this.file_content_source)
 
-    // this.codeObj = JSON.stringify(this.file_content1, undefined, 2);
-    // this.codeObj2 = JSON.stringify(this.file_content2, undefined, 2);
-    // console.log(this.codeObj+'++++----///'+this.file_content1)
+    // this.codeObj = JSON.stringify(this.file_content_source, undefined, 2);
+    // this.codeObj2 = JSON.stringify(this.file_content_target, undefined, 2);
+    // console.log(this.codeObj+'++++----///'+this.file_content_source)
 
     var params = this.route.snapshot.queryParams;
     var language = params['language'];
@@ -170,6 +171,7 @@ export class DetailsComponent implements OnInit {
     this.tool = "เครื่องมือ";
     this.article = "บทความวิจัยที่เกี่ยวข้อง";
     this.copyright = "ลิขสิทธิ์";
+    this.file_title = "ชื่อโฟเดอร์";
     this.current_year = new Date().getFullYear() + 543;
   }
 
@@ -193,6 +195,7 @@ export class DetailsComponent implements OnInit {
     this.tool = "Tools";
     this.article = "Research articles";
     this.copyright = "Copyright";
+    this.file_title = "Folder name";
     this.current_year = new Date().getFullYear();
   }
 
@@ -208,8 +211,8 @@ export class DetailsComponent implements OnInit {
     this.file = this.DetailsData.matches;
 
     // Default file output.
-    this.file_name1 = this.file[0].file1;
-    this.file_name2 = this.file[0].file2;
+    this.file_name_source = this.file[0].file1;
+    this.file_name_target = this.file[0].file2;
 
     // First file readed.
     const formData = new FormData()
@@ -218,7 +221,7 @@ export class DetailsComponent implements OnInit {
       'path1': this.filename,
       'path2': this.dest,
       'owner': this.source,
-      'filename': this.file_name1
+      'filename': this.file_name_source
     })
     this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
       .subscribe(data => {
@@ -233,14 +236,14 @@ export class DetailsComponent implements OnInit {
             'path1': this.filename,
             'path2': this.dest,
             'owner': this.target,
-            'filename': this.file_name2
+            'filename': this.file_name_target
           })
           this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
             .subscribe(data => {
               const res = JSON.stringify(data);
               if (!res.includes("error")) {
-                this.file_content1 = temp;
-                this.file_content2 = data;
+                this.file_content_source = temp;
+                this.file_content_target = data;
 
               } else if (res.includes("error")) {
                 alert("error");
@@ -257,8 +260,8 @@ export class DetailsComponent implements OnInit {
   }
 
   get_file(file_data: any) {
-    this.file_name1 = file_data.value.file1;
-    this.file_name2 = file_data.value.file2;
+    this.file_name_source = file_data.value.file1;
+    this.file_name_target = file_data.value.file2;
 
     // First file readed.
     const formData = new FormData()
@@ -288,8 +291,8 @@ export class DetailsComponent implements OnInit {
             .subscribe(data => {
               const res = JSON.stringify(data);
               if (!res.includes("error")) {
-                this.file_content1 = temp;
-                this.file_content2 = data;
+                this.file_content_source = temp;
+                this.file_content_target = data;
 
               } else if (res.includes("error")) {
                 alert("error");
