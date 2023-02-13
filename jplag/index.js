@@ -77,7 +77,7 @@ app.post('/api/jplag', (req, res) => {
           var destination = req.headers.destination;
           var pure_file_name = req.file.filename.slice(0, -4);
           var pure_destination = req.headers.destination.slice(0, -4);
-          var aug = req.headers.aug;
+          var language = req.headers.language;
 
           // 2. Extract zip file.        
           decompress("./input_datasets/"+file_name, "./datasets/"+pure_file_name)
@@ -98,7 +98,7 @@ app.post('/api/jplag', (req, res) => {
 
                 /* spawn */
                 var path = "./datasets/"+pure_file_name+"/"+pure_destination; 
-                var child = spawn('java', ['-jar', './jplag-4.1.0-jar-with-dependencies.jar', '-l', aug, '-r', path, '-new', path]);
+                var child = spawn('java', ['-jar', './jplag-4.1.0-jar-with-dependencies.jar', '-l', language, '-r', path, '-new', path]);
                 child.stdout.on('data', (data) => {
                   console.log('stdout: '+data);
                 })
@@ -124,9 +124,9 @@ app.post('/api/jplag', (req, res) => {
 
 // Response plagirism results.
 app.post('/api/result', async (req, res) => {
-    var path1 = req.headers.path1;
-    var path2 = req.headers.path2;
-    var path = "./datasets/"+path1+"/"+path2+"/overview.json";
+    var filename = req.headers.filename;
+    var destination = req.headers.destination;
+    var path = "./datasets/"+filename+"/"+destination+"/overview.json";
 
     if(check_file_exists(path)){
       fs.readFile(path, 'utf8', (err, data) => {
@@ -134,12 +134,8 @@ app.post('/api/result', async (req, res) => {
           res.send({'msg': 'error'});
         }
 
-        try {
-          const jsonData = JSON.parse(data);
-          res.send(jsonData);
-        } catch (err) {
-          res.send({'msg': 'refresh'});
-        }
+        const jsonData = JSON.parse(data);
+        res.send(jsonData);
       });
     }else{
       res.send({'msg': 'error'});
@@ -148,12 +144,12 @@ app.post('/api/result', async (req, res) => {
 
 // Response compare result.
 app.post('/api/compare', (req, res) => {
-  var path1 = req.headers.path1;
-  var path2 = req.headers.path2;
+  var filename = req.headers.filename;
+  var destination = req.headers.destination;
   var source = req.headers.source;
   var target = req.headers.target;
 
-  var data = "./datasets/"+path1+"/"+path2+"/"+source+"-"+target+'.json';
+  var data = "./datasets/"+filename+"/"+destination+"/"+source+"-"+target+'.json';
   fs.readFile(data, (err, data) => {
     if (err) {
       res.send({'msg': 'error'});
@@ -166,12 +162,12 @@ app.post('/api/compare', (req, res) => {
 
 // Response sourcecode.
 app.post('/api/sourcecode', (req, res) => {
-  var path1 = req.headers.path1;
-  var path2 = req.headers.path2;
-  var owner = req.headers.owner;
   var filename = req.headers.filename;
+  var destination = req.headers.destination;
+  var source = req.headers.source;
+  var sourcecode = req.headers.sourcecode;
 
-  var data = "./datasets/"+path1+"/"+path2+"/submissions/"+owner+"/"+filename;
+  var data = "./datasets/"+filename+"/"+destination+"/submissions/"+source+"/"+sourcecode;
   fs.readFile(data, (err, data) => {
     if (err) {
       res.send({'msg': 'error'});
@@ -184,8 +180,8 @@ app.post('/api/sourcecode', (req, res) => {
 // Response sourcecode for table.
 app.post('/api/table', async (req, res) => {
   var filename = req.headers.filename;
-  var dest = req.headers.dest;
-  var path = "./datasets/"+filename+"/"+dest+"/overview.json";
+  var destination = req.headers.destination;
+  var path = "./datasets/"+filename+"/"+destination+"/overview.json";
 
   if(check_file_exists(path)){
     fs.readFile(path, 'utf8', (err, data) => {

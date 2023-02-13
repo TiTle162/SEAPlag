@@ -115,8 +115,8 @@ export class DetailsComponent implements OnInit {
     const formData = new FormData()
     formData.append('file', this.filename);
     const headers = new HttpHeaders({
-      'path1': this.filename,
-      'path2': this.dest,
+      'filename': this.filename,
+      'destination': this.dest,
       'source': this.source,
       'target': this.target
     })
@@ -218,10 +218,10 @@ export class DetailsComponent implements OnInit {
     const formData = new FormData()
     formData.append('file', this.filename);
     const headers = new HttpHeaders({
-      'path1': this.filename,
-      'path2': this.dest,
-      'owner': this.source,
-      'filename': this.file_name_source
+      'filename': this.filename,
+      'destination': this.dest,
+      'source': this.source,
+      'sourcecode': this.file_name_source
     })
     this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
       .subscribe(data => {
@@ -233,10 +233,10 @@ export class DetailsComponent implements OnInit {
           const formData = new FormData()
           formData.append('file', this.filename);
           const headers = new HttpHeaders({
-            'path1': this.filename,
-            'path2': this.dest,
-            'owner': this.target,
-            'filename': this.file_name_target
+            'filename': this.filename,
+            'destination': this.dest,
+            'source': this.target,
+            'sourcecode': this.file_name_target
           })
           this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
             .subscribe(data => {
@@ -267,10 +267,10 @@ export class DetailsComponent implements OnInit {
     const formData = new FormData()
     formData.append('file', this.filename);
     const headers = new HttpHeaders({
-      'path1': this.filename,
-      'path2': this.dest,
-      'owner': this.source,
-      'filename': file_data.value.file1
+      'filename': this.filename,
+      'destination': this.dest,
+      'source': this.source,
+      'sourcecode': file_data.value.file1
     })
     this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
       .subscribe(data => {
@@ -282,10 +282,10 @@ export class DetailsComponent implements OnInit {
           const formData = new FormData()
           formData.append('file', this.filename);
           const headers = new HttpHeaders({
-            'path1': this.filename,
-            'path2': this.dest,
-            'owner': this.target,
-            'filename': file_data.value.file2
+            'filename': this.filename,
+            'destination': this.dest,
+            'source': this.target,
+            'sourcecode': file_data.value.file2
           })
           this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
             .subscribe(data => {

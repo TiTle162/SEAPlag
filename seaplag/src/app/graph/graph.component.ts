@@ -104,8 +104,8 @@ export class GraphComponent implements OnInit {
     const formData = new FormData()
     formData.append('file', this.filename);
     const headers = new HttpHeaders({
-      'path1': this.filename,
-      'path2': this.dest,
+      'filename': this.filename,
+      'destination': this.dest,
     })
 
     this.http.post('http://localhost:4000/api/result', formData, { headers: headers })

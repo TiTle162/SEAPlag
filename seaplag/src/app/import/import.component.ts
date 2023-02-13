@@ -70,7 +70,7 @@ export class ImportComponent implements OnInit {
 
           const headers = new HttpHeaders({
             'destination': destination,
-            'aug': this.selected_code_language 
+            'language': this.selected_code_language 
           });
 
           this.http.post('http://localhost:4000/api/jplag', formData, { headers: headers })

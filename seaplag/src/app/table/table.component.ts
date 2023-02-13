@@ -62,7 +62,7 @@ export class TableComponent {
     formData.append('file', this.filename);
     const headers = new HttpHeaders({
       'filename': this.filename,
-      'dest': this.dest,
+      'destination': this.dest,
     })
 
     this.http.post('http://localhost:4000/api/table', formData, { headers: headers })
