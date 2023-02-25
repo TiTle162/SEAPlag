@@ -21,11 +21,11 @@ export class ImportComponent implements OnInit {
   selected_code_language: any ='java';
   code_language = [
     { name: 'Java', description: 'java' },
-    { name: 'C++', description: 'cpp' },
+    { name: 'C/C++', description: 'cpp' },
     { name: 'C#', description: 'csharp' },
     { name: 'Python', description: 'python3' },
     { name: 'Kotlin', description: 'kotlin' },
-    { name: 'Switf', description: 'swift' },
+    { name: 'Swift', description: 'swift' },
     { name: 'Scalar', description: 'scala' },
     { name: 'R', description: 'rlang' },
   ]; 

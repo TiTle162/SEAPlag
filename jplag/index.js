@@ -19,8 +19,8 @@ const fs = require('fs');
   spawn = supported big amount of data.
 */
 // const { fork } = require('child_process'); // Can't find an example.
-// const { exec } = require('child_process'); // Size of buffer limit to 200k (If buffer is bigger than 200k program will Crash!!!)
-const { spawn } = require('child_process'); // Better than exec (Size of data).
+const { exec } = require('child_process'); // Size of buffer limit to 200k (If buffer is bigger than 200k program will Crash!!!)
+// const { spawn } = require('child_process'); // Better than exec (Size of data).
 
 /* Express */
 const app = express();
@@ -69,7 +69,7 @@ function check_file_exists(path){
 app.post('/api/jplag', (req, res) => {
 
       // 1. Uploaded zip file.
-      upload(req, res, function (err) {
+      upload(req, res, async function (err) {
         if(err){
           res.send({'msg': 'error'});
         }else{
@@ -80,44 +80,65 @@ app.post('/api/jplag', (req, res) => {
           var language = req.headers.language;
 
           // 2. Extract zip file.        
-          decompress("./input_datasets/"+file_name, "./datasets/"+pure_file_name)
+          await decompress("./input_datasets/"+file_name, "./datasets/"+pure_file_name)
           .then(async (files) => {
-            if(check_file_exists("./datasets/"+pure_file_name+"/"+pure_destination)){
-              
-                // 3. JPlag file. 
-                /* fork */
-                // -
-
-                /* exec */
-                // var path = "./datasets/"+pure_file_name+"/"+pure_destination; 
-                // exec('java -jar ./jplag-4.1.0-jar-with-dependencies.jar -l'+ aug +' -r '+path+' -new '+path, (error, stdout, stderr) => {
-                //   if(error){
-                //     res.send({'msg': 'error'});
-                //   }
-                // });
-
-                /* spawn */
-                var path = "./datasets/"+pure_file_name+"/"+pure_destination; 
-                var child = spawn('java', ['-jar', './jplag-4.1.0-jar-with-dependencies.jar', '-l', language, '-r', path, '-new', path]);
-                child.stdout.on('data', (data) => {
-                  console.log('stdout: '+data);
-                })
-                child.stderr.on('data', (data) => {
-                  console.log('stderr: '+data);
-                })
-                child.on('error', (error) => {
-                  console.log('error: '+error.message);
-                })
-
-                res.send({'msg': 'success'});
-
-            }else{
-              res.send({'msg': 'error'});
-            }
+            
           })
           .catch((error) => {
             res.send({'msg': 'error'});
           });
+
+          //
+          if(check_file_exists("./datasets/"+pure_file_name+"/"+pure_destination)){
+              
+            // 3. JPlag file. 
+            /* fork */
+            // -
+
+            console.log("This log");
+
+            /* exec */
+            var path = "./datasets/"+pure_file_name+"/"+pure_destination; 
+            try{
+              console.log(`java -jar ./jplag-4.1.0-jar-with-dependencies.jar -l ${language} -r ${path} -new ${path}`)
+              exec(`java -jar ./jplag-4.1.0-jar-with-dependencies.jar -l ${language} -r ${path} -new ${path}`, (error, stdout, stderr) => {
+                if(error){
+                  console.log("error: "+error);
+                }
+
+                if(stderr){
+                  console.log("stderr: "+ stderr);
+                }
+
+                if(stdout){
+                  console.log("stdout: "+ stdout);
+                }
+              });
+            }catch(err){
+              console.log(err);
+            }
+
+            res.send({'msg': 'success'});
+
+
+            /* spawn */
+            // var path = "./datasets/"+pure_file_name+"/"+pure_destination; 
+            // var child = spawn('java', ['-jar', './jplag-4.1.0-jar-with-dependencies.jar', '-l', language, '-r', path, '-new', path]);
+            // child.stdout.on('data', (data) => {
+            //   console.log('stdout: '+data);
+            // })
+            // child.stderr.on('data', (data) => {
+            //   console.log('stderr: '+data);
+            // })
+            // child.on('error', (error) => {
+            //   console.log('error: '+error.message);
+            // })
+
+            // res.send({'msg': 'success'});
+
+            }else{
+              res.send({'msg': 'error'});
+            }
         }
       });
 });

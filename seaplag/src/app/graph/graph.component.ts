@@ -484,7 +484,7 @@ export class GraphComponent implements OnInit {
     this.title_3 = "การใช้งาน";
     this.UM01 = "ผู้ใช้สามารถกำหนดขอบเขตเปอร์เซนต์ความคล้ายคลึงกันของข้อมูลซอร์สโค้ดบนกราฟที่ผู้ใช้ต้องการแสดง";
     this.UM02 = "ปุ่มสำหรับยืนยันขอบเขตเปอร์เซนต์ความคล้ายคลึงกันของข้อมูลซอร์สโค้ดบนกราฟที่ผู้ใช้ต้องการ";
-    this.UM03 = "ปุ่มสำหรับปรับแก้ขอบเขตเปอร์เซนต์ความคล้ายคลึงกันของข้อมูลซอร์สโค้ดบนกราฟให้เป็นค่าเริ่มต้น";
+    this.UM03 = "ปุ่มสำหรับแสดงผลลัพธ์ความคล้ายคลึงกันของซอร์สโค้ดในรูปแบบตาราง";
     this.UM04 = "ปุ่มสำหรับดาวน์โหลดกราฟ 2D เป็นรูปแบบไฟล์รูปภาพ และดาวน์โหลดกราฟ 3D ในรูปแบบไฟล์ html";
     this.UM05 = "ปุ่มสำหรับเปลี่ยนการแสดงผลกราฟให้อยู่ในรูปแบบ 2D";
     this.UM06 = "ปุ่มสำหรับเปลี่ยนการแสดงผลกราฟให้อยู่ในรูปแบบ 3D";
@@ -494,7 +494,7 @@ export class GraphComponent implements OnInit {
 
     this.btn01 = "ขอบเขตข้อมูล";
     this.btn02 = "ปุ่มยืนยัน";
-    this.btn03 = "ปุ่มรีเซ็ต";
+    this.btn03 = "ปุ่มตาราง";
     this.btn04 = "ปุ่มบันทึกภาพ";
     this.btn05 = "ปุ่มปรับ 2D";
     this.btn06 = "ปุ่มปรับ 3D";
@@ -522,7 +522,7 @@ export class GraphComponent implements OnInit {
 
     this.UM01 = "The user can define the similarity percentage range of the source code data on the graph that the user wants to display.";
     this.UM02 = "Button for confirming the similarity percentage boundaries of the source code data on the graph that the user wants.";
-    this.UM03 = "Button for adjusting the similarity percentage region of the source data on the graph to the default value.";
+    this.UM03 = "Button to display source code similarity results in table format.";
     this.UM04 = "Button for download 2D chart as image file format. and download the chart 3D in html file format.";
     this.UM05 = "Button for changing the graph display to be in 2D format.";
     this.UM06 = "Button for changing the graph display to be in 3D format.";
@@ -532,7 +532,7 @@ export class GraphComponent implements OnInit {
 
     this.btn01 = "Scoop Data";
     this.btn02 = "Confirm";
-    this.btn03 = "Reset";
+    this.btn03 = "Table";
     this.btn04 = "Export";
     this.btn05 = "2D Display";
     this.btn06 = "3D Display";

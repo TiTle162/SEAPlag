@@ -28,6 +28,7 @@
     "force-graph": "^1.42.16",
     "html2canvas": "^1.4.1",
     "jquery": "^3.6.1",
+    "monaco-editor": "^0.36.0",
     "ngx-file-drop": "^14.0.2",
     "ngx-spinner": "^15.0.1",
     "rxjs": "~7.5.0",

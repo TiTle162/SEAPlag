@@ -44,9 +44,17 @@
 
 <div class="content-box container-fluid bg-white" style="border-radius: 25px; margin-top: -12px;">
   <div class="container-fluid main">
-    <h2 class="text-center" style="padding-top: 50px; font-size: 35px;">{{code_sim}}: <span
-        class="blue-frame">{{similarity}} &#65285;</span></h2><br>
+    
     <div class="row">
+      <div class="col-lg-10 col-md-10 col-sm-10">
+        <h2 class="text-center" style="padding-top: 50px; font-size: 35px;">{{code_sim}}: <span
+          class="blue-frame">{{similarity}} &#65285;</span></h2><br>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-2">
+      </div>
+    </div>
+
+      <div class="row">
 
       <div class="row">
         <div class="col-lg-5 col-md-5 col-sm-6 text-center" style="">
@@ -66,15 +74,15 @@
           <h4 class="text-center" style="padding-top: 70px;"><span class="blue-frame">{{code_select}}</span></h4>
   
           <div style="height: 20px;"></div>
-          <div class="bg-white border rounded">
+          <div class="bg-white  rounded">
             <!-- <div *ngFor="let item of file | keyvalue"> -->
   
             <table class="table">
               <thead>
                 <tr>
-                  <th>{{source}}</th>
-                  <th>{{target}}</th>
-                  <th></th>
+                  <th style="width: 45%">{{source}}</th>
+                  <th style="width: 45%">{{target}}</th>
+                  <th style="width: 10%"></th>
                 </tr>
               </thead>
               <tbody>
@@ -83,10 +91,10 @@
                 <!-- <div *ngFor="let item of file | keyvalue"> -->
   
                   <tr (click)="get_file(item)" style="cursor: pointer;" *ngFor="let item of file | keyvalue">
-                    <td>
+                    <td style="word-break: break-all;">
                       {{item.value.file1 }}
-                    </td>
-                    <td>
+                    </td >
+                    <td style="word-break: break-all;">
                       {{item.value.file2}}
                     </td>
                     <td>

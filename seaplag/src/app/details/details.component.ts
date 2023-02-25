@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
 
 import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
+import { editor } from 'monaco-editor';
+
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { data } from 'jquery';
@@ -56,7 +58,8 @@ export class DetailsComponent implements OnInit {
     // theme: 'idea',
     theme: 'eclipse',
     // mode: "text/x-java",
-    mode: "application/ld+json",
+    // mode: "application/ld+json",
+    mode: "text/x-c++src",
     // mode: 'application/json',
     initialEditType: "markdown",
     lineNumbers: true,
