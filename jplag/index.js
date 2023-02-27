@@ -18,9 +18,7 @@ const fs = require('fs');
   exec = replaced parent process with child process, No return value to parent process.
   spawn = supported big amount of data.
 */
-// const { fork } = require('child_process'); // Can't find an example.
-const { exec } = require('child_process'); // Size of buffer limit to 200k (If buffer is bigger than 200k program will Crash!!!)
-// const { spawn } = require('child_process'); // Better than exec (Size of data).
+const { spawn, spawnSync } = require('child_process'); // Better than exec (Size of data).
 
 /* Express */
 const app = express();
@@ -48,28 +46,20 @@ app.get('/', (req, res) => {
   res.send('<h1 style="text-align: center; font-size: 75px; margin-top: 50px;">Welcome to <br><div style="font-size: 150px;"><span style="color: Aqua;">SEA</span><span style="color: red;">Plag.</span></div></h1>');
 });
 
-function check_file_exists(path){
-  var time= new Date();
-  var time_start = '';
-  var time_end = (time.getSeconds()*1000)+10000;
-
-  while(true){
-    time_start = (time.getSeconds()*1000);
-    if (fs.existsSync(path)) {
-      return true;
-    }else if(time_start === time_end){
-      return false;
-    }else{
-      continue;
-    }
+async function check_similarity(language, path, pure_file_name, pure_destination){
+  try{
+    var child = await spawnSync('java', ['-jar', './jplag-4.1.0-jar-with-dependencies.jar', '-l', language, '-r', path+'res', '-new', path]);
+    await decompress('./datasets/'+pure_file_name+'/'+pure_destination+"res.zip", path);
+    return '{"msg": "success"}';
+  }catch(error){
+    return '{"msg": "error"}';
   }
 }
 
 // Input & Process.
-app.post('/api/jplag', (req, res) => {
-
+app.post('/api/jplag', async (req, res) => {
       // 1. Uploaded zip file.
-      upload(req, res, async function (err) {
+      await upload(req, res, async function (err) {
         if(err){
           res.send({'msg': 'error'});
         }else{
@@ -80,87 +70,29 @@ app.post('/api/jplag', (req, res) => {
           var language = req.headers.language;
 
           // 2. Extract zip file.        
-          await decompress("./input_datasets/"+file_name, "./datasets/"+pure_file_name)
-          .then(async (files) => {
-            
-          })
-          .catch((error) => {
-            res.send({'msg': 'error'});
-          });
+          await decompress("./input_datasets/"+file_name, "./datasets/"+pure_file_name);
+          var path = "./datasets/"+pure_file_name+"/"+pure_destination; 
 
-          //
-          if(check_file_exists("./datasets/"+pure_file_name+"/"+pure_destination)){
-              
-            // 3. JPlag file. 
-            /* fork */
-            // -
-
-            console.log("This log");
-
-            /* exec */
-            var path = "./datasets/"+pure_file_name+"/"+pure_destination; 
-            try{
-              console.log(`java -jar ./jplag-4.1.0-jar-with-dependencies.jar -l ${language} -r ${path} -new ${path}`)
-              exec(`java -jar ./jplag-4.1.0-jar-with-dependencies.jar -l ${language} -r ${path} -new ${path}`, (error, stdout, stderr) => {
-                if(error){
-                  console.log("error: "+error);
-                }
-
-                if(stderr){
-                  console.log("stderr: "+ stderr);
-                }
-
-                if(stdout){
-                  console.log("stdout: "+ stdout);
-                }
-              });
-            }catch(err){
-              console.log(err);
-            }
-
-            res.send({'msg': 'success'});
-
-
-            /* spawn */
-            // var path = "./datasets/"+pure_file_name+"/"+pure_destination; 
-            // var child = spawn('java', ['-jar', './jplag-4.1.0-jar-with-dependencies.jar', '-l', language, '-r', path, '-new', path]);
-            // child.stdout.on('data', (data) => {
-            //   console.log('stdout: '+data);
-            // })
-            // child.stderr.on('data', (data) => {
-            //   console.log('stderr: '+data);
-            // })
-            // child.on('error', (error) => {
-            //   console.log('error: '+error.message);
-            // })
-
-            // res.send({'msg': 'success'});
-
-            }else{
-              res.send({'msg': 'error'});
-            }
+          // 3. Check similarity.
+          var result = await check_similarity(language, path, pure_file_name, pure_destination);
+          res.send(result);
         }
       });
 });
 
 // Response plagirism results.
 app.post('/api/result', async (req, res) => {
-    var filename = req.headers.filename;
-    var destination = req.headers.destination;
-    var path = "./datasets/"+filename+"/"+destination+"/overview.json";
+  var filename = req.headers.filename;
+  var destination = req.headers.destination;
+  var path = "./datasets/"+filename+"/"+destination+"/overview.json";
 
-    if(check_file_exists(path)){
-      fs.readFile(path, 'utf8', (err, data) => {
-        if (err) {
-          res.send({'msg': 'error'});
-        }
-
-        const jsonData = JSON.parse(data);
-        res.send(jsonData);
-      });
-    }else{
+  fs.readFile(path, 'utf8', (err, data) => {
+    if (err) {
       res.send({'msg': 'error'});
     }
+    const jsonData = JSON.parse(data);
+    res.send(jsonData);
+  });
 });
 
 // Response compare result.
@@ -169,7 +101,6 @@ app.post('/api/compare', (req, res) => {
   var destination = req.headers.destination;
   var source = req.headers.source;
   var target = req.headers.target;
-
   var data = "./datasets/"+filename+"/"+destination+"/"+source+"-"+target+'.json';
   fs.readFile(data, (err, data) => {
     if (err) {
@@ -204,18 +135,13 @@ app.post('/api/table', async (req, res) => {
   var destination = req.headers.destination;
   var path = "./datasets/"+filename+"/"+destination+"/overview.json";
 
-  if(check_file_exists(path)){
-    fs.readFile(path, 'utf8', (err, data) => {
-      if (err) {
-        res.send({'msg': 'error'});
-      }
-
-      const jsonData = JSON.parse(data);
-      res.send(jsonData);
-    });
-  }else{
-    res.send({'msg': 'error'});
-  }
+  fs.readFile(path, 'utf8', (err, data) => {
+    if (err) {
+      res.send({'msg': 'error'});
+    }
+    const jsonData = JSON.parse(data);
+    res.send(jsonData);
+  });
 });
 
 app.listen(PORT, HOST, () => {

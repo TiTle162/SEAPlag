@@ -111,11 +111,7 @@ export class GraphComponent implements OnInit {
     this.http.post('http://localhost:4000/api/result', formData, { headers: headers })
     .subscribe(data => {
       this.hideSpinner();
-
-      console.log(data);
-
       var res = JSON.stringify(data);
-
       if(!res.includes("error")){
         // Read JSON data.
         if(this.mode == "2D"){
@@ -288,7 +284,7 @@ export class GraphComponent implements OnInit {
             .nodeId('id')
             .nodeVal('val')
             .nodeLabel('id')
-            .nodeRelSize(6)
+            .nodeRelSize(8)
             .nodeAutoColorBy('group')
             .nodeCanvasObjectMode(() => 'after')
             .nodeCanvasObject((node, ctx) => {
@@ -341,7 +337,7 @@ export class GraphComponent implements OnInit {
               }
             })
             .autoPauseRedraw(false)
-            .linkWidth(link => highlightLinks.has(link) ? 5 : 1)
+            .linkWidth(5)
             .linkDirectionalParticles(4)
             .linkDirectionalParticleWidth(link => highlightLinks.has(link) ? 4 : 0)
             .onLinkClick(link => {
@@ -356,13 +352,12 @@ export class GraphComponent implements OnInit {
     }else if(this.mode == "3D"){
       this.Graph = ForceGraph3D()(document.getElementById("graph") as HTMLCanvasElement)
         .graphData(GraphObject)
-        .backgroundColor('#ffffff')
         // Node //
         .nodeId('id')
         .nodeVal('val')
         .nodeLabel('id')
         .nodeAutoColorBy('group')
-        .nodeRelSize(6)
+        .nodeRelSize(8)
         .nodeOpacity(1)
         .onNodeDragEnd(node => {
           node.fx = node.x;
@@ -394,13 +389,13 @@ export class GraphComponent implements OnInit {
             3000  // ms transition duration
           );
         })
+
         // Link //
         .linkSource('source')
         .linkTarget('target')
         .linkLabel('value')  
-        .linkAutoColorBy('group')
-        .linkOpacity(0.4)
-        .linkWidth(1.5)
+        .linkOpacity(1)
+        .linkWidth(5)
         .linkThreeObjectExtend(true)
         .onLinkClick(link => {
           const temp_source = JSON.stringify(link.source); 
@@ -457,22 +452,6 @@ export class GraphComponent implements OnInit {
     var url = this.router.serializeUrl(urlTree);
     window.open(url, '_blank');
   }
-
-  // reset_display_output(){
-  //   var urlTree = this.router.createUrlTree(['/Graph'], {
-  //     queryParams: {
-  //       language: this.current_language,
-  //       filename: this.filename,
-  //       dest: this.dest,
-  //       mode: this.mode,
-  //       min: 50,
-  //       max: 100
-  //     }
-  //   });
-
-  //   var url = this.router.serializeUrl(urlTree);
-  //   window.open(url, '_self');
-  // }
 
   switch_to_th(){
     this.current_language = "TH";
