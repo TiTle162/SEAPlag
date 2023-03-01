@@ -65,7 +65,7 @@ export class TableComponent {
       'destination': this.dest,
     })
 
-    this.http.post('http://localhost:4000/api/table', formData, { headers: headers })
+    this.http.post('http://localhost:4000/api/result', formData, { headers: headers })
     .subscribe(data => {
       this.hideSpinner();
 

@@ -39,8 +39,6 @@ export class ImportComponent implements OnInit {
       this.show_input_size_error();
       return ;
     }else if(files.length == 1){
-      console.log();
-
       // Check file name extension.
       if(files[0].relativePath.slice(-4) != ".zip"){
         this.show_input_type_error();
