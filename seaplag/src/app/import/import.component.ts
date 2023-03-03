@@ -133,8 +133,8 @@ export class ImportComponent implements OnInit {
   navbar_menu_1: string = "";
   navbar_menu_2: string = "";
   navbar_menu_3: string = "";
-  navbar_language_1: string = "";
-  navbar_language_2: string = "";
+  navbar_language_thai: string = "";
+  navbar_language_eng: string = "";
   link_to_jplag: string = "";
   welcome_word: string = "";
   support_language: string = "";
@@ -230,8 +230,8 @@ export class ImportComponent implements OnInit {
     this.navbar_menu_2 = "วิธีใช้งาน";
     this.navbar_menu_3 = "เครดิต";
 
-    this.navbar_language_1 = "ไทย";
-    this.navbar_language_2 = "อังกฤษ";
+    this.navbar_language_thai = "ไทย";
+    this.navbar_language_eng = "อังกฤษ";
 
     this.link_to_jplag = "ดําเนินการโดย ";
 
@@ -298,8 +298,8 @@ export class ImportComponent implements OnInit {
     this.navbar_menu_2 = "How to use";
     this.navbar_menu_3 = "Credits";
 
-    this.navbar_language_1 = "TH";
-    this.navbar_language_2 = "EN";
+    this.navbar_language_thai = "TH";
+    this.navbar_language_eng = "EN";
 
     this.link_to_jplag = "Implemented by ";
 

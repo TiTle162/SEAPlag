@@ -15,12 +15,10 @@ import { PagefaultComponent } from './pagefault/pagefault.component';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import * as monaco from 'monaco-editor';
+import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 
 import { HttpClientModule } from '@angular/common/http';
-import { from } from 'rxjs';
-import { editor } from 'monaco-editor';
+// import { editor } from 'monaco-editor';
 
 const appRoute: Routes = [
   {path: '', component: ImportComponent},
@@ -50,7 +48,7 @@ const appRoute: Routes = [
     NgxFileDropModule,
     NgxSpinnerModule,
     HttpClientModule,
-    CodemirrorModule
+    MonacoEditorModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
 
-import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
-import { editor } from 'monaco-editor';
+// import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
+// import { editor } from 'monaco-editor';
+// import * as monaco from 'monaco-editor';
+// import loader from '@monaco-editor/loader';
+import { DiffEditorModel } from 'ngx-monaco-editor-v2';
 
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -16,6 +19,7 @@ import { float } from 'html2canvas/dist/types/css/property-descriptors/float';
   styleUrls: ['./details.component.css']
 })
 export class DetailsComponent implements OnInit {
+
   DetailsData: any = "";
   current_year: any = "";
 
@@ -54,36 +58,10 @@ export class DetailsComponent implements OnInit {
   file_content_target: any = "";
   default_file: boolean = false;
 
-  codeMirrorOptions: any = {
-    // theme: 'idea',
-    theme: 'eclipse',
-    // mode: "text/x-java",
-    // mode: "application/ld+json",
-    mode: "text/x-c++src",
-    // mode: 'application/json',
-    initialEditType: "markdown",
-    lineNumbers: true,
-    readOnly: true,
-    lineWrapping: false,
-    foldGutter: true,
-    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
-    autoCloseBrackets: true,
-    matchBrackets: true,
-    lint: true
-    // readonly: true
-  };
-
-  // CodemirrorComponent.fromTextArea(document.getElementById("codepane"), {
-  //   mode: "text/x-java",
-  //   indentWithTabs: true,
-  //   smartIndent: true,
-  //   lineNumbers: true,
-  //   lineWrapping: true,
-  //   matchBrackets: true,
-  //   autofocus: true,
-  //   theme: "ambiance",
-  // });
-  
+  editorOptions = { theme: 'vs', readOnly: true};
+  originalModel!: DiffEditorModel;
+  modifiedModel!: DiffEditorModel;
+ 
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
   ngOnInit() {
@@ -248,6 +226,16 @@ export class DetailsComponent implements OnInit {
                 this.file_content_source = temp;
                 this.file_content_target = data;
 
+                this.originalModel = {
+                  language: this.get_language(this.file_name_source),
+                  code: temp,
+                }
+
+                this.modifiedModel = {
+                  language: this.get_language(this.file_name_target),
+                  code: data
+                }
+
               } else if (res.includes("error")) {
                 alert("error");
               } else {
@@ -260,6 +248,60 @@ export class DetailsComponent implements OnInit {
           alert("error");
         }
       });
+  }
+
+  get_language(file_name: string) {
+    var language
+    var file_name_arry = file_name.split(".");
+    var mime_type = file_name_arry[file_name_arry.length - 1].toLowerCase();
+    switch (mime_type) {
+      case 'java':
+        language = 'text/x-java';
+        break;
+      case 'cpp':
+        language = 'text/x-c';
+        break;
+      case 'c':
+        language = 'text/x-c';
+        break;
+      case 'h':
+        language = 'text/x-c';
+        break;
+      case 'cs':
+        language = 'text/x-csharp';
+        break;
+      case 'r':
+        language = 'text/x-rsrc';
+        break;
+      case 'swift':
+        language = 'text/x-swift';
+        break;
+      case 'scalar':
+        language = 'text/x-scala';
+        break;
+      case 'sc':
+        language = 'text/x-scala';
+        break;
+      case 'kt':
+        language = 'text/x-kotlin';
+        break;
+      case 'kps':
+        language = 'text/x-kotlin';
+        break;
+      case 'kpm':
+        language = 'text/x-kotlin';
+        break;
+      case 'go':
+        language = 'text/x-go';
+        break;
+      case 'py':
+        language = 'text/x-python';
+        break;
+      default:
+        language = 'text/plain';
+        break;
+    }
+    return language;
   }
 
   get_file(file_data: any) {
@@ -296,6 +338,16 @@ export class DetailsComponent implements OnInit {
               if (!res.includes("error")) {
                 this.file_content_source = temp;
                 this.file_content_target = data;
+
+                this.originalModel = {
+                  language: this.get_language(this.file_name_source),
+                  code: temp
+                }
+
+                this.modifiedModel = {
+                  language: this.get_language(this.file_name_target),
+                  code: data
+                }
 
               } else if (res.includes("error")) {
                 alert("error");

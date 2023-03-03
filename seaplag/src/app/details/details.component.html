@@ -44,39 +44,40 @@
 
 <div class="content-box container-fluid bg-white" style="border-radius: 25px; margin-top: -12px;">
   <div class="container-fluid main">
-    
     <div class="row">
       <div class="col-lg-10 col-md-10 col-sm-10">
         <h2 class="text-center" style="padding-top: 50px; font-size: 35px;">{{code_sim}}: <span
-          class="blue-frame">{{similarity}} &#65285;</span></h2><br>
+            class="blue-frame">{{similarity}} &#65285;</span></h2><br>
       </div>
       <div class="col-lg-2 col-md-2 col-sm-2">
       </div>
     </div>
 
+    <div class="row">
       <div class="row">
+        <div class="col-lg-10 col-md-10 col-sm-12">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 text-center">
+              <div style="font-size: 20px;"><b>{{file_title}} : {{source}} </b></div>
+              <div style="font-size: 20px; margin-bottom: 10px;"><b> {{file_name_source}} </b></div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6  text-center">
+              <div style="font-size: 20px;"><b>{{file_title}} : {{target}} </b></div>
+              <div style="font-size: 20px; margin-bottom: 10px;"><b> {{file_name_target}} </b></div>
+            </div>
+          </div>
+          <div class="row">
+            <!-- monaco editors -->
+            <ngx-monaco-diff-editor style="height: 450px;" class="my-code-editor" [options]="editorOptions"
+              [originalModel]="originalModel" [modifiedModel]="modifiedModel"></ngx-monaco-diff-editor>
+          </div>
+        </div>
 
-      <div class="row">
-        <div class="col-lg-5 col-md-5 col-sm-6 text-center" style="">
-          <div style="font-size: 20px;"><b>{{file_title}} : {{source}} </b></div>
-          <div style="font-size: 20px; margin-bottom: 10px;"><b> {{file_name_source}} </b></div>
-  
-          <ngx-codemirror #codeMirror [options]="codeMirrorOptions" [(ngModel)]="file_content_source"></ngx-codemirror>
-        </div>
-        <div class="col-lg-5 col-md-5 col-sm-6  text-center" style="">
-          <div style="font-size: 20px;"><b>{{file_title}} : {{target}} </b></div>
-          <div style="font-size: 20px; margin-bottom: 10px;"><b> {{file_name_target}} </b></div>
-  
-          <ngx-codemirror #codeMirror [options]="codeMirrorOptions" [(ngModel)]="file_content_target"></ngx-codemirror>
-        </div>
         <div class="col-lg-2 col-md-2 col-sm-12 text-center">
-          <!-- <span>{{code_select}}</span> -->
           <h4 class="text-center" style="padding-top: 70px;"><span class="blue-frame">{{code_select}}</span></h4>
-  
+
           <div style="height: 20px;"></div>
           <div class="bg-white  rounded">
-            <!-- <div *ngFor="let item of file | keyvalue"> -->
-  
             <table class="table">
               <thead>
                 <tr>
@@ -86,30 +87,25 @@
                 </tr>
               </thead>
               <tbody>
-                <!-- Key: <b>{{item.key}}</b> and Value: <b>{{item.value.file1}}</b><b>{{item.value.file2}}</b> -->
-                <!-- <a (click)="get_file(item)" style="cursor: pointer;"> -->
-                <!-- <div *ngFor="let item of file | keyvalue"> -->
-  
-                  <tr (click)="get_file(item)" style="cursor: pointer;" *ngFor="let item of file | keyvalue">
-                    <td style="word-break: break-all;">
-                      {{item.value.file1 }}
-                    </td >
-                    <td style="word-break: break-all;">
-                      {{item.value.file2}}
-                    </td>
-                    <td>
-                      <i class='fas fa-arrow-right'></i>
-                    </td>
-                  </tr>
-                 
-                <!-- </div> -->
-                <!-- </a> -->
+                <tr (click)="get_file(item)" style="cursor: pointer;" *ngFor="let item of file | keyvalue">
+                  <td style="word-break: break-all;">
+                    {{item.value.file1}} <br>
+                   ({{item.value.start1}} - {{item.value.end1}})
+                  </td>
+                  <td style="word-break: break-all;">
+                    {{item.value.file2}} <br>
+                    ({{item.value.start2}} - {{item.value.end2}})
+
+                  </td>
+                  <td>
+                    <i class='fas fa-arrow-right'></i>
+                  </td>
+                </tr>
               </tbody>
             </table>
-            <!-- </div> -->
           </div>
         </div>
-        
+
       </div>
     </div>
 
