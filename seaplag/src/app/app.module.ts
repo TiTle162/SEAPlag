@@ -18,7 +18,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 
 import { HttpClientModule } from '@angular/common/http';
-// import { editor } from 'monaco-editor';
 
 const appRoute: Routes = [
   {path: '', component: ImportComponent},

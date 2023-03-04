@@ -2,10 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
 
-// import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
-// import { editor } from 'monaco-editor';
-// import * as monaco from 'monaco-editor';
-// import loader from '@monaco-editor/loader';
 import { DiffEditorModel } from 'ngx-monaco-editor-v2';
 
 
