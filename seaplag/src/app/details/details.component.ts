@@ -102,6 +102,16 @@ export class DetailsComponent implements OnInit {
       'target': this.target
     })
 
+    this.originalModel = {
+      language: this.get_language(this.file_name_source),
+      code: this.file_content_source,
+    }
+
+    this.modifiedModel = {
+      language: this.get_language(this.file_name_target),
+      code: this.file_content_target,
+    }
+
     this.http.post('http://localhost:4000/api/compare', formData, { headers: headers })
       .subscribe(data => {
         const res = JSON.stringify(data);
