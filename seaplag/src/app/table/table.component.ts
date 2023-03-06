@@ -12,6 +12,8 @@ import Swal from 'sweetalert2';
 export class TableComponent {
 
   constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private spinner: NgxSpinnerService){}
+  
+  PATH: String = 'http://localhost:4000/';
 
   GraphData: any = ""; 
   TableData: any = "";
@@ -65,7 +67,7 @@ export class TableComponent {
       'destination': this.dest,
     })
 
-    this.http.post('http://localhost:4000/api/result', formData, { headers: headers })
+    this.http.post(this.PATH +'api/result', formData, { headers: headers })
     .subscribe(data => {
       this.hideSpinner();
 

@@ -18,6 +18,9 @@ import { Options } from '@angular-slider/ngx-slider';
   styleUrls: ['./graph.component.css']
 })
 export class GraphComponent implements OnInit {
+
+  PATH: String = 'http://localhost:4000/';
+
   ForceGraph: any = "";
   ForceGraph3D: any = "";
   SpriteText: any = ""
@@ -108,7 +111,7 @@ export class GraphComponent implements OnInit {
       'destination': this.dest,
     })
 
-    this.http.post('http://localhost:4000/api/result', formData, { headers: headers })
+    this.http.post(this.PATH +'api/result', formData, { headers: headers })
     .subscribe(data => {
       this.hideSpinner();
       var res = JSON.stringify(data);

@@ -16,6 +16,8 @@ import { float } from 'html2canvas/dist/types/css/property-descriptors/float';
 })
 export class DetailsComponent implements OnInit {
 
+  PATH: String = 'http://localhost:4000/';
+
   DetailsData: any = "";
   current_year: any = "";
 
@@ -63,10 +65,6 @@ export class DetailsComponent implements OnInit {
   ngOnInit() {
     // console.log(this.file_content_source)
 
-    // this.codeObj = JSON.stringify(this.file_content_source, undefined, 2);
-    // this.codeObj2 = JSON.stringify(this.file_content_target, undefined, 2);
-    // console.log(this.codeObj+'++++----///'+this.file_content_source)
-
     var params = this.route.snapshot.queryParams;
     var language = params['language'];
     this.filename = params['filename'];
@@ -108,7 +106,7 @@ export class DetailsComponent implements OnInit {
       code: this.file_content_target,
     }
 
-    this.http.post('http://localhost:4000/api/compare', formData, { headers: headers })
+    this.http.post(this.PATH +'api/compare', formData, { headers: headers })
       .subscribe(data => {
         const res = JSON.stringify(data);
         if (!res.includes("error")) {
@@ -210,7 +208,7 @@ export class DetailsComponent implements OnInit {
       'source': this.source,
       'sourcecode': this.file_name_source
     })
-    this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
+    this.http.post(this.PATH +'api/sourcecode', formData, { headers: headers, responseType: 'text' })
       .subscribe(data => {
         const res = JSON.stringify(data);
         if (!res.includes("error")) {
@@ -225,7 +223,7 @@ export class DetailsComponent implements OnInit {
             'source': this.target,
             'sourcecode': this.file_name_target
           })
-          this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
+          this.http.post(this.PATH +'api/sourcecode', formData, { headers: headers, responseType: 'text' })
             .subscribe(data => {
               const res = JSON.stringify(data);
               if (!res.includes("error")) {
@@ -323,7 +321,7 @@ export class DetailsComponent implements OnInit {
       'source': this.source,
       'sourcecode': file_data.value.file1
     })
-    this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
+    this.http.post(this.PATH +'api/sourcecode', formData, { headers: headers, responseType: 'text' })
       .subscribe(data => {
         const res = JSON.stringify(data);
         if (!res.includes("error")) {
@@ -338,7 +336,7 @@ export class DetailsComponent implements OnInit {
             'source': this.target,
             'sourcecode': file_data.value.file2
           })
-          this.http.post('http://localhost:4000/api/sourcecode', formData, { headers: headers, responseType: 'text' })
+          this.http.post(this.PATH +'api/sourcecode', formData, { headers: headers, responseType: 'text' })
             .subscribe(data => {
               const res = JSON.stringify(data);
               if (!res.includes("error")) {

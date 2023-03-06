@@ -3,6 +3,7 @@
 // Constants
 const PORT = 4000;
 const HOST = '0.0.0.0';
+const PATH = 'http://localhost:4200/';
 
 'use strict';
 
@@ -37,7 +38,7 @@ const upload = multer({ storage: storage }).single('file');
 /* CORS */
 app.use(cors());
 var corsOptions = {
-  origin: 'http://localhost:4200/',
+  origin: PATH,
   optionsSuccessStatus: 200 
 }
 

@@ -16,6 +16,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class ImportComponent implements OnInit {
   constructor(private router: Router, private http: HttpClient, private spinner: NgxSpinnerService, ){}
+  
+  PATH: String = 'http://localhost:4000/';
 
   title_code_language: string = "";
   selected_code_language: any ='java';
@@ -71,7 +73,7 @@ export class ImportComponent implements OnInit {
             'language': this.selected_code_language 
           });
 
-          this.http.post('http://localhost:4000/api/jplag', formData, { headers: headers })
+          this.http.post(this.PATH +'api/jplag', formData, { headers: headers })
           .subscribe(data => {
             this.hideSpinner();
 
