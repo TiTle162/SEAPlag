@@ -1,0 +1,21 @@
+public class PromotionProduct extends Product{
+    protected double discount;
+
+    public PromotionProduct() {
+        super();
+        this.discount=0.0;
+    }
+
+
+    public PromotionProduct(String name, double price, double discount) {
+        super(name, price);
+        this.discount = discount;
+    }
+    public double getTotalPrice(){
+        return this.price-=this.discount;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+}

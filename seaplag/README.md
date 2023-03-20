@@ -1,27 +1,23 @@
-# SEAPlag
+# SEAPlag: Front-End (Angular)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.2.
+## โครงสร้างโฟลเดอร์ (เฉพาะที่สําคัญ)
+-> seaplag
+    -> seaplag                      โฟล์เดอร์ Front-End (Angular)
+        -> src             
+            -> app
+                -> `import`         หน้าจออัปโหลดไฟล์ซอร์สโค้ด
+                -> `graph`          หน้าจอกราฟผลลัพธ์ 2 และ 3 มิติ
+                -> `table`          หน้าจอตารางผลลัพธ์
+                -> `details`        หน้าจอเปรียบเทียบซอร์สโค้ด
+                -> `pagefault`      หน้าจอหาหน้าไม่เจอ (ไม่สําคัญ)
+                -> `app.module.ts`  ไฟล์สําหรับเรียกใช้งาน Components และ Package ต่างๆ รวมถึงการทํา Routing ด้วย (สําคัญมาก)
+            -> assets
+                -> `img`            ตําแหน่งเก็บจําพวกไฟล์รูปภาพ
+        -> node_modules             เก็บซอร์สโค้ดของ package 
+        -> package.json             เก็บรายชื่อของ package
+        -> package-lock.json        เก็บเวอร์ชันของ package (ป้องกันไม่ให้เวอร์ชันของ package ของสมาชิกในทีมไม่ตรงกัน)
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## ลําดับการทํางาน
+1. เลือกภาษาและอัปโหลด zip ไฟล์ซอร์สโค้ดที่หน้า import
+2. ดูผลลัพธ์ที่หน้า graph และ table
+3. ดูการเปรียบเทียบซอร์สโค้ดที่หน้า details

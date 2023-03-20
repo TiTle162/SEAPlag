@@ -130,21 +130,6 @@ app.post('/api/sourcecode', (req, res) => {
   });
 });
 
-// Response sourcecode for table.
-app.post('/api/table', async (req, res) => {
-  var filename = req.headers.filename;
-  var destination = req.headers.destination;
-  var path = "./datasets/"+filename+"/"+destination+"/overview.json";
-
-  fs.readFile(path, 'utf8', (err, data) => {
-    if (err) {
-      res.send({'msg': 'error'});
-    }
-    const jsonData = JSON.parse(data);
-    res.send(jsonData);
-  });
-});
-
 app.listen(PORT, HOST, () => {
   console.log(`Running on http://${HOST}:${PORT}`);
 });

@@ -1,33 +1,54 @@
-# SEAPlag
+# SEAPlag ระบบแสดงผลลัพธ์การตรวจสอบความคล้ายคลึงของซอร์สโค้ด
 
-## Getting started
+## โครงสร้างโฟลเดอร์
+-> seaplag
+    -> jplag        โฟล์เดอร์ Back-End (Node.js)
+    -> seaplag      โฟล์เดอร์ Front-End (Angular)
+    -> template     โฟลเดอร์ template ของเว็บ
+    -> datasets     ข้อมูลสําหรับทดสอบระบบ
 
-This project was generated with 
-- [Angular CLI](https://github.com/angular/angular-cli) version 15.0.2.
-- [Node](https://github.com/nodejs/node) version 18.12.1
-- [Package Manager: npm](https://github.com/npm) version 8.19.2
+## เริ่มต้น
+ตรวจสอบสภาพแวดล้อมก่อนทําการ Clone โปรเจค
+- Angular เวอรชัน 15.0.2 (ใช้คําสั่ง `ng v` เพื่อตรวจสอบคําเวอร์ชันของ Angular)
+- Node เวอรชัน 18.12.1 (ใช้คําสั่ง `node -v` เพื่อตรวจสอบคําเวอร์ชันของ Node)
 
-Run `ng v` for check version. 
+## Clone Project
+ใช้คําสั่ง `git clone https://gitlab.com/62160158/seaplag.git` เพื่อโคลนโปรเจค 
 
-## Clone project
+## Start Project
+อย่าลืมเช็คเวอร์ชันของ Angular กับ Node ก่อน
+1. เปิด CMD ที่ดําแหน่ง D:\seaplag\seaplag จากนั้นใช้คําสั่ง `npm install` จากนั้นใช้คําสั่ง `ng serve` 
+2. เปิดเว็บบราวเซอร์ แล้วเข้า URL `http://localhost:4200/` เพื่อเปิด Front-End ของระบบ
+3. เปิด CMD ที่ตําแหน่ง D:\seaplag\jplag จากนั้นใช้คําสั่ง `npx nodemon --ignore datasets/ index.js`
+4. เปิดเว็บบราวเซอร์ แล้วเข้า URL `http://localhost:4000/` เพื่อเปิด Back-End ของระบบ
 
-Run `git clone https://gitlab.com/62160158/seaplag.git` for clone this project to your repository.
+## คําแนะนําในการติดตั้ง Package เสริมต่างๆ
+ในการติดตั้ง Package เสริมต่างๆ ตัวอย่างเช่นการใช้คําสั่ง `npm install ...` 
+package นั้นจะถูกบันทึกที่โฟลเดอร์ `D:\seaplag\seaplag\package.json` 
+จากนั้น ผู้พัฒนามักจะมีการเรียกใช้ package ตัวนั้นที่ `D:\seaplag\seaplag\src\app\app.module.ts`
+ก่อนจะทําการ import package นั้นไปใช้งานใน Components ต่างๆ 
 
-<!-- ```
-cd existing_repo
-git remote add origin https://gitlab.com/62160158/seaplag.git
-git branch -M main
-git push -uf origin main
-``` -->
+ปัญหาของการติดตั้ง package มักเกิดขึ้นในกรณีที่เวอร์ชันซอร์สโค้ดของผู้พัฒนาแต่ละคนในทีมไม่ตรงกัน
+ทําให้อาจเกิดเหตุการณ์ที่ผู้พัฒนาคนหนึ่งอาจใช้ package นั้นได้ปกติ แต่อีกคนไม่สามารถใช้งาน package นั้นได้
 
-## Run SEAPlag (Angular) project
+คําแนะนํา คือก่อนจะมีการติดตั้ง package เสริมต่างๆ ควรมีการพูดคุยกันในทีม และจํารูปแบบคําสั่ง `npm install ...` ให้ดี
+หากไม่มีการใช้ package ตัวนั้นให้ทําการใช้คําสั่ง `npm uninstall ...` ในการลบ package (ไม่แนะนําให้ลบมือ)
 
-Go to `../seaplag/seaplag` and run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.  
+-> วิธีทั่วไป ทดลองใช้คําสั่ง `npm install` ที่ตําแหน่ง D:\seaplag\seaplag แล้วค่อยใช้ `ng serve`
+-> วิธีไร้ทางออก ลบและโคลนโปรเจคนี้ใหม่ `:)` (อย่าลืมเช็คซอร์สโค้ดให้ดีก่อนที่จะทําการลบโปรเจค)
 
-- P.S. Run `ng serve -o` to automatically navigate to `http://localhost:4200/`.
+## คําแนะนําในการ Deploy 
+`ng build --prod` คือคําสั่งที่ใช้ในการ build product ของ Angular
 
-- *** If `ng serve` not work correctly. Please try to run `npm install`. After that, Try to run `ng serve` once again.
+แต่ระวังให้ดี!!! ที่ตําแหน่ง `D:\seaplag\seaplag\package.json` ในไฟล์ package.json
+จะมีส่วนของ dependencies กับ devDependencies มันคือที่เก็บชื่อ package ของโปรเจคนั่นเอง
+- dependencies คือ package ที่จะถูกนําไปด้วยกับคําสั่ง `ng build --prod`
+- devDependencies คือ package ที่จะไม่ถูกนําไปด้วยกับคําสั่ง `ng build --prod`
 
+กล่าวคือถ้า package มันดันไปอยู่ตรง devDependencies มันจะสามารถใช้งานได้ตอนที่พัฒนาอยู่
+แต่พอจะเอาไป Deploy บน Server ด้วยคําสั่ง `ng build --prod` มันจะไม่ถูกนําไปใช้งานด้วย
 
-## Recommend
-After install another Node Package Manager (npm install ...) and `ng serve` not work correctly. Please try to remove folder name `.angular` and `node_modules` and run `npm install` to build whole project once again then run `ng serve`. 
+*** ดังนั้น ควรอ่านรายละเอียดของแต่ละ package ให้ดีก่อนนํามาใช้งาน ***
+
+## ปล.
+ในโฟลเดอร์ jplag และ seaplag ต่างก็มี README.md อยู่นะ อย่าลืมเข้าไปอ่านกันนะ
