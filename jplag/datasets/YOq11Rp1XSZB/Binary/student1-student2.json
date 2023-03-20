@@ -1,1 +1,0 @@
-{"id1":"student1","id2":"student2","similarity":1.0,"matches":[{"file1":"Binary.c","file2":"Binary.h","start1":5,"end1":21,"start2":3,"end2":19,"tokens":19},{"file1":"Binary.c","file2":"main.c","start1":23,"end1":33,"start2":4,"end2":14,"tokens":19}]}
