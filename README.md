@@ -1,11 +1,11 @@
 # SEAPlag ระบบแสดงผลลัพธ์การตรวจสอบความคล้ายคลึงของซอร์สโค้ด
 
 ## โครงสร้างโฟลเดอร์
--> seaplagz <br/>
-    -> jplag        โฟล์เดอร์ Back-End (Node.js) <br/>
-    -> seaplag      โฟล์เดอร์ Front-End (Angular) <br/>
-    -> template     โฟลเดอร์ template ของเว็บ <br/>
-    -> datasets     ข้อมูลสําหรับทดสอบระบบ <br/>
+-> seaplag
+<&nbsp;>    -> jplag        โฟล์เดอร์ Back-End (Node.js)
+<&nbsp;><&nbsp;>   -> seaplag      โฟล์เดอร์ Front-End (Angular)
+<&nbsp;><&nbsp;>   -> template     โฟลเดอร์ template ของเว็บ
+<&nbsp;><&nbsp;>   -> datasets     ข้อมูลสําหรับทดสอบระบบ
 
 ## เริ่มต้น
 ตรวจสอบสภาพแวดล้อมก่อนทําการ Clone โปรเจค
