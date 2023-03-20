@@ -15,12 +15,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./import.component.css']
 })
 export class ImportComponent implements OnInit {
-  constructor(private router: Router, private http: HttpClient, private spinner: NgxSpinnerService, ){}
-  
+  constructor(private router: Router, private http: HttpClient, private spinner: NgxSpinnerService,) { }
+
   PATH: String = 'http://localhost:4000/';
 
   title_code_language: string = "";
-  selected_code_language: any ='java';
+  selected_code_language: any = 'java'; // ค่าเริ่มต้นภาษา
+
+  // set language for import
   code_language = [
     { name: 'Java', description: 'java' },
     { name: 'C/C++', description: 'cpp' },
@@ -30,22 +32,22 @@ export class ImportComponent implements OnInit {
     { name: 'Swift', description: 'swift' },
     { name: 'Scalar', description: 'scala' },
     { name: 'R', description: 'rlang' },
-  ]; 
+  ];
 
   /* File upload */
   public files: NgxFileDropEntry[] = [];
   public dropped(files: NgxFileDropEntry[]) {
 
     // Check count file input.
-    if(files.length > 1){
+    if (files.length > 1) {
       this.show_input_size_error();
-      return ;
-    }else if(files.length == 1){
+      return;
+    } else if (files.length == 1) {
       // Check file name extension.
-      if(files[0].relativePath.slice(-4) != ".zip"){
+      if (files[0].relativePath.slice(-4) != ".zip") {
         this.show_input_type_error();
-        return ;
-      }else if(files[0].relativePath.slice(-4) == ".zip"){
+        return;
+      } else if (files[0].relativePath.slice(-4) == ".zip") {
         this.files = files;
       }
     }
@@ -66,49 +68,41 @@ export class ImportComponent implements OnInit {
 
           // You could upload it like this:
           const formData = new FormData()
-          formData.append('file', file, new_file_name+'.zip');
+          formData.append('file', file, new_file_name + '.zip');
 
           const headers = new HttpHeaders({
             'destination': destination,
-            'language': this.selected_code_language 
+            'language': this.selected_code_language
           });
 
-          this.http.post(this.PATH +'api/jplag', formData, { headers: headers })
-          .subscribe(data => {
-            this.hideSpinner();
+          // start process
+          this.http.post(this.PATH + 'api/jplag', formData, { headers: headers })
+            .subscribe(data => {
+              this.hideSpinner();
 
-            var res = JSON.stringify(data);
-            if(res.includes("success")){
-              var urlTree = this.router.createUrlTree(['/Graph'], {
-                queryParams: {
-                  language: this.current_language,
-                  filename: new_file_name,
-                  dest: destination.slice(0, -4),
-                  mode: "2D",
-                  min: 50,
-                  max: 100
-                }
-              });
-          
-              var url = this.router.serializeUrl(urlTree);
-              window.open(url, '_self');
+              var res = JSON.stringify(data);
+              if (res.includes("success")) {
+                // jplag process success
+                var urlTree = this.router.createUrlTree(['/Graph'], {
+                  queryParams: {
+                    language: this.current_language,
+                    filename: new_file_name,
+                    dest: destination.slice(0, -4),
+                    mode: "2D",
+                    min: 50,
+                    max: 100
+                  }
+                });
 
-              // this.router.navigate(['/Graph'], {
-              //   queryParams: {
-              //     language: this.current_language,
-              //     filename: new_file_name,
-              //     dest: destination.slice(0, -4),
-              //     mode: "2D",
-              //     min: 50,
-              //     max: 100
-              //   },
-              // });
-            }else if(res.includes("error")){
-              this.show_error();
-            }else{
-              this.show_error();
-            }
-          });
+                var url = this.router.serializeUrl(urlTree);
+                window.open(url, '_self');
+
+              } else if (res.includes("error")) {
+                this.show_error();
+              } else {
+                this.show_error();
+              }
+            });
         });
       } else {
         // It was a directory (empty directories are added, otherwise only files)
@@ -118,15 +112,15 @@ export class ImportComponent implements OnInit {
     }
   }
 
-  public fileOver(event: any){
+  public fileOver(event: any) {
     // console.log(event);
   }
 
-  public fileLeave(event: any){
+  public fileLeave(event: any) {
     // console.log(event);
   }
-  /* File upload */
 
+  /* ประกาศตัวแปร */
   current_language: string = "";
   current_year: any = "";
   file_upload: string = "";
@@ -173,44 +167,55 @@ export class ImportComponent implements OnInit {
   copyright: string = "";
   language: string = "";
   tool: string = "";
-  article: string ="";
+  article: string = "";
   ref1: string = "";
   ref2: string = "";
   ref3: string = "";
   Or: string = "";
   choose_file: string = "";
 
-  titel_code_language: string ="";
+  titel_code_language: string = "";
 
+  // ฟังก์ชันเริ่มต้น
   ngOnInit() {
     this.switch_to_th();
 
-    $(document).ready(function(){
-      // left-nav-bar
-      $("#th").click(function(){
+    $(document).ready(function () {
+      // Thai language button
+      $("#th").click(function () {
         $("#en").removeClass("active");
         $("#th").addClass("active");
       });
-      $("#en").click(function(){
+
+      // Eng language button
+      $("#en").click(function () {
         $("#th").removeClass("active");
         $("#en").addClass("active");
       });
-      $("#top-btn").click(function(){
+
+      // top button
+      $("#top-btn").click(function () {
         $("#obj-btn").removeClass("active");
         $("#howto-btn").removeClass("active");
         $("#credit-btn").removeClass("active");
       });
-      $("#obj-btn").click(function(){
+
+      // Objectives button
+      $("#obj-btn").click(function () {
         $("#obj-btn").addClass("active");
         $("#howto-btn").removeClass("active");
         $("#credit-btn").removeClass("active");
       });
-      $("#howto-btn").click(function(){
+
+      // howto button
+      $("#howto-btn").click(function () {
         $("#obj-btn").removeClass("active");
         $("#howto-btn").addClass("active");
         $("#credit-btn").removeClass("active");
       });
-      $("#credit-btn").click(function(){
+
+      // credits button
+      $("#credit-btn").click(function () {
         $("#obj-btn").removeClass("active");
         $("#howto-btn").removeClass("active");
         $("#credit-btn").addClass("active");
@@ -218,10 +223,11 @@ export class ImportComponent implements OnInit {
     });
   }
 
-  switch_to_th(){
+  // การใช้คำสำหรับภาษาไทย
+  switch_to_th() {
 
     this.file_upload = "จุดวางไฟล์ซอร์สโค้ด (.zip) ";
-    this.Or ="หรือ";
+    this.Or = "หรือ";
 
     this.current_language = "TH";
 
@@ -265,7 +271,7 @@ export class ImportComponent implements OnInit {
     this.advisor_name = "อาจารย์พีระศักดิ์ เพียรประสิทธิ์";
     this.front_name = "นักพัฒนาฝั่ง Front-End";
     this.back_name = "นักพัฒนาฝั่ง Back-End";
-    this.advisor = "อาจารย์ที่ปรึกษา"; 
+    this.advisor = "อาจารย์ที่ปรึกษา";
     this.fac = "คณะวิทยาการสารสนเทศ";
     this.mail = "อีเมล";
     this.major = "นักศึกษาสาขาวิศวกรรมซอฟต์แวร์ รุ่นที่ 9";
@@ -280,14 +286,15 @@ export class ImportComponent implements OnInit {
     this.tool = "เครื่องมือ";
     this.article = "บทความวิจัยที่เกี่ยวข้อง";
     this.copyright = "ลิขสิทธิ์";
-    this.current_year = new Date().getFullYear()+543;
+    this.current_year = new Date().getFullYear() + 543;
 
     this.choose_file = "เลือกไฟล์";
 
-    this.title_code_language= "เลือกภาษา :"
+    this.title_code_language = "เลือกภาษา :"
   }
 
-  switch_to_eng(){
+  // การใช้คำสำหรับภาษาอังกฤษ
+  switch_to_eng() {
     this.file_upload = "Drag and Drop your file source code here. (.zip) ";
     this.Or = "OR";
 
@@ -333,7 +340,7 @@ export class ImportComponent implements OnInit {
     this.advisor_name = "Mr. Peerasak Pianprasit";
     this.front_name = "Front-End Developer";
     this.back_name = "Back-End Developer";
-    this.advisor = "Advisor"; 
+    this.advisor = "Advisor";
     this.fac = "Faculty of Informatics";
     this.mail = "E-mail";
     this.major = "Software Engineering #9";
@@ -351,111 +358,118 @@ export class ImportComponent implements OnInit {
     this.current_year = new Date().getFullYear();
 
     this.choose_file = "Browse file";
-    this.titel_code_language= "Choose languages :"
+    this.title_code_language = "Choose languages :"
   }
-  
-  random_file_name(){
+
+  // การ random ชื่อไฟล์ที่อัปโหลด
+  random_file_name() {
     var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var result = '';
-    for ( var i = 0; i < 12; i++ ) {
+    for (var i = 0; i < 12; i++) {
       result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
     }
-    
+
     return result;
   }
 
+  // แสดงSpinnerที่ใช้รอหน้าเว็บดาวน์โหลด
   showSpinner(): void {
     this.spinner.show();
   }
 
+  // ปิดSpinnerที่ใช้รอหน้าเว็บดาวน์โหลด
   hideSpinner(): void {
     this.spinner.hide();
   }
 
+  // การเปลี่ยนภาษาแสดงผล
   onChange(value: any) {
     this.selected_code_language = value.target.value;
   }
 
+  // การแสดงข้อผิดพลาดในการประมวลผล
   show_error() {
-    if(this.current_language == "TH"){
+    if (this.current_language == "TH") {
       Swal.fire({
         title: 'เกิดข้อผิดพลาด!',
         text: 'ไม่สามารถประมวลผลไฟล์ซอร์สโค้ดได้',
         icon: 'error',
         showCancelButton: false,
         showDenyButton: false,
-      }).then((result)=>{
+      }).then((result) => {
         if (result.isConfirmed) {
           window.location.reload();
-        } 
+        }
       });
-    }else if(this.current_language == "EN"){
+    } else if (this.current_language == "EN") {
       Swal.fire({
         title: 'Error!',
         text: "Can't processed source code in zip file.",
         icon: 'error',
         showCancelButton: false,
         showDenyButton: false,
-      }).then((result)=>{
+      }).then((result) => {
         if (result.isConfirmed) {
           window.location.reload();
-        } 
+        }
       });
     }
   }
 
+  // การแสดงข้อผิดพลาดในการเพิ่มไฟล์เกิน1ไฟล์
   show_input_size_error() {
-    if(this.current_language == "TH"){
+    if (this.current_language == "TH") {
       Swal.fire({
         title: 'เกิดข้อผิดพลาด!',
         text: 'กรุณาเลือก .zip ไฟล์ เพียง 1 ไฟล์',
         icon: 'error',
         showCancelButton: false,
         showDenyButton: false,
-      }).then((result)=>{
+      }).then((result) => {
         if (result.isConfirmed) {
           // window.location.reload();
-        } 
+        }
       });
-    }else if(this.current_language == "EN"){
+    } else if (this.current_language == "EN") {
       Swal.fire({
         title: 'Error!',
         text: "Please choose only 1 .zip file.",
         icon: 'error',
         showCancelButton: false,
         showDenyButton: false,
-      }).then((result)=>{
+      }).then((result) => {
         if (result.isConfirmed) {
           // window.location.reload();
-        } 
+        }
       });
     }
   }
 
+  // การแสดงข้อผิดพลาดในการเลือกไฟล์ที่มีนามสกุลอื่นที่ไม่ใช่ .zip
   show_input_type_error() {
-    if(this.current_language == "TH"){
+    if (this.current_language == "TH") {
       Swal.fire({
         title: 'เกิดข้อผิดพลาด!',
         text: 'กรุณาเลือกไฟล์ที่มีนามสกุล .zip เท่านั้น',
         icon: 'error',
         showCancelButton: false,
         showDenyButton: false,
-      }).then((result)=>{
+      }).then((result) => {
         if (result.isConfirmed) {
           // window.location.reload();
-        } 
+        }
       });
-    }else if(this.current_language == "EN"){
+    } else if (this.current_language == "EN") {
       Swal.fire({
         title: 'Error!',
         text: "Please choose only .zip name extension.",
         icon: 'error',
         showCancelButton: false,
         showDenyButton: false,
-      }).then((result)=>{
+      }).then((result) => {
         if (result.isConfirmed) {
           // window.location.reload();
-        } 
+        }
       });
     }
   }

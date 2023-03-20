@@ -16,13 +16,14 @@ import { float } from 'html2canvas/dist/types/css/property-descriptors/float';
 })
 export class DetailsComponent implements OnInit {
 
+  /* ประกาศตัวแปร */
   PATH: String = 'http://localhost:4000/';
 
   DetailsData: any = "";
   current_year: any = "";
 
-  navbar_language_1: string = "";
-  navbar_language_2: string = "";
+  navbar_Thai_language: string = "";
+  navbar_Eng_language: string = "";
   link_to_jplag: string = "";
   code_sim: string = "";
   code_select: string = "";
@@ -49,17 +50,15 @@ export class DetailsComponent implements OnInit {
   file_name_source: string = "";
   file_name_target: string = "";
 
-  file_path: any = "";
-  file_path2: any = "";
-
   file_content_source: any = "";
   file_content_target: any = "";
   default_file: boolean = false;
 
-  editorOptions = { theme: 'vs', readOnly: true};
+  editorOptions = { theme: 'vs', readOnly: true }; // กำหนดรูปแบบการแสดงผลของmonaco
+  // ตัวแปรสำหรับการdiff
   originalModel!: DiffEditorModel;
   modifiedModel!: DiffEditorModel;
- 
+
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
   ngOnInit() {
@@ -95,18 +94,21 @@ export class DetailsComponent implements OnInit {
       'source': this.source,
       'target': this.target
     })
-
+    // start diff model in monaco
+    // source Model 
     this.originalModel = {
       language: this.get_language(this.file_name_source),
       code: this.file_content_source,
     }
-
+    // target Model 
     this.modifiedModel = {
       language: this.get_language(this.file_name_target),
       code: this.file_content_target,
     }
+    // end diff model in monaco
 
-    this.http.post(this.PATH +'api/compare', formData, { headers: headers })
+    // start process compare in backend
+    this.http.post(this.PATH + 'api/compare', formData, { headers: headers })
       .subscribe(data => {
         const res = JSON.stringify(data);
         if (!res.includes("error")) {
@@ -118,10 +120,8 @@ export class DetailsComponent implements OnInit {
           alert("error");
         }
       });
+    // End process compare in backend
 
-    // if (this.default_file == false) {
-    //   this.get_file(this.DetailsData.matches[0]);
-    // }
     $(document).ready(function () {
       // left-nav-bar
       $("#th").click(function () {
@@ -133,12 +133,12 @@ export class DetailsComponent implements OnInit {
         $("#en").addClass("active");
       });
     });
-
   }
 
+  // การใช้คำสำหรับภาษาไทย
   switch_to_th() {
-    this.navbar_language_1 = "ไทย";
-    this.navbar_language_2 = "อังกฤษ";
+    this.navbar_Thai_language = "ไทย";
+    this.navbar_Eng_language = "อังกฤษ";
 
     this.link_to_jplag = "ดําเนินการโดย ";
 
@@ -160,9 +160,10 @@ export class DetailsComponent implements OnInit {
     this.current_year = new Date().getFullYear() + 543;
   }
 
+  // การใช้คำสำหรับภาษาอังกฤษ
   switch_to_eng() {
-    this.navbar_language_1 = "TH";
-    this.navbar_language_2 = "EN";
+    this.navbar_Thai_language = "TH";
+    this.navbar_Eng_language = "EN";
 
     this.link_to_jplag = "Implemented by ";
 
@@ -186,8 +187,6 @@ export class DetailsComponent implements OnInit {
 
   set_details_data() {
     // console.log(this.DetailsData);
-    // this.DetailsData.matches[0]
-
     // Set similarity(percent).
     var read_similarity = this.DetailsData.similarity;
     this.similarity = Number(read_similarity * 100).toFixed(2);
@@ -208,7 +207,9 @@ export class DetailsComponent implements OnInit {
       'source': this.source,
       'sourcecode': this.file_name_source
     })
-    this.http.post(this.PATH +'api/sourcecode', formData, { headers: headers, responseType: 'text' })
+
+    // start process sourcecode in backend
+    this.http.post(this.PATH + 'api/sourcecode', formData, { headers: headers, responseType: 'text' })
       .subscribe(data => {
         const res = JSON.stringify(data);
         if (!res.includes("error")) {
@@ -223,7 +224,7 @@ export class DetailsComponent implements OnInit {
             'source': this.target,
             'sourcecode': this.file_name_target
           })
-          this.http.post(this.PATH +'api/sourcecode', formData, { headers: headers, responseType: 'text' })
+          this.http.post(this.PATH + 'api/sourcecode', formData, { headers: headers, responseType: 'text' })
             .subscribe(data => {
               const res = JSON.stringify(data);
               if (!res.includes("error")) {
@@ -254,6 +255,7 @@ export class DetailsComponent implements OnInit {
       });
   }
 
+  // set format language in monaco
   get_language(file_name: string) {
     var language
     var file_name_arry = file_name.split(".");
@@ -321,7 +323,7 @@ export class DetailsComponent implements OnInit {
       'source': this.source,
       'sourcecode': file_data.value.file1
     })
-    this.http.post(this.PATH +'api/sourcecode', formData, { headers: headers, responseType: 'text' })
+    this.http.post(this.PATH + 'api/sourcecode', formData, { headers: headers, responseType: 'text' })
       .subscribe(data => {
         const res = JSON.stringify(data);
         if (!res.includes("error")) {
@@ -336,22 +338,26 @@ export class DetailsComponent implements OnInit {
             'source': this.target,
             'sourcecode': file_data.value.file2
           })
-          this.http.post(this.PATH +'api/sourcecode', formData, { headers: headers, responseType: 'text' })
+          this.http.post(this.PATH + 'api/sourcecode', formData, { headers: headers, responseType: 'text' })
             .subscribe(data => {
               const res = JSON.stringify(data);
               if (!res.includes("error")) {
                 this.file_content_source = temp;
                 this.file_content_target = data;
 
+                // start diff model in monaco
+                // source Model 
                 this.originalModel = {
                   language: this.get_language(this.file_name_source),
                   code: temp
                 }
 
+                // target Model 
                 this.modifiedModel = {
                   language: this.get_language(this.file_name_target),
                   code: data
                 }
+                // end diff model in monaco
 
               } else if (res.includes("error")) {
                 alert("error");
