@@ -30,7 +30,7 @@ export class ImportComponent implements OnInit {
     { name: 'Python', description: 'python3' },
     { name: 'Kotlin', description: 'kotlin' },
     { name: 'Swift', description: 'swift' },
-    { name: 'Scalar', description: 'scala' },
+    { name: 'Scala', description: 'scala' },
     { name: 'R', description: 'rlang' },
   ];
 
