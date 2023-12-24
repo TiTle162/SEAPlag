@@ -1,5 +1,9 @@
 # SEAPlag ระบบแสดงผลลัพธ์การตรวจสอบความคล้ายคลึงของซอร์สโค้ด
 
+# SEAPlag Structure
+
+# SEAPlag Flow
+
 ## โครงสร้างโฟลเดอร์
 ```
 -> seaplag
