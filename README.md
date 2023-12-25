@@ -5,7 +5,17 @@
 # Architecture
 ![alt text](https://github.com/TiTle162/SEAPlag/blob/main/SEAP-Architecture.PNG?raw=true)
 
-# Flow
+# Screens
+## 1. Select programming language and import source code folder page.
+![alt text](https://github.com/TiTle162/SEAPlag/blob/main/SEAP-Screens/Import%20Source%20Code%20Page.PNG?raw=true)
+## 2. Source code similarity(%) 2D graph page.
+![alt text](https://github.com/TiTle162/SEAPlag/blob/main/SEAP-Screens/2DGraph%20Page.PNG?raw=true)
+## 3. Source code similarity(%) 3D graph page.
+![alt text](https://github.com/TiTle162/SEAPlag/blob/main/SEAP-Screens/3DGraph%20Page.PNG?raw=true)
+## 4. Source code similarity(%) table page.
+![alt text](https://github.com/TiTle162/SEAPlag/blob/main/SEAP-Screens/Table%20Page.PNG?raw=true)
+## 5. Compare source code page.
+![alt text](https://github.com/TiTle162/SEAPlag/blob/main/SEAP-Screens/Compare%20Page.PNG?raw=true)
 
 ## โครงสร้างโฟลเดอร์
 ```
