@@ -32,7 +32,7 @@
 - Node เวอรชัน 18.12.1 (ใช้คําสั่ง `node -v` เพื่อตรวจสอบคําเวอร์ชันของ Node)
 
 ## Clone Project
-ใช้คําสั่ง `git clone https://gitlab.com/62160158/seaplag.git` เพื่อโคลนโปรเจค 
+ใช้คําสั่ง `git clone https://github.com/TiTle162/SEAPlag.git` เพื่อโคลนโปรเจค 
 
 ## Start Project
 อย่าลืมเช็คเวอร์ชันของ Angular กับ Node ก่อน
