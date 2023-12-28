@@ -19,7 +19,7 @@
 
 ## โครงสร้างโฟลเดอร์
 ```
--> seaplag
+-> SEAPlag
     -> jplag        โฟล์เดอร์ Back-End (Node.js)
     -> seaplag      โฟล์เดอร์ Front-End (Angular)
     -> template     โฟลเดอร์ template ของเว็บ
