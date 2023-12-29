@@ -30,6 +30,7 @@
 ตรวจสอบสภาพแวดล้อมก่อนทําการ Clone โปรเจค
 - Angular เวอรชัน 15.0.2 (ใช้คําสั่ง `ng v` เพื่อตรวจสอบคําเวอร์ชันของ Angular)
 - Node เวอรชัน 18.12.1 (ใช้คําสั่ง `node -v` เพื่อตรวจสอบคําเวอร์ชันของ Node)
+- You need Java SE 17 to run or build JPlag.
 
 ## Clone Project
 ใช้คําสั่ง `git clone https://github.com/TiTle162/SEAPlag.git` เพื่อโคลนโปรเจค 
